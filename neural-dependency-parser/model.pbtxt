@@ -2680,7 +2680,7 @@ node {
   }
 }
 node {
-  name: "random_normal/shape"
+  name: "random_uniform_7/shape"
   op: "Const"
   attr {
     key: "dtype"
@@ -2704,7 +2704,7 @@ node {
   }
 }
 node {
-  name: "random_normal/mean"
+  name: "random_uniform_7/min"
   op: "Const"
   attr {
     key: "dtype"
@@ -2725,208 +2725,6 @@ node {
   }
 }
 node {
-  name: "random_normal/stddev"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 1.0
-      }
-    }
-  }
-}
-node {
-  name: "random_normal/RandomStandardNormal"
-  op: "RandomStandardNormal"
-  input: "random_normal/shape"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "seed"
-    value {
-      i: 0
-    }
-  }
-  attr {
-    key: "seed2"
-    value {
-      i: 0
-    }
-  }
-}
-node {
-  name: "random_normal/mul"
-  op: "Mul"
-  input: "random_normal/RandomStandardNormal"
-  input: "random_normal/stddev"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "random_normal"
-  op: "Add"
-  input: "random_normal/mul"
-  input: "random_normal/mean"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "Variable_10"
-  op: "VariableV2"
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 500
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_10/Assign"
-  op: "Assign"
-  input: "Variable_10"
-  input: "random_normal"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_10/read"
-  op: "Identity"
-  input: "Variable_10"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
-      }
-    }
-  }
-}
-node {
-  name: "random_uniform_7/shape"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "\364\001\000\000\364\001\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "random_uniform_7/min"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: -0.0774596706032753
-      }
-    }
-  }
-}
-node {
   name: "random_uniform_7/max"
   op: "Const"
   attr {
@@ -2942,7 +2740,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.0774596706032753
+        float_val: 1.0
       }
     }
   }
@@ -3013,7 +2811,7 @@ node {
   }
 }
 node {
-  name: "Variable_11"
+  name: "Variable_10"
   op: "VariableV2"
   attr {
     key: "container"
@@ -3034,9 +2832,6 @@ node {
         dim {
           size: 500
         }
-        dim {
-          size: 500
-        }
       }
     }
   }
@@ -3048,9 +2843,9 @@ node {
   }
 }
 node {
-  name: "Variable_11/Assign"
+  name: "Variable_10/Assign"
   op: "Assign"
-  input: "Variable_11"
+  input: "Variable_10"
   input: "random_uniform_7"
   attr {
     key: "T"
@@ -3062,7 +2857,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_11"
+        s: "loc:@Variable_10"
       }
     }
   }
@@ -3080,9 +2875,9 @@ node {
   }
 }
 node {
-  name: "Variable_11/read"
+  name: "Variable_10/read"
   op: "Identity"
-  input: "Variable_11"
+  input: "Variable_10"
   attr {
     key: "T"
     value {
@@ -3093,209 +2888,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_11"
-      }
-    }
-  }
-}
-node {
-  name: "random_normal_1/shape"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 1
-          }
-        }
-        int_val: 500
-      }
-    }
-  }
-}
-node {
-  name: "random_normal_1/mean"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 0.0
-      }
-    }
-  }
-}
-node {
-  name: "random_normal_1/stddev"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 1.0
-      }
-    }
-  }
-}
-node {
-  name: "random_normal_1/RandomStandardNormal"
-  op: "RandomStandardNormal"
-  input: "random_normal_1/shape"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "seed"
-    value {
-      i: 0
-    }
-  }
-  attr {
-    key: "seed2"
-    value {
-      i: 0
-    }
-  }
-}
-node {
-  name: "random_normal_1/mul"
-  op: "Mul"
-  input: "random_normal_1/RandomStandardNormal"
-  input: "random_normal_1/stddev"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "random_normal_1"
-  op: "Add"
-  input: "random_normal_1/mul"
-  input: "random_normal_1/mean"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "Variable_12"
-  op: "VariableV2"
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 500
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_12/Assign"
-  op: "Assign"
-  input: "Variable_12"
-  input: "random_normal_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_12"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_12/read"
-  op: "Identity"
-  input: "Variable_12"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_12"
+        s: "loc:@Variable_10"
       }
     }
   }
@@ -3432,7 +3025,7 @@ node {
   }
 }
 node {
-  name: "Variable_13"
+  name: "Variable_11"
   op: "VariableV2"
   attr {
     key: "container"
@@ -3467,9 +3060,9 @@ node {
   }
 }
 node {
-  name: "Variable_13/Assign"
+  name: "Variable_11/Assign"
   op: "Assign"
-  input: "Variable_13"
+  input: "Variable_11"
   input: "random_uniform_8"
   attr {
     key: "T"
@@ -3481,7 +3074,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_13"
+        s: "loc:@Variable_11"
       }
     }
   }
@@ -3499,9 +3092,9 @@ node {
   }
 }
 node {
-  name: "Variable_13/read"
+  name: "Variable_11/read"
   op: "Identity"
-  input: "Variable_13"
+  input: "Variable_11"
   attr {
     key: "T"
     value {
@@ -3512,13 +3105,13 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_13"
+        s: "loc:@Variable_11"
       }
     }
   }
 }
 node {
-  name: "random_normal_2/shape"
+  name: "random_uniform_9/shape"
   op: "Const"
   attr {
     key: "dtype"
@@ -3542,7 +3135,7 @@ node {
   }
 }
 node {
-  name: "random_normal_2/mean"
+  name: "random_uniform_9/min"
   op: "Const"
   attr {
     key: "dtype"
@@ -3563,208 +3156,6 @@ node {
   }
 }
 node {
-  name: "random_normal_2/stddev"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 1.0
-      }
-    }
-  }
-}
-node {
-  name: "random_normal_2/RandomStandardNormal"
-  op: "RandomStandardNormal"
-  input: "random_normal_2/shape"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "seed"
-    value {
-      i: 0
-    }
-  }
-  attr {
-    key: "seed2"
-    value {
-      i: 0
-    }
-  }
-}
-node {
-  name: "random_normal_2/mul"
-  op: "Mul"
-  input: "random_normal_2/RandomStandardNormal"
-  input: "random_normal_2/stddev"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "random_normal_2"
-  op: "Add"
-  input: "random_normal_2/mul"
-  input: "random_normal_2/mean"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "Variable_14"
-  op: "VariableV2"
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 500
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_14/Assign"
-  op: "Assign"
-  input: "Variable_14"
-  input: "random_normal_2"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_14"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_14/read"
-  op: "Identity"
-  input: "Variable_14"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_14"
-      }
-    }
-  }
-}
-node {
-  name: "random_uniform_9/shape"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "\364\001\000\000\364\001\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "random_uniform_9/min"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: -0.0774596706032753
-      }
-    }
-  }
-}
-node {
   name: "random_uniform_9/max"
   op: "Const"
   attr {
@@ -3780,7 +3171,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.0774596706032753
+        float_val: 1.0
       }
     }
   }
@@ -3851,6 +3242,651 @@ node {
   }
 }
 node {
+  name: "Variable_12"
+  op: "VariableV2"
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 500
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "Variable_12/Assign"
+  op: "Assign"
+  input: "Variable_12"
+  input: "random_uniform_9"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@Variable_12"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "Variable_12/read"
+  op: "Identity"
+  input: "Variable_12"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@Variable_12"
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_10/shape"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 2
+          }
+        }
+        tensor_content: "\364\001\000\000\364\001\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_10/min"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: -0.0774596706032753
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_10/max"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0774596706032753
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_10/RandomUniform"
+  op: "RandomUniform"
+  input: "random_uniform_10/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "seed"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "seed2"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "random_uniform_10/sub"
+  op: "Sub"
+  input: "random_uniform_10/max"
+  input: "random_uniform_10/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "random_uniform_10/mul"
+  op: "Mul"
+  input: "random_uniform_10/RandomUniform"
+  input: "random_uniform_10/sub"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "random_uniform_10"
+  op: "Add"
+  input: "random_uniform_10/mul"
+  input: "random_uniform_10/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "Variable_13"
+  op: "VariableV2"
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 500
+        }
+        dim {
+          size: 500
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "Variable_13/Assign"
+  op: "Assign"
+  input: "Variable_13"
+  input: "random_uniform_10"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@Variable_13"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "Variable_13/read"
+  op: "Identity"
+  input: "Variable_13"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@Variable_13"
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_11/shape"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 500
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_11/min"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_11/max"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 1.0
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_11/RandomUniform"
+  op: "RandomUniform"
+  input: "random_uniform_11/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "seed"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "seed2"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "random_uniform_11/sub"
+  op: "Sub"
+  input: "random_uniform_11/max"
+  input: "random_uniform_11/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "random_uniform_11/mul"
+  op: "Mul"
+  input: "random_uniform_11/RandomUniform"
+  input: "random_uniform_11/sub"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "random_uniform_11"
+  op: "Add"
+  input: "random_uniform_11/mul"
+  input: "random_uniform_11/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "Variable_14"
+  op: "VariableV2"
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 500
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "Variable_14/Assign"
+  op: "Assign"
+  input: "Variable_14"
+  input: "random_uniform_11"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@Variable_14"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "Variable_14/read"
+  op: "Identity"
+  input: "Variable_14"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@Variable_14"
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_12/shape"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 2
+          }
+        }
+        tensor_content: "\364\001\000\000\364\001\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_12/min"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: -0.0774596706032753
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_12/max"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0774596706032753
+      }
+    }
+  }
+}
+node {
+  name: "random_uniform_12/RandomUniform"
+  op: "RandomUniform"
+  input: "random_uniform_12/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "seed"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "seed2"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "random_uniform_12/sub"
+  op: "Sub"
+  input: "random_uniform_12/max"
+  input: "random_uniform_12/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "random_uniform_12/mul"
+  op: "Mul"
+  input: "random_uniform_12/RandomUniform"
+  input: "random_uniform_12/sub"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "random_uniform_12"
+  op: "Add"
+  input: "random_uniform_12/mul"
+  input: "random_uniform_12/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
   name: "Variable_15"
   op: "VariableV2"
   attr {
@@ -3889,7 +3925,7 @@ node {
   name: "Variable_15/Assign"
   op: "Assign"
   input: "Variable_15"
-  input: "random_uniform_9"
+  input: "random_uniform_12"
   attr {
     key: "T"
     value {
@@ -3937,7 +3973,7 @@ node {
   }
 }
 node {
-  name: "random_normal_3/shape"
+  name: "random_uniform_13/shape"
   op: "Const"
   attr {
     key: "dtype"
@@ -3961,7 +3997,7 @@ node {
   }
 }
 node {
-  name: "random_normal_3/mean"
+  name: "random_uniform_13/min"
   op: "Const"
   attr {
     key: "dtype"
@@ -3982,7 +4018,7 @@ node {
   }
 }
 node {
-  name: "random_normal_3/stddev"
+  name: "random_uniform_13/max"
   op: "Const"
   attr {
     key: "dtype"
@@ -4003,9 +4039,9 @@ node {
   }
 }
 node {
-  name: "random_normal_3/RandomStandardNormal"
-  op: "RandomStandardNormal"
-  input: "random_normal_3/shape"
+  name: "random_uniform_13/RandomUniform"
+  op: "RandomUniform"
+  input: "random_uniform_13/shape"
   attr {
     key: "T"
     value {
@@ -4032,10 +4068,10 @@ node {
   }
 }
 node {
-  name: "random_normal_3/mul"
-  op: "Mul"
-  input: "random_normal_3/RandomStandardNormal"
-  input: "random_normal_3/stddev"
+  name: "random_uniform_13/sub"
+  op: "Sub"
+  input: "random_uniform_13/max"
+  input: "random_uniform_13/min"
   attr {
     key: "T"
     value {
@@ -4044,10 +4080,22 @@ node {
   }
 }
 node {
-  name: "random_normal_3"
+  name: "random_uniform_13/mul"
+  op: "Mul"
+  input: "random_uniform_13/RandomUniform"
+  input: "random_uniform_13/sub"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "random_uniform_13"
   op: "Add"
-  input: "random_normal_3/mul"
-  input: "random_normal_3/mean"
+  input: "random_uniform_13/mul"
+  input: "random_uniform_13/min"
   attr {
     key: "T"
     value {
@@ -4091,7 +4139,7 @@ node {
   name: "Variable_16/Assign"
   op: "Assign"
   input: "Variable_16"
-  input: "random_normal_3"
+  input: "random_uniform_13"
   attr {
     key: "T"
     value {
