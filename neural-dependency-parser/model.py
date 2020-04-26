@@ -21,7 +21,7 @@ import tfcoreml
 tf.flags.DEFINE_float("lr", 0.001, "learning rate")
 tf.flags.DEFINE_integer("hidden", 0, "number of hidden layers if hidden > 0")
 tf.flags.DEFINE_integer("hidden_size", 200, "hidden size for each layer")
-tf.flags.DEFINE_integer("epochs", 1, "number of epochs")
+tf.flags.DEFINE_integer("epochs", 2, "number of epochs")
 # tf.flags.DEFINE_integer("epochs", 10, "number of epochs")
 tf.flags.DEFINE_float("l2_beta", 0, "beta for computing l2 regularization")
 tf.flags.DEFINE_string("activation", "relu", "activation function, can be relu or cube")
@@ -312,6 +312,8 @@ class ParserModel(Model):
             h_drop = tf.nn.dropout(h, self.dropout_placeholder)
             pred = tf.matmul(h_drop, U) + b2
 
+        pred_activated = tf.nn.softmax(pred, name="output/softmax")
+
         return pred
 
     def add_loss_op(self, pred):
@@ -484,10 +486,6 @@ def main(debug):
 
             saver.restore(session, "model.ckpt")
             graph = session.graph
-            print([node.name for node in graph.as_graph_def().node])
-
-            raise Exception
-
             # if debug:
             #     model.fit_epoch(list(islice(train_data,3)), config.batch_size)
             # else:
@@ -510,7 +508,7 @@ def main(debug):
                     # Frozen model's output name
                     frozen_model_file = './frozen_model.pb'
                     # Output nodes. If there're multiple output ops, use comma separated string, e.g. "out1,out2".
-                    output_node_names = 'Softmax' 
+                    output_node_names = 'output/softmax' 
 
 
                     # Call freeze graph
@@ -535,7 +533,7 @@ def main(debug):
                     input_tensor_shapes = {"Placeholder:0":[1,900], "Placeholder:1":[1,900], "Placeholder:2":[1,600]} # batch size is 1
                     # Output CoreML model path
                     coreml_model_file = './model.mlmodel'
-                    output_tensor_names = ['Softmax:0']
+                    output_tensor_names = ['output/softmax']
 
 
                     # Call the converter

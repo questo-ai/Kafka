@@ -4829,6 +4829,17 @@ node {
   }
 }
 node {
+  name: "output/softmax"
+  op: "Softmax"
+  input: "add_15"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
   name: "softmax_cross_entropy_with_logits/Rank"
   op: "Const"
   attr {
