@@ -299,7 +299,6 @@ def minibatch_parse(sentences, model, batch_size):
 
     while unfinished_parses:
         minibatch = unfinished_parses[:batch_size]
-        print(minibatch)
         td_pairs = model.predict(minibatch)
 
         # parse sentence base on model prediction

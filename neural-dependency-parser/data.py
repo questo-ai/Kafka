@@ -224,6 +224,10 @@ class Transducer(object):
             word, tag = pp.sentence[sentence_idx]
             word_ids[buf_idx + 3] = self.word2id.get(word, self.unk_word_id)
             tag_ids[buf_idx + 3] = self.tag2id.get(tag, self.unk_tag_id)
+
+        # print(word_ids, tag_ids, deprel_ids)
+        # print(len(word_ids), len(tag_ids), len(deprel_ids))
+
         return word_ids, tag_ids, deprel_ids
 
     def pps2feats(self, pps):

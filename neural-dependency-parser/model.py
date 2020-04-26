@@ -15,6 +15,9 @@ from initialization import xavier_weight_init
 from parser import minibatch_parse
 from utils.generic_utils import Progbar
 
+from tensorflow.python.tools.freeze_graph import freeze_graph
+import tfcoreml
+
 tf.flags.DEFINE_float("lr", 0.001, "learning rate")
 tf.flags.DEFINE_integer("hidden", 0, "number of hidden layers if hidden > 0")
 tf.flags.DEFINE_integer("hidden_size", 200, "hidden size for each layer")
@@ -218,6 +221,7 @@ class ParserModel(Model):
             # include tag_variable and deprel_variable into l2 regularization
             self.config.l2_loss += tf.nn.l2_loss(tag_variable) + tf.nn.l2_loss(deprel_variable)
 
+        # print(word_embeddings.shape, tag_embeddings.shape, deprel_embeddings.shape)
         return word_embeddings, tag_embeddings, deprel_embeddings
 
     def add_prediction_op(self):
@@ -395,12 +399,9 @@ class ParserModel(Model):
     def predict(self, partial_parses):
         '''Use this model to predict the next transitions/deprels of pps'''
         feats = self.transducer.pps2feats(partial_parses)
-        print(feats)
-        print(feats.shape)
         td_vecs = self.predict_on_batch(feats)
         preds = [
             self.transducer.td_vec2trans_deprel(td_vec) for td_vec in td_vecs]
-        print(preds)
         return preds
 
     def eval(self, sentences, ex_arcs):
@@ -478,70 +479,77 @@ def main(debug):
         print("TRAINING")
         print(80 * "=")
         best_las = 0.
-        # for epoch in range(config.n_epochs):
-        #     print('Epoch {}'.format(epoch))
+        for epoch in range(config.n_epochs):
+            print('Epoch {}'.format(epoch))
 
-        #     saver.restore(session, "model.ckpt")
+            saver.restore(session, "model.ckpt")
+            graph = session.graph
+            print([node.name for node in graph.as_graph_def().node])
 
-        #     # if debug:
-        #     #     model.fit_epoch(list(islice(train_data,3)), config.batch_size)
-        #     # else:
-        #     #     model.fit_epoch(train_data)
-        #     stdout.flush()
-        #     dev_las, dev_uas = model.eval(dev_sents, dev_arcs)
-        #     best = dev_las > best_las
-        #     if best:
-        #         best_las = dev_las
-        #         if not debug:
-        #             saver.save(session, "model.ckpt")
-        #             '''
-        #             # Provide these to run freeze_graph:
-        #             # Graph definition file, stored as protobuf TEXT
-        #             graph_def_file = './model.pbtxt'
-        #             # Trained model's checkpoint name
-        #             checkpoint_file = './checkpoints/model.ckpt'
-        #             # Frozen model's output name
-        #             frozen_model_file = './frozen_model.pb'
-        #             # Output nodes. If there're multiple output ops, use comma separated string, e.g. "out1,out2".
-        #             output_node_names = 'Softmax' 
+            raise Exception
 
+            # if debug:
+            #     model.fit_epoch(list(islice(train_data,3)), config.batch_size)
+            # else:
+            #     model.fit_epoch(train_data)
+            stdout.flush()
+            dev_las, dev_uas = model.eval(dev_sents, dev_arcs)
+            best = dev_las > best_las
+            if best:
+                best_las = dev_las
+                if not debug:
+                    saver.save(session, "model.ckpt")
 
-        #             # Call freeze graph
-        #             freeze_graph(input_graph=graph_def_file,
-        #                          input_saver="",
-        #                          input_binary=False,
-        #                          input_checkpoint=checkpoint_file,
-        #                          output_node_names=output_node_names,
-        #                          restore_op_name="save/restore_all",
-        #                          filename_tensor_name="save/Const:0",
-        #                          output_graph=frozen_model_file,
-        #                          clear_devices=True,
-        #                          initializer_nodes="")
+                    tf.io.write_graph(session.graph_def, './', 'model.pbtxt')
 
-        #             """
-        #             Step 2: Call converter
-        #             """
-
-        #             # Provide these inputs in addition to inputs in Step 1
-        #             # A dictionary of input tensors' name and shape (with batch)
-        #             input_tensor_shapes = {"Placeholder:0":[1,784]} # batch size is 1
-        #             # Output CoreML model path
-        #             coreml_model_file = './model.mlmodel'
-        #             output_tensor_names = ['Softmax:0']
+                    # Provide these to run freeze_graph:
+                    # Graph definition file, stored as protobuf TEXT
+                    graph_def_file = './model.pbtxt'
+                    # Trained model's checkpoint name
+                    checkpoint_file = './model.ckpt'
+                    # Frozen model's output name
+                    frozen_model_file = './frozen_model.pb'
+                    # Output nodes. If there're multiple output ops, use comma separated string, e.g. "out1,out2".
+                    output_node_names = 'Softmax' 
 
 
-        #             # Call the converter
-        #             coreml_model = tfcoreml.convert(
-        #                     tf_model_path=frozen_model_file, 
-        #                     mlmodel_path=coreml_model_file, 
-        #                     input_name_shape_dict=input_tensor_shapes,
-        #                     output_feature_names=output_tensor_names)
-        #             '''
+                    # Call freeze graph
+                    freeze_graph(input_graph=graph_def_file,
+                                 input_saver="",
+                                 input_binary=False,
+                                 input_checkpoint=checkpoint_file,
+                                 output_node_names=output_node_names,
+                                 restore_op_name="save/restore_all",
+                                 filename_tensor_name="save/Const:0",
+                                 output_graph=frozen_model_file,
+                                 clear_devices=True,
+                                 initializer_nodes="")
 
-        #     print('Validation LAS: ', end='')
-        #     print('{:.2f}{}'.format(dev_las, ' (BEST!), ' if best else ', '))
-        #     print('Validation UAS: ', end='')
-        #     print('{:.2f}'.format(dev_uas))
+                    """
+                    Step 2: Call converter
+                    """
+
+                    # Provide these inputs in addition to inputs in Step 1
+                    # A dictionary of input tensors' name and shape (with batch)
+                    
+                    input_tensor_shapes = {"Placeholder:0":[1,900], "Placeholder:1":[1,900], "Placeholder:2":[1,600]} # batch size is 1
+                    # Output CoreML model path
+                    coreml_model_file = './model.mlmodel'
+                    output_tensor_names = ['Softmax:0']
+
+
+                    # Call the converter
+                    coreml_model = tfcoreml.convert(
+                            tf_model_path=frozen_model_file, 
+                            mlmodel_path=coreml_model_file, 
+                            input_name_shape_dict=input_tensor_shapes,
+                            output_feature_names=output_tensor_names)
+                    
+
+            print('Validation LAS: ', end='')
+            print('{:.2f}{}'.format(dev_las, ' (BEST!), ' if best else ', '))
+            print('Validation UAS: ', end='')
+            print('{:.2f}'.format(dev_uas))
         if not debug:
             print()
             print(80 * "=")
