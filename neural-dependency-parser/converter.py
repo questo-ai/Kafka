@@ -6,30 +6,30 @@ import numpy as np
 from tensorflow.python.tools.freeze_graph import freeze_graph
 import tfcoreml
 
-print("="*80)
-print("freezing graph...")
-print("="*80)
+# print("="*80)
+# print("freezing graph...")
+# print("="*80)
 
 graph_def_file = 'checkpoints/model.pbtxt'
 checkpoint_file = 'checkpoints/model.ckpt'
-frozen_model_file = 'checkpoints/frozen_model.pb'
+frozen_model_file = 'checkpoints/frozen_graph.pb'
 
 output_node_names = 'output/td_vec' 
 
-freeze_graph(input_graph=graph_def_file,
-             input_saver="",
-             input_binary=False,
-             input_checkpoint=checkpoint_file,
-             output_node_names=output_node_names,
-             restore_op_name="save/restore_all",
-             filename_tensor_name="save/Const:0",
-             output_graph=frozen_model_file,
-             clear_devices=True,
-             initializer_nodes="")
+# freeze_graph(input_graph=graph_def_file,
+#              input_saver="",
+#              input_binary=False,
+#              input_checkpoint=checkpoint_file,
+#              output_node_names=output_node_names,
+#              restore_op_name="save/restore_all",
+#              filename_tensor_name="save/Const:0",
+#              output_graph=frozen_model_file,
+#              clear_devices=True,
+#              initializer_nodes="")
 
-print("="*80)
-print("graph frozen!")
-print("="*80)
+# print("="*80)
+# print("graph frozen!")
+# print("="*80)
 
 
 ## ===============================

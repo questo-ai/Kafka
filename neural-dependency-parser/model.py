@@ -301,8 +301,11 @@ class ParserModel(Model):
                 return layer
             
             # apply dropout then compute additional hidden layers
-            h_drop = tf.nn.dropout(h, self.dropout_placeholder)
-            layers = hidden_layers(h_drop)
+            if self.is_training:
+                h_drop = tf.nn.dropout(h, self.dropout_placeholder)
+                layers = hidden_layers(h_drop)
+            else:
+                layers = hidden_layers(h)
             pred = tf.add(tf.matmul(layers, U), b2, name="output/td_vec")
 
             # add l2 loss for hidden weights and biases
@@ -310,8 +313,11 @@ class ParserModel(Model):
                 for i in range(FLAGS.hidden):
                     self.config.l2_loss += tf.nn.l2_loss(w[i]) + tf.nn.l2_loss(b[i])
         else:
-            h_drop = tf.nn.dropout(h, self.dropout_placeholder)
-            pred = tf.add(tf.matmul(h_drop, U), b2, name="output/td_vec")
+            if self.is_training:
+                h_drop = tf.nn.dropout(h, self.dropout_placeholder)
+                pred = tf.add(tf.matmul(h_drop, U), b2, name="output/td_vec")
+            else:
+                pred = tf.add(tf.matmul(h, U), b2, name="output/td_vec")
 
         return pred
 
@@ -416,7 +422,15 @@ class ParserModel(Model):
                     f.write('%s\n' % json.dumps(row))
         return score_arcs(act_arcs, ex_arcs)
 
-    def __init__(self, transducer, sess, config, word_embeddings):
+    def build(self):
+        self.add_placeholders()
+        self.pred = self.add_prediction_op()
+        if self.is_training:
+            self.loss = self.add_loss_op(self.pred)
+            self.train_op = self.add_training_op(self.loss)
+
+    def __init__(self, transducer, sess, config, word_embeddings, is_training):
+        self.is_training = is_training
         self.transducer = transducer
         # we have to store the session here in order to avoid passing
         # the session to minibatch_parse.
@@ -424,7 +438,6 @@ class ParserModel(Model):
         self.word_embeddings = word_embeddings
         self.config = config
         self.build()
-
 
 def main(debug):
     '''Main function
@@ -470,12 +483,14 @@ def main(debug):
     with tf.Graph().as_default(), tf.Session() as session:
         print("Building model...", end=' ')
         start = time.time()
-        model = ParserModel(transducer, session, config, word_embeddings)
+        model = ParserModel(transducer, session, config, word_embeddings, is_training=False)
         print("took {:.2f} seconds\n".format(time.time() - start))
         init = tf.global_variables_initializer()
         session.run(init)
-        
+        output_names = 'output/td_vec'
         saver = None if debug else tf.train.Saver()
+        saver.restore(session, "checkpoints/model.ckpt")
+
         print(80 * "=")
         print("TRAINING")
         print(80 * "=")
@@ -483,8 +498,6 @@ def main(debug):
         for epoch in range(config.n_epochs):
             print('Epoch {}'.format(epoch))
 
-            # saver.restore(session, "model.ckpt")
-            graph = session.graph
             if debug:
                 model.fit_epoch(list(islice(train_data,3)), config.batch_size)
             else:
@@ -497,7 +510,15 @@ def main(debug):
                 if not debug:
                     saver.save(session, "checkpoints/model.ckpt")
                     tf.io.write_graph(session.graph_def, './checkpoints/', 'model.pbtxt')
-                    
+                    frozen_graph = tf.compat.v1.graph_util.convert_variables_to_constants(
+                        sess=session,
+                        input_graph_def=tf.compat.v1.get_default_graph().as_graph_def(),
+                        output_node_names=[output_names])
+                    frozen_graph = tf.compat.v1.graph_util.extract_sub_graph(
+                        graph_def=frozen_graph,
+                        dest_nodes=[output_names])
+                    with open('checkpoints/frozen_graph.pb', 'wb') as fout:
+                        fout.write(frozen_graph.SerializeToString())
 
             print('Validation LAS: ', end='')
             print('{:.2f}{}'.format(dev_las, ' (BEST!), ' if best else ', '))
