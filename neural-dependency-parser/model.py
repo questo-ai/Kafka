@@ -495,8 +495,8 @@ def main(debug):
             if best:
                 best_las = dev_las
                 if not debug:
-                    saver.save(session, "model.ckpt")
-                    tf.io.write_graph(session.graph_def, './', 'model.pbtxt')
+                    saver.save(session, "checkpoints/model.ckpt")
+                    tf.io.write_graph(session.graph_def, './checkpoints/', 'model.pbtxt')
                     
 
             print('Validation LAS: ', end='')
@@ -509,7 +509,7 @@ def main(debug):
             print("TESTING")
             print(80 * "=")
             print("Restoring the best model weights found on the dev set")
-            saver.restore(session, "model.ckpt")
+            saver.restore(session, "checkpoints/model.ckpt")
             stdout.flush()
             las,uas = model.eval(test_sents, test_arcs)
             if las:

@@ -482,6 +482,7 @@ def main(debug):
         init = tf.global_variables_initializer()
         session.run(init)
         
+        
         saver = None if debug else tf.train.Saver()
         print(80 * "=")
         print("TRAINING")
