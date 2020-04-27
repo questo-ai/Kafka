@@ -290,7 +290,7 @@ def minibatch_parse(sentences, model, batch_size):
             sentence. Ordering should be the same as in sentences (i.e.,
             arcs[i] should contain the arcs for sentences[i]).
     """
-
+    print(sentences[0])
     arcs = []
     # initialize a PartialParser for each sentence
     partial_parses = [PartialParse(sentence) for sentence in sentences]

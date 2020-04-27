@@ -559,6 +559,7 @@ def load_and_preprocess_data(
         for _, tag in sentence:
             tag_set.add(tag)
     tag_list = sorted(tag_set)
+    print(tag_list)
     print('there are {} tags.'.format(len(tag_list)))
     training_graphs = data_set.parsed_sents('train.conll')
     if las:
@@ -570,6 +571,7 @@ def load_and_preprocess_data(
                 if node['address']: # not root
                     deprel_set.add(node['rel'])
         deprel_list = sorted(deprel_set)
+        print(deprel_list)
         print('there are {} deprel labels.'.format(len(deprel_list)))
     else:
         deprel_list = []

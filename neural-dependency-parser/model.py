@@ -483,7 +483,7 @@ def main(debug):
     with tf.Graph().as_default(), tf.Session() as session:
         print("Building model...", end=' ')
         start = time.time()
-        model = ParserModel(transducer, session, config, word_embeddings, is_training=False)
+        model = ParserModel(transducer, session, config, word_embeddings, is_training=True)
         print("took {:.2f} seconds\n".format(time.time() - start))
         init = tf.global_variables_initializer()
         session.run(init)
@@ -503,35 +503,35 @@ def main(debug):
         print("TRAINING")
         print(80 * "=")
         best_las = 0.
-        for epoch in range(config.n_epochs):
-            print('Epoch {}'.format(epoch))
+        # for epoch in range(config.n_epochs):
+        #     print('Epoch {}'.format(epoch))
 
-            if debug:
-                model.fit_epoch(list(islice(train_data,3)), config.batch_size)
-            else:
-                model.fit_epoch(train_data)
-            stdout.flush()
-            dev_las, dev_uas = model.eval(dev_sents, dev_arcs)
-            best = dev_las > best_las
-            if best:
-                best_las = dev_las
-                if not debug:
-                    saver.save(session, "checkpoints/model.ckpt")
-                    tf.io.write_graph(session.graph_def, './checkpoints/', 'model.pbtxt')
-                    frozen_graph = tf.compat.v1.graph_util.convert_variables_to_constants(
-                        sess=session,
-                        input_graph_def=tf.compat.v1.get_default_graph().as_graph_def(),
-                        output_node_names=[output_names])
-                    frozen_graph = tf.compat.v1.graph_util.extract_sub_graph(
-                        graph_def=frozen_graph,
-                        dest_nodes=[output_names])
-                    with open('checkpoints/frozen_graph.pb', 'wb') as fout:
-                        fout.write(frozen_graph.SerializeToString())
+        #     if debug:
+        #         model.fit_epoch(list(islice(train_data,3)), config.batch_size)
+        #     else:
+        #         model.fit_epoch(train_data)
+        #     stdout.flush()
+        #     dev_las, dev_uas = model.eval(dev_sents, dev_arcs)
+        #     best = dev_las > best_las
+        #     if best:
+        #         best_las = dev_las
+        #         if not debug:
+        #             saver.save(session, "checkpoints/model.ckpt")
+        #             tf.io.write_graph(session.graph_def, './checkpoints/', 'model.pbtxt')
+        #             frozen_graph = tf.compat.v1.graph_util.convert_variables_to_constants(
+        #                 sess=session,
+        #                 input_graph_def=tf.compat.v1.get_default_graph().as_graph_def(),
+        #                 output_node_names=[output_names])
+        #             frozen_graph = tf.compat.v1.graph_util.extract_sub_graph(
+        #                 graph_def=frozen_graph,
+        #                 dest_nodes=[output_names])
+        #             with open('checkpoints/frozen_graph.pb', 'wb') as fout:
+        #                 fout.write(frozen_graph.SerializeToString())
 
-            print('Validation LAS: ', end='')
-            print('{:.2f}{}'.format(dev_las, ' (BEST!), ' if best else ', '))
-            print('Validation UAS: ', end='')
-            print('{:.2f}'.format(dev_uas))
+        #     print('Validation LAS: ', end='')
+        #     print('{:.2f}{}'.format(dev_las, ' (BEST!), ' if best else ', '))
+        #     print('Validation UAS: ', end='')
+        #     print('{:.2f}'.format(dev_uas))
         if not debug:
             print()
             print(80 * "=")

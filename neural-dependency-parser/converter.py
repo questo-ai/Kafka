@@ -89,7 +89,7 @@ print("converting to coreml...")
 print("="*80)
 
 input_tensor_shapes = {"Placeholder": [1,18], "Placeholder_1":[1,18], "Placeholder_2":[1,12], "Placeholder_3":[1,83], "Placeholder_4":[1]} # batch size is 1
-coreml_model_file = 'checkpoints/model.mlmodel' # output CoreML file
+coreml_model_file = 'checkpoints/DependencyParser.mlmodel' # output CoreML file
 output_tensor_names = output_names
 
 coreml_model = tfcoreml.convert(
