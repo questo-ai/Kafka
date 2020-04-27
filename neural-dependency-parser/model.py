@@ -490,7 +490,15 @@ def main(debug):
         output_names = 'output/td_vec'
         saver = None if debug else tf.train.Saver()
         saver.restore(session, "checkpoints/model.ckpt")
-
+        frozen_graph = tf.compat.v1.graph_util.convert_variables_to_constants(
+            sess=session,
+            input_graph_def=tf.compat.v1.get_default_graph().as_graph_def(),
+            output_node_names=[output_names])
+        frozen_graph = tf.compat.v1.graph_util.extract_sub_graph(
+            graph_def=frozen_graph,
+            dest_nodes=[output_names])
+        with open('checkpoints/frozen_graph.pb', 'wb') as fout:
+            fout.write(frozen_graph.SerializeToString())
         print(80 * "=")
         print("TRAINING")
         print(80 * "=")
