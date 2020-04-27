@@ -293,7 +293,6 @@ class ParserModel(Model):
             for i in range(FLAGS.hidden):
                 w[i] = tf.Variable(xavier_initializer((self.config.hidden_size, self.config.hidden_size)))
                 b[i] = tf.Variable(tf.random.uniform([self.config.hidden_size]))
-                # b[i] = tf.Variable(tf.random_normal([self.config.hidden_size]))
 
             def hidden_layers(x):
                 layer = tf.nn.relu(tf.matmul(x, w[0]) + b[0])
@@ -304,7 +303,7 @@ class ParserModel(Model):
             # apply dropout then compute additional hidden layers
             h_drop = tf.nn.dropout(h, self.dropout_placeholder)
             layers = hidden_layers(h_drop)
-            pred = tf.matmul(layers, U) + b2
+            pred = tf.add(tf.matmul(layers, U), b2, name="output/td_vec")
 
             # add l2 loss for hidden weights and biases
             if self.config.l2_beta:
@@ -312,9 +311,7 @@ class ParserModel(Model):
                     self.config.l2_loss += tf.nn.l2_loss(w[i]) + tf.nn.l2_loss(b[i])
         else:
             h_drop = tf.nn.dropout(h, self.dropout_placeholder)
-            pred = tf.matmul(h_drop, U) + b2
-
-        pred_activated = tf.nn.softmax(pred, name="output/softmax")
+            pred = tf.add(tf.matmul(h_drop, U), b2, name="output/td_vec")
 
         return pred
 

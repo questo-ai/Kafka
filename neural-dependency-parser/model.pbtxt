@@ -4681,8 +4681,8 @@ node {
   }
 }
 node {
-  name: "add_15"
-  op: "AddV2"
+  name: "output/td_vec"
+  op: "Add"
   input: "MatMul_7"
   input: "Variable_8/read"
   attr {
@@ -4715,7 +4715,7 @@ node {
   }
 }
 node {
-  name: "add_16"
+  name: "add_15"
   op: "AddV2"
   input: "L2Loss_8"
   input: "L2Loss_9"
@@ -4727,10 +4727,10 @@ node {
   }
 }
 node {
-  name: "add_17"
+  name: "add_16"
   op: "AddV2"
   input: "add_10"
-  input: "add_16"
+  input: "add_15"
   attr {
     key: "T"
     value {
@@ -4761,7 +4761,7 @@ node {
   }
 }
 node {
-  name: "add_18"
+  name: "add_17"
   op: "AddV2"
   input: "L2Loss_10"
   input: "L2Loss_11"
@@ -4773,10 +4773,10 @@ node {
   }
 }
 node {
-  name: "add_19"
+  name: "add_18"
   op: "AddV2"
+  input: "add_16"
   input: "add_17"
-  input: "add_18"
   attr {
     key: "T"
     value {
@@ -4807,7 +4807,7 @@ node {
   }
 }
 node {
-  name: "add_20"
+  name: "add_19"
   op: "AddV2"
   input: "L2Loss_12"
   input: "L2Loss_13"
@@ -4819,10 +4819,10 @@ node {
   }
 }
 node {
-  name: "add_21"
+  name: "add_20"
   op: "AddV2"
+  input: "add_18"
   input: "add_19"
-  input: "add_20"
   attr {
     key: "T"
     value {
@@ -4853,7 +4853,7 @@ node {
   }
 }
 node {
-  name: "add_22"
+  name: "add_21"
   op: "AddV2"
   input: "L2Loss_14"
   input: "L2Loss_15"
@@ -4865,21 +4865,10 @@ node {
   }
 }
 node {
-  name: "add_23"
+  name: "add_22"
   op: "AddV2"
+  input: "add_20"
   input: "add_21"
-  input: "add_22"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "output/softmax"
-  op: "Softmax"
-  input: "add_15"
   attr {
     key: "T"
     value {
@@ -4911,7 +4900,7 @@ node {
 node {
   name: "softmax_cross_entropy_with_logits/Shape"
   op: "Shape"
-  input: "add_15"
+  input: "output/td_vec"
   attr {
     key: "T"
     value {
@@ -4949,7 +4938,7 @@ node {
 node {
   name: "softmax_cross_entropy_with_logits/Shape_1"
   op: "Shape"
-  input: "add_15"
+  input: "output/td_vec"
   attr {
     key: "T"
     value {
@@ -5135,7 +5124,7 @@ node {
 node {
   name: "softmax_cross_entropy_with_logits/Reshape"
   op: "Reshape"
-  input: "add_15"
+  input: "output/td_vec"
   input: "softmax_cross_entropy_with_logits/concat"
   attr {
     key: "T"
@@ -5577,7 +5566,7 @@ node {
   name: "mul"
   op: "Mul"
   input: "mul/x"
-  input: "add_23"
+  input: "add_22"
   attr {
     key: "T"
     value {
@@ -5586,7 +5575,7 @@ node {
   }
 }
 node {
-  name: "add_24"
+  name: "add_23"
   op: "AddV2"
   input: "Mean"
   input: "mul"
@@ -5622,7 +5611,7 @@ node {
 node {
   name: "Mean_1"
   op: "Mean"
-  input: "add_24"
+  input: "add_23"
   input: "Const_1"
   attr {
     key: "T"
@@ -5818,15 +5807,15 @@ node {
   }
 }
 node {
-  name: "gradients/add_24_grad/tuple/group_deps"
+  name: "gradients/add_23_grad/tuple/group_deps"
   op: "NoOp"
   input: "^gradients/Mean_1_grad/truediv"
 }
 node {
-  name: "gradients/add_24_grad/tuple/control_dependency"
+  name: "gradients/add_23_grad/tuple/control_dependency"
   op: "Identity"
   input: "gradients/Mean_1_grad/truediv"
-  input: "^gradients/add_24_grad/tuple/group_deps"
+  input: "^gradients/add_23_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -5843,10 +5832,10 @@ node {
   }
 }
 node {
-  name: "gradients/add_24_grad/tuple/control_dependency_1"
+  name: "gradients/add_23_grad/tuple/control_dependency_1"
   op: "Identity"
   input: "gradients/Mean_1_grad/truediv"
-  input: "^gradients/add_24_grad/tuple/group_deps"
+  input: "^gradients/add_23_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -5889,7 +5878,7 @@ node {
 node {
   name: "gradients/Mean_grad/Reshape"
   op: "Reshape"
-  input: "gradients/add_24_grad/tuple/control_dependency"
+  input: "gradients/add_23_grad/tuple/control_dependency"
   input: "gradients/Mean_grad/Reshape/shape"
   attr {
     key: "T"
@@ -6157,8 +6146,8 @@ node {
 node {
   name: "gradients/mul_grad/Mul"
   op: "Mul"
-  input: "gradients/add_24_grad/tuple/control_dependency_1"
-  input: "add_23"
+  input: "gradients/add_23_grad/tuple/control_dependency_1"
+  input: "add_22"
   attr {
     key: "T"
     value {
@@ -6169,7 +6158,7 @@ node {
 node {
   name: "gradients/mul_grad/Mul_1"
   op: "Mul"
-  input: "gradients/add_24_grad/tuple/control_dependency_1"
+  input: "gradients/add_23_grad/tuple/control_dependency_1"
   input: "mul/x"
   attr {
     key: "T"
@@ -6260,15 +6249,15 @@ node {
   }
 }
 node {
-  name: "gradients/add_23_grad/tuple/group_deps"
+  name: "gradients/add_22_grad/tuple/group_deps"
   op: "NoOp"
   input: "^gradients/mul_grad/tuple/control_dependency_1"
 }
 node {
-  name: "gradients/add_23_grad/tuple/control_dependency"
+  name: "gradients/add_22_grad/tuple/control_dependency"
   op: "Identity"
   input: "gradients/mul_grad/tuple/control_dependency_1"
-  input: "^gradients/add_23_grad/tuple/group_deps"
+  input: "^gradients/add_22_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -6285,10 +6274,10 @@ node {
   }
 }
 node {
-  name: "gradients/add_23_grad/tuple/control_dependency_1"
+  name: "gradients/add_22_grad/tuple/control_dependency_1"
   op: "Identity"
   input: "gradients/mul_grad/tuple/control_dependency_1"
-  input: "^gradients/add_23_grad/tuple/group_deps"
+  input: "^gradients/add_22_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -6486,14 +6475,59 @@ node {
   }
 }
 node {
+  name: "gradients/add_20_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^gradients/add_22_grad/tuple/control_dependency"
+}
+node {
+  name: "gradients/add_20_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "gradients/add_22_grad/tuple/control_dependency"
+  input: "^gradients/add_20_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/mul_grad/Mul_1"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/add_20_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "gradients/add_22_grad/tuple/control_dependency"
+  input: "^gradients/add_20_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/mul_grad/Mul_1"
+      }
+    }
+  }
+}
+node {
   name: "gradients/add_21_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/add_23_grad/tuple/control_dependency"
+  input: "^gradients/add_22_grad/tuple/control_dependency_1"
 }
 node {
   name: "gradients/add_21_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/add_23_grad/tuple/control_dependency"
+  input: "gradients/add_22_grad/tuple/control_dependency_1"
   input: "^gradients/add_21_grad/tuple/group_deps"
   attr {
     key: "T"
@@ -6513,53 +6547,8 @@ node {
 node {
   name: "gradients/add_21_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/add_23_grad/tuple/control_dependency"
+  input: "gradients/add_22_grad/tuple/control_dependency_1"
   input: "^gradients/add_21_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/mul_grad/Mul_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_22_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/add_23_grad/tuple/control_dependency_1"
-}
-node {
-  name: "gradients/add_22_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/add_23_grad/tuple/control_dependency_1"
-  input: "^gradients/add_22_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/mul_grad/Mul_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_22_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/add_23_grad/tuple/control_dependency_1"
-  input: "^gradients/add_22_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -6578,7 +6567,7 @@ node {
 node {
   name: "gradients/softmax_cross_entropy_with_logits/Reshape_grad/Shape"
   op: "Shape"
-  input: "add_15"
+  input: "output/td_vec"
   attr {
     key: "T"
     value {
@@ -6611,349 +6600,14 @@ node {
   }
 }
 node {
-  name: "gradients/add_19_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/add_21_grad/tuple/control_dependency"
-}
-node {
-  name: "gradients/add_19_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/add_21_grad/tuple/control_dependency"
-  input: "^gradients/add_19_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/mul_grad/Mul_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_19_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/add_21_grad/tuple/control_dependency"
-  input: "^gradients/add_19_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/mul_grad/Mul_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_20_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/add_21_grad/tuple/control_dependency_1"
-}
-node {
-  name: "gradients/add_20_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/add_21_grad/tuple/control_dependency_1"
-  input: "^gradients/add_20_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/mul_grad/Mul_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_20_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/add_21_grad/tuple/control_dependency_1"
-  input: "^gradients/add_20_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/mul_grad/Mul_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/L2Loss_14_grad/mul"
-  op: "Mul"
-  input: "Variable_15/read"
-  input: "gradients/add_22_grad/tuple/control_dependency"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "gradients/L2Loss_15_grad/mul"
-  op: "Mul"
-  input: "Variable_16/read"
-  input: "gradients/add_22_grad/tuple/control_dependency_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "gradients/add_15_grad/Shape"
-  op: "Shape"
-  input: "MatMul_7"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "out_type"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_15_grad/Shape_1"
-  op: "Shape"
-  input: "Variable_8/read"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "out_type"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_15_grad/BroadcastGradientArgs"
-  op: "BroadcastGradientArgs"
-  input: "gradients/add_15_grad/Shape"
-  input: "gradients/add_15_grad/Shape_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_15_grad/Sum"
-  op: "Sum"
-  input: "gradients/softmax_cross_entropy_with_logits/Reshape_grad/Reshape"
-  input: "gradients/add_15_grad/BroadcastGradientArgs"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/add_15_grad/Reshape"
-  op: "Reshape"
-  input: "gradients/add_15_grad/Sum"
-  input: "gradients/add_15_grad/Shape"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tshape"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_15_grad/Sum_1"
-  op: "Sum"
-  input: "gradients/softmax_cross_entropy_with_logits/Reshape_grad/Reshape"
-  input: "gradients/add_15_grad/BroadcastGradientArgs:1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/add_15_grad/Reshape_1"
-  op: "Reshape"
-  input: "gradients/add_15_grad/Sum_1"
-  input: "gradients/add_15_grad/Shape_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tshape"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_15_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/add_15_grad/Reshape"
-  input: "^gradients/add_15_grad/Reshape_1"
-}
-node {
-  name: "gradients/add_15_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/add_15_grad/Reshape"
-  input: "^gradients/add_15_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/add_15_grad/Reshape"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_15_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/add_15_grad/Reshape_1"
-  input: "^gradients/add_15_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/add_15_grad/Reshape_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_17_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/add_19_grad/tuple/control_dependency"
-}
-node {
-  name: "gradients/add_17_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/add_19_grad/tuple/control_dependency"
-  input: "^gradients/add_17_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/mul_grad/Mul_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_17_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/add_19_grad/tuple/control_dependency"
-  input: "^gradients/add_17_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/mul_grad/Mul_1"
-      }
-    }
-  }
-}
-node {
   name: "gradients/add_18_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/add_19_grad/tuple/control_dependency_1"
+  input: "^gradients/add_20_grad/tuple/control_dependency"
 }
 node {
   name: "gradients/add_18_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/add_19_grad/tuple/control_dependency_1"
+  input: "gradients/add_20_grad/tuple/control_dependency"
   input: "^gradients/add_18_grad/tuple/group_deps"
   attr {
     key: "T"
@@ -6973,8 +6627,343 @@ node {
 node {
   name: "gradients/add_18_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/add_19_grad/tuple/control_dependency_1"
+  input: "gradients/add_20_grad/tuple/control_dependency"
   input: "^gradients/add_18_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/mul_grad/Mul_1"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/add_19_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^gradients/add_20_grad/tuple/control_dependency_1"
+}
+node {
+  name: "gradients/add_19_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "gradients/add_20_grad/tuple/control_dependency_1"
+  input: "^gradients/add_19_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/mul_grad/Mul_1"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/add_19_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "gradients/add_20_grad/tuple/control_dependency_1"
+  input: "^gradients/add_19_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/mul_grad/Mul_1"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/L2Loss_14_grad/mul"
+  op: "Mul"
+  input: "Variable_15/read"
+  input: "gradients/add_21_grad/tuple/control_dependency"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "gradients/L2Loss_15_grad/mul"
+  op: "Mul"
+  input: "Variable_16/read"
+  input: "gradients/add_21_grad/tuple/control_dependency_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "gradients/output/td_vec_grad/Shape"
+  op: "Shape"
+  input: "MatMul_7"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "gradients/output/td_vec_grad/Shape_1"
+  op: "Shape"
+  input: "Variable_8/read"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "gradients/output/td_vec_grad/BroadcastGradientArgs"
+  op: "BroadcastGradientArgs"
+  input: "gradients/output/td_vec_grad/Shape"
+  input: "gradients/output/td_vec_grad/Shape_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "gradients/output/td_vec_grad/Sum"
+  op: "Sum"
+  input: "gradients/softmax_cross_entropy_with_logits/Reshape_grad/Reshape"
+  input: "gradients/output/td_vec_grad/BroadcastGradientArgs"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "keep_dims"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "gradients/output/td_vec_grad/Reshape"
+  op: "Reshape"
+  input: "gradients/output/td_vec_grad/Sum"
+  input: "gradients/output/td_vec_grad/Shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "gradients/output/td_vec_grad/Sum_1"
+  op: "Sum"
+  input: "gradients/softmax_cross_entropy_with_logits/Reshape_grad/Reshape"
+  input: "gradients/output/td_vec_grad/BroadcastGradientArgs:1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "keep_dims"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "gradients/output/td_vec_grad/Reshape_1"
+  op: "Reshape"
+  input: "gradients/output/td_vec_grad/Sum_1"
+  input: "gradients/output/td_vec_grad/Shape_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "gradients/output/td_vec_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^gradients/output/td_vec_grad/Reshape"
+  input: "^gradients/output/td_vec_grad/Reshape_1"
+}
+node {
+  name: "gradients/output/td_vec_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "gradients/output/td_vec_grad/Reshape"
+  input: "^gradients/output/td_vec_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/output/td_vec_grad/Reshape"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/output/td_vec_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "gradients/output/td_vec_grad/Reshape_1"
+  input: "^gradients/output/td_vec_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/output/td_vec_grad/Reshape_1"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/add_16_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^gradients/add_18_grad/tuple/control_dependency"
+}
+node {
+  name: "gradients/add_16_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "gradients/add_18_grad/tuple/control_dependency"
+  input: "^gradients/add_16_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/mul_grad/Mul_1"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/add_16_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "gradients/add_18_grad/tuple/control_dependency"
+  input: "^gradients/add_16_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/mul_grad/Mul_1"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/add_17_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^gradients/add_18_grad/tuple/control_dependency_1"
+}
+node {
+  name: "gradients/add_17_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "gradients/add_18_grad/tuple/control_dependency_1"
+  input: "^gradients/add_17_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/mul_grad/Mul_1"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/add_17_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "gradients/add_18_grad/tuple/control_dependency_1"
+  input: "^gradients/add_17_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -6994,7 +6983,7 @@ node {
   name: "gradients/L2Loss_12_grad/mul"
   op: "Mul"
   input: "Variable_13/read"
-  input: "gradients/add_20_grad/tuple/control_dependency"
+  input: "gradients/add_19_grad/tuple/control_dependency"
   attr {
     key: "T"
     value {
@@ -7006,7 +6995,7 @@ node {
   name: "gradients/L2Loss_13_grad/mul"
   op: "Mul"
   input: "Variable_14/read"
-  input: "gradients/add_20_grad/tuple/control_dependency_1"
+  input: "gradients/add_19_grad/tuple/control_dependency_1"
   attr {
     key: "T"
     value {
@@ -7017,7 +7006,7 @@ node {
 node {
   name: "gradients/MatMul_7_grad/MatMul"
   op: "MatMul"
-  input: "gradients/add_15_grad/tuple/control_dependency"
+  input: "gradients/output/td_vec_grad/tuple/control_dependency"
   input: "Variable_7/read"
   attr {
     key: "T"
@@ -7042,7 +7031,7 @@ node {
   name: "gradients/MatMul_7_grad/MatMul_1"
   op: "MatMul"
   input: "Relu_4"
-  input: "gradients/add_15_grad/tuple/control_dependency"
+  input: "gradients/output/td_vec_grad/tuple/control_dependency"
   attr {
     key: "T"
     value {
@@ -7111,12 +7100,12 @@ node {
 node {
   name: "gradients/add_10_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/add_17_grad/tuple/control_dependency"
+  input: "^gradients/add_16_grad/tuple/control_dependency"
 }
 node {
   name: "gradients/add_10_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/add_17_grad/tuple/control_dependency"
+  input: "gradients/add_16_grad/tuple/control_dependency"
   input: "^gradients/add_10_grad/tuple/group_deps"
   attr {
     key: "T"
@@ -7136,7 +7125,7 @@ node {
 node {
   name: "gradients/add_10_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/add_17_grad/tuple/control_dependency"
+  input: "gradients/add_16_grad/tuple/control_dependency"
   input: "^gradients/add_10_grad/tuple/group_deps"
   attr {
     key: "T"
@@ -7154,15 +7143,15 @@ node {
   }
 }
 node {
-  name: "gradients/add_16_grad/tuple/group_deps"
+  name: "gradients/add_15_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/add_17_grad/tuple/control_dependency_1"
+  input: "^gradients/add_16_grad/tuple/control_dependency_1"
 }
 node {
-  name: "gradients/add_16_grad/tuple/control_dependency"
+  name: "gradients/add_15_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/add_17_grad/tuple/control_dependency_1"
-  input: "^gradients/add_16_grad/tuple/group_deps"
+  input: "gradients/add_16_grad/tuple/control_dependency_1"
+  input: "^gradients/add_15_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -7179,10 +7168,10 @@ node {
   }
 }
 node {
-  name: "gradients/add_16_grad/tuple/control_dependency_1"
+  name: "gradients/add_15_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/add_17_grad/tuple/control_dependency_1"
-  input: "^gradients/add_16_grad/tuple/group_deps"
+  input: "gradients/add_16_grad/tuple/control_dependency_1"
+  input: "^gradients/add_15_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -7202,7 +7191,7 @@ node {
   name: "gradients/L2Loss_10_grad/mul"
   op: "Mul"
   input: "Variable_11/read"
-  input: "gradients/add_18_grad/tuple/control_dependency"
+  input: "gradients/add_17_grad/tuple/control_dependency"
   attr {
     key: "T"
     value {
@@ -7214,7 +7203,7 @@ node {
   name: "gradients/L2Loss_11_grad/mul"
   op: "Mul"
   input: "Variable_12/read"
-  input: "gradients/add_18_grad/tuple/control_dependency_1"
+  input: "gradients/add_17_grad/tuple/control_dependency_1"
   attr {
     key: "T"
     value {
@@ -7328,7 +7317,7 @@ node {
   name: "gradients/L2Loss_8_grad/mul"
   op: "Mul"
   input: "Variable_9/read"
-  input: "gradients/add_16_grad/tuple/control_dependency"
+  input: "gradients/add_15_grad/tuple/control_dependency"
   attr {
     key: "T"
     value {
@@ -7340,7 +7329,7 @@ node {
   name: "gradients/L2Loss_9_grad/mul"
   op: "Mul"
   input: "Variable_10/read"
-  input: "gradients/add_16_grad/tuple/control_dependency_1"
+  input: "gradients/add_15_grad/tuple/control_dependency_1"
   attr {
     key: "T"
     value {
@@ -7830,7 +7819,7 @@ node {
 node {
   name: "gradients/AddN_1"
   op: "AddN"
-  input: "gradients/add_15_grad/tuple/control_dependency_1"
+  input: "gradients/output/td_vec_grad/tuple/control_dependency_1"
   input: "gradients/L2Loss_7_grad/mul"
   attr {
     key: "N"
@@ -7848,7 +7837,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/add_15_grad/Reshape_1"
+        s: "loc:@gradients/output/td_vec_grad/Reshape_1"
       }
     }
   }
