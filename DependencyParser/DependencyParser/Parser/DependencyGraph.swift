@@ -16,10 +16,10 @@ struct Node {
     var tag: String? = nil
     var feats: String? = nil
     var head: String? = nil
-    var deps: [Int: [Node]]? = nil
+    var deps: [String: [Int]]? = nil
     var rel: String? = nil
     
-    init(address: Int? = nil, word: String? = nil, lemma: String? = nil, ctag: String? = nil, tag: String? = nil, feats: String? = nil, head: String? = nil, deps: [Int: [Node]]? = nil, rel: String? = nil) {
+    init(address: Int? = nil, word: String? = nil, lemma: String? = nil, ctag: String? = nil, tag: String? = nil, feats: String? = nil, head: String? = nil, deps: [String: [Int]]? = nil, rel: String? = nil) {
         self.address = address
         self.word = word
         self.lemma = lemma
@@ -33,8 +33,8 @@ struct Node {
 }
 
 class DependencyGraph: NSObject {
-    private var root: Node?
-    private var nodes = [Int: Node]()
+    var root: Node?
+    var nodes = [Int: Node]()
     
     init(tree_str: String? = nil,
          cell_extractor: ((String, String, String) -> (Int, String, String, String, String, String, String, String))? = nil,
@@ -55,7 +55,6 @@ class DependencyGraph: NSObject {
     
     
     func redirect_arcs(originals: [Int: [Node]], redirect: [Int: [Node]]) {
-        for 
     }
     
     
