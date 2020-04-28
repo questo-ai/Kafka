@@ -91,14 +91,14 @@ class PartialParse: NSObject {
         }
     }
     
-    func contains(a:[(Int, Int)], v:(Int,Int)) -> Bool {
-      let (c1, c2) = v
-      for (v1, v2) in a { if v1 == c1 && v2 == c2 { return true } }
-      return false
+    func contains(a: [(Int, Int)], v: (Int,Int)) -> Bool {
+        let (c1, c2) = v
+        for (v1, v2) in a {if v1 == c1 && v2 == c2 { return true } }
+        return false
     }
     
     
-    func get_oracle(graph: DependencyGraph) -> (String, String) {
+    func get_oracle(graph: DependencyGraph) -> (Int, String) {
         if (self.complete) {
             fatalError("PartialParse already completed")
         }
@@ -106,8 +106,8 @@ class PartialParse: NSObject {
         var deprel: String? = nil
         var left_deps = [(Int, Int, String?)]()
         var right_deps = [(Int, Int, String?)]()
-        var arcs = [(Int, Int)]()
         
+        var arcs = [(Int, Int)]()
         for arc in self.arcs {
             arcs.append((arc.0, arc.1))
         }
@@ -147,13 +147,20 @@ class PartialParse: NSObject {
             }
         }
         
-        return ("", "")
+        if (transition_id == -1) {
+            transition_id = self.shift_id
+        }
+            
+        return (transition_id, deprel!)
     }
     
     
-//    func parse(td_pairs: [(Int, String)]) -> [] {
-//        
-//    }
+    func parse(td_pairs: [(Int, String)]) -> [(Int, Int, String?)] {
+        for (transition_id, deprel) in td_pairs {
+            self.parse_step(transition_id: transition_id, deprel: deprel)
+        }
+        return self.arcs
+    }
 }
 
 
