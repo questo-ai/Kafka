@@ -92,7 +92,14 @@ class PartialParse: NSObject {
     }
     
     
-    
+    func get_oracle(graph: DependencyGraph) -> (String, String) {
+        if (self.complete) {
+            fatalError("PartialParse already completed")
+        }
+        var transition_id = -1
+        var deprel = nil
+        return
+    }
 }
 
 
