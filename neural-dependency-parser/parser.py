@@ -298,8 +298,15 @@ def minibatch_parse(sentences, model, batch_size):
     unfinished_parses = [parser for parser in partial_parses]
 
     while unfinished_parses:
+        print("FUCK")
         minibatch = unfinished_parses[:batch_size]
+        print("minibatch")
+        print(minibatch)
         td_pairs = model.predict(minibatch)
+        print("td_pairs")
+        print(td_pairs)
+        import sys
+        sys.exit(-1)
 
         # parse sentence base on model prediction
         for i in range(len(minibatch)):

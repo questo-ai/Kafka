@@ -20,13 +20,15 @@ import tfcoreml
 
 tf.flags.DEFINE_float("lr", 0.001, "learning rate")
 tf.flags.DEFINE_integer("hidden", 4, "number of hidden layers if hidden > 0")
-tf.flags.DEFINE_integer("hidden_size",200, "hidden size for each layer")
-tf.flags.DEFINE_integer("epochs", 10, "number of epochs")
+tf.flags.DEFINE_integer("hidden_size", 500, "hidden size for each layer")
+tf.flags.DEFINE_integer("epochs", 1, "number of epochs")
 # tf.flags.DEFINE_integer("epochs", 10, "number of epochs")
 tf.flags.DEFINE_float("l2_beta", 10e-8, "beta for computing l2 regularization")
 tf.flags.DEFINE_string("activation", "relu", "activation function, can be relu or cube")
 tf.flags.DEFINE_string("optimizer", "adam", "optimizer, can be adam or adagrad")
-tf.flags.DEFINE_string("output", "", "output filename for arcs")
+tf.flags.DEFINE_string("output", "checkpoints/output.txt", "output filename for arcs")
+
+
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -400,6 +402,8 @@ class ParserModel(Model):
 
     def predict_on_batch(self, inputs_batch):
         feed = self.create_feed_dict(*inputs_batch)
+        print("feed")
+        print(feed)
         predictions = self.sess.run(self.pred, feed_dict=feed)
         return predictions
 
