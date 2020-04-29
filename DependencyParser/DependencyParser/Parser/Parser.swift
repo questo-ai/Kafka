@@ -15,10 +15,10 @@ public class Parser: NSObject {
     var tagger: NLTagger!
     var transducer: Transducer!
     
-    override init() {
+    init(wordList: [String?], tagList: [String], deprelList: [String]) {
         self.model = DependencyParser()
         self.tagger = NLTagger(tagSchemes: [.lexicalClass])
-        self.transducer = Transducer()
+        self.transducer = Transducer(wordList: wordList, tagList: tagList, deprelList: deprelList)
     }
     
     func POSTag(sentence: String) -> [(String, String)] {
