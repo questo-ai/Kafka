@@ -5,7 +5,6 @@ from __future__ import print_function
 from itertools import chain
 from nltk.parse import DependencyGraph
 
-
 class PartialParse(object):
     '''A PartialParse is a snapshot of an arc-standard dependency parse
 
@@ -290,7 +289,6 @@ def minibatch_parse(sentences, model, batch_size):
             sentence. Ordering should be the same as in sentences (i.e.,
             arcs[i] should contain the arcs for sentences[i]).
     """
-    print(sentences[0])
     arcs = []
     # initialize a PartialParser for each sentence
     partial_parses = [PartialParse(sentence) for sentence in sentences]
@@ -298,15 +296,8 @@ def minibatch_parse(sentences, model, batch_size):
     unfinished_parses = [parser for parser in partial_parses]
 
     while unfinished_parses:
-        print("FUCK")
         minibatch = unfinished_parses[:batch_size]
-        print("minibatch")
-        print(minibatch)
         td_pairs = model.predict(minibatch)
-        print("td_pairs")
-        print(td_pairs)
-        import sys
-        sys.exit(-1)
 
         # parse sentence base on model prediction
         for i in range(len(minibatch)):

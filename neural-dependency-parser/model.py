@@ -402,8 +402,6 @@ class ParserModel(Model):
 
     def predict_on_batch(self, inputs_batch):
         feed = self.create_feed_dict(*inputs_batch)
-        print("feed")
-        print(feed)
         predictions = self.sess.run(self.pred, feed_dict=feed)
         return predictions
 
