@@ -36,13 +36,13 @@ public class Parser: NSObject {
     }
     
     
-    func predict(wordIDs: MLMultiArray, tagIDs: MLMultiArray, deprelIDs: MLMultiArray) -> MLMultiArray?{
-        do {
-            let output = try model.prediction(Placeholder: wordIDs, Placeholder_1: tagIDs, Placeholder_2: deprelIDs)
-            return self.transducer.td_vec2trans_deprel(td_vec: output.output_td_vec)
-        } catch  {
-            print(error)
-            return nil
-        }
-    }
+//    func predict(wordIDs: MLMultiArray, tagIDs: MLMultiArray, deprelIDs: MLMultiArray) -> MLMultiArray?{
+//        do {
+//            let output = try model.prediction(Placeholder: wordIDs, Placeholder_1: tagIDs, Placeholder_2: deprelIDs)
+//            return self.transducer.td_vec2trans_deprel(td_vec: output.output_td_vec)
+//        } catch  {
+//            print(error)
+//            return nil
+//        }
+//    }
 }

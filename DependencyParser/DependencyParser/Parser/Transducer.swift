@@ -72,7 +72,7 @@ class Transducer: NSObject {
         }
     }
     
-    func pp2features(partial: PartialParse) -> (MLMultiArray,MLMultiArray,MLMultiArray){
+    func pp2feat(partial: PartialParse) -> (MLMultiArray,MLMultiArray,MLMultiArray){
 //        word/tag vectors (18 each):
 //            - top 3 ids on stack
 //            - top 3 ids on buffer
@@ -91,7 +91,7 @@ class Transducer: NSObject {
         var deprelIDs = [Int](repeating: self.nullDeprelId, count: 12)
         
         for stackIdx in 0...min(3, partial.stack.count) {
-            let sentenceIdx = partial.stack[-1 - stackIdx]
+            let sentenceIdx = partial.stack[-1 - stackIdx] // test crashed on this line 
             var (word, tag) = partial.sentence[sentenceIdx]
             wordIDs[stackIdx] = self.word2id[word!, default: self.unkWordId]
             tagIDs[stackIdx] = self.tag2id[tag, default: self.unkTagId]
@@ -171,7 +171,7 @@ class Transducer: NSObject {
         return (self.convertArrayToML(array: wordIDs), self.convertArrayToML(array: tagIDs), self.convertArrayToML(array: deprelIDs))
     }
     
-    func td_vec2trans_deprel(td_vec: MLMultiArray) -> (Int, String) {
-        
-    }
+//    func td_vec2trans_deprel(td_vec: MLMultiArray) -> (Int, String) {
+//        
+//    }
 }
