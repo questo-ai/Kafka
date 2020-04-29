@@ -11,12 +11,11 @@ import NaturalLanguage
 import CoreML
 
 public class Parser: NSObject {
-    var model: DependencyParser!
+    static var model = DependencyParser()
     var tagger: NLTagger!
     var transducer: Transducer!
     
     init(wordList: [String?], tagList: [String], deprelList: [String]) {
-        self.model = DependencyParser()
         self.tagger = NLTagger(tagSchemes: [.lexicalClass])
         self.transducer = Transducer(wordList: wordList, tagList: tagList, deprelList: deprelList)
     }
@@ -36,13 +35,14 @@ public class Parser: NSObject {
     }
     
     
-//    func predict(wordIDs: MLMultiArray, tagIDs: MLMultiArray, deprelIDs: MLMultiArray) -> MLMultiArray?{
-//        do {
-//            let output = try model.prediction(Placeholder: wordIDs, Placeholder_1: tagIDs, Placeholder_2: deprelIDs)
-//            return self.transducer.td_vec2trans_deprel(td_vec: output.output_td_vec)
-//        } catch  {
-//            print(error)
-//            return nil
-//        }
-//    }
+    static func predict(wordIDs: MLMultiArray, tagIDs: MLMultiArray, deprelIDs: MLMultiArray) -> MLMultiArray?{
+        do {
+            let output = try model.prediction(Placeholder: wordIDs, Placeholder_1: tagIDs, Placeholder_2: deprelIDs)
+            return output.output_td_vec
+//                self.transducer.td_vec2trans_deprel(td_vec: output.output_td_vec)
+        } catch  {
+            print(error)
+            return nil
+        }
+    }
 }

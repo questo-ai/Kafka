@@ -66,9 +66,9 @@ class DependencyGraph: NSObject {
             let new_deps = [Node]()
             if let deps = node.deps?.enumerated(){
                 for dep in deps{
-                    if dep in originals{
-                        
-                    }
+//                    if dep in originals{
+//                        
+//                    }
                 }
             }
         }

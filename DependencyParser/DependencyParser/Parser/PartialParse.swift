@@ -16,14 +16,14 @@ enum ParserError: Error {
 }
 
 class PartialParse: NSObject {
-    internal let left_arc_id = 0
-    internal let right_arc_id = 1
-    internal let shift_id = 2
-    internal let root_tag = "TOP"
-    internal var stack: [Int]
-    internal var next: Int
-    internal var arcs: [(Int, Int, String?)]
-    internal var sentence: [(String?, String)]
+    public static let left_arc_id = 0
+    public static let right_arc_id = 1
+    public static let shift_id = 2
+    public let root_tag = "TOP"
+    public var stack: [Int]
+    public var next: Int
+    public var arcs: [(Int, Int, String?)]
+    public var sentence: [(String?, String)]
     
     
     init(sentence: [(String, String)]) {
