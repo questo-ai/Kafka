@@ -542,6 +542,7 @@ def load_and_preprocess_data(
     if word_embedding_path.endswith('.gz'):
         with gz_open(word_embedding_path, 'rb') as file_obj:
             word_list, word_embeddings = load(file_obj)
+        print(word_list)
     else:
         with open(word_embedding_path, 'rb') as file_obj:
             word_list, word_embeddings = load(file_obj)
