@@ -13,7 +13,9 @@
 		02C1C79F2457E17700D742FC /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C79E2457E17700D742FC /* Parser.swift */; };
 		02C1C7A12457E28700D742FC /* PartialParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A02457E28700D742FC /* PartialParse.swift */; };
 		02C1C7A32457E36C00D742FC /* DependencyParser.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A22457E36C00D742FC /* DependencyParser.mlmodel */; };
+		3F1E69D0245986780047D364 /* TransducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1E69CF245986780047D364 /* TransducerTests.swift */; };
 		4692098024586422004798EE /* DependencyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692097F24586422004798EE /* DependencyGraph.swift */; };
+		46CEC27A245948A5000802C6 /* Transducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CEC279245948A5000802C6 /* Transducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +38,9 @@
 		02C1C79E2457E17700D742FC /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		02C1C7A02457E28700D742FC /* PartialParse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialParse.swift; sourceTree = "<group>"; };
 		02C1C7A22457E36C00D742FC /* DependencyParser.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = DependencyParser.mlmodel; sourceTree = "<group>"; };
+		3F1E69CF245986780047D364 /* TransducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransducerTests.swift; sourceTree = "<group>"; };
 		4692097F24586422004798EE /* DependencyGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyGraph.swift; sourceTree = "<group>"; };
+		46CEC279245948A5000802C6 /* Transducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				02C1C7922457DA5F00D742FC /* DependencyParserTests.swift */,
+				3F1E69CF245986780047D364 /* TransducerTests.swift */,
 				02C1C7942457DA5F00D742FC /* Info.plist */,
 			);
 			path = DependencyParserTests;
@@ -100,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				4692097F24586422004798EE /* DependencyGraph.swift */,
+				46CEC279245948A5000802C6 /* Transducer.swift */,
 				02C1C7A02457E28700D742FC /* PartialParse.swift */,
 				02C1C79E2457E17700D742FC /* Parser.swift */,
 			);
@@ -219,6 +225,7 @@
 				02C1C79F2457E17700D742FC /* Parser.swift in Sources */,
 				4692098024586422004798EE /* DependencyGraph.swift in Sources */,
 				02C1C7A32457E36C00D742FC /* DependencyParser.mlmodel in Sources */,
+				46CEC27A245948A5000802C6 /* Transducer.swift in Sources */,
 				02C1C7A12457E28700D742FC /* PartialParse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,6 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F1E69D0245986780047D364 /* TransducerTests.swift in Sources */,
 				02C1C7932457DA5F00D742FC /* DependencyParserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -368,7 +376,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = W99UBY853J;
+				DEVELOPMENT_TEAM = JX67Y7GD38;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -394,7 +402,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = W99UBY853J;
+				DEVELOPMENT_TEAM = JX67Y7GD38;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -418,7 +426,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W99UBY853J;
+				DEVELOPMENT_TEAM = JX67Y7GD38;
 				INFOPLIST_FILE = DependencyParserTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -437,7 +445,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W99UBY853J;
+				DEVELOPMENT_TEAM = JX67Y7GD38;
 				INFOPLIST_FILE = DependencyParserTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

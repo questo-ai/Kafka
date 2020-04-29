@@ -36,14 +36,14 @@ class DependencyGraph: NSObject {
     var root: Node?
     var nodes = [Int: Node]()
     
-    init(tree_str: String? = nil,
+    init(treeStr: String? = nil,
          cellExtractor: ((String, String, String) -> (Int, String, String, String, String, String, String, String))? = nil,
-         zero_based: Bool = false,
+         zeroBased: Bool = false,
          cellSeparator: CharacterSet? = nil,
         top_relation_label: String = "ROOT") {
         
         self.nodes[0] = Node(address: 0, ctag: "TOP", tag: "TOP")
-        if ((tree_str) != nil) {
+        if ((treeStr) != nil) {
             
         }
     }
@@ -151,106 +151,106 @@ class DependencyGraph: NSObject {
     func get_cycle_path(curr_node: Node, goal_node_index: Int){
     }
     
-    func _parse(input_: String,
-                cell_extractor: ((String, String, String) -> (Int, String, String, String, String, String, String, String))? = nil,
-                zero_based: Bool = false,
-                cellSeparator: CharacterSet? = nil,
-                top_relation_label: String = "ROOT") {
-        
-        func extract_3_cells(cells: (String, String, String), index: Int) -> (Int, String, String, String, String, String, String, String) {
-            let word = cells.0
-            let tag = cells.1
-            let head = cells.2
-            return (index, word, word, tag, tag, "", head, "")
-        }
-        
-        func extract_4_cells(cells: (String, String, String, String), index: Int) -> (Int, String, String, String, String, String, String, String) {
-            let word = cells.0
-            let tag = cells.1
-            let head = cells.2
-            let rel = cells.3
-            return (index, word, word, tag, tag, "", head, rel)
-        }
-        
-        func extract_7_cells(cells: (String, String, String, String, String, String, String), index: Int) -> (Int, String, String, String, String, String, String, String) {
-            var castIndex = index
-            let line_index = cells.0
-            let word = cells.1
-            let lemma = cells.2
-            let tag = cells.3
-            let head = cells.5
-            let rel = cells.6
-            
-            if (Int(line_index) != nil) {
-                castIndex = Int(line_index)!
-            }
-            
-            return (castIndex, word, lemma, tag, tag, "", head, rel)
-        }
-        
-        func extract_10_cells(cells: (String, String, String, String, String, String, String, String, String, String), index: Int) -> (Int, String, String, String, String, String, String, String) {
-            var castIndex = index
-            let line_index = cells.0
-            let word = cells.1
-            let lemma = cells.2
-            let ctag = cells.3
-            let tag = cells.4
-            let feats = cells.5
-            let head = cells.6
-            let rel = cells.7
-            
-            if (Int(line_index) != nil) {
-                castIndex = Int(line_index)!
-            }
-            
-            return (castIndex, word, lemma, ctag, tag, feats, head, rel)
-        }
-        
-        let extractors = [
-            3: extract_3_cells,
-            4: extract_4_cells,
-            7: extract_7_cells,
-            10: extract_10_cells,
-            ] as [Int : Any]
-        
-        var inputLines = [String]()
-        
-        if (type(of: input_) == String.self) {
-            var inputLines = [String]()
-            for line in input_.split(separator: "\n") {
-                inputLines.append(String(line))
-            }
-        } else {
-            inputLines = [input_]
-        }
-        
-        var cellNumber: Int? = nil
-        for (index, line) in inputLines.enumerated() {
-            var cells = line.components(separatedBy: cellSeparator!)
-            
-            if (cellNumber == nil) {
-                cellNumber = cells.count
-            } else {
-                assert(cellNumber == cells.count)
-            }
-            
-            var cellExtractor: (([String], Int) -> (String, String, String, String, String, String, String, String))
-            if (cellSeparator == nil) {
-                do {
-                    let cellExtractor = extractors[cellNumber!]
-                } catch {
-                    fatalError("Number of tab-delimited fields" + String(cellNumber!) + " not supported by CoNLL(10) or Malt-Tab(4) format")
-                }
-            }
-            
-            do {
-                let (index, word, lemma, ctag, tag, feats, head, rel) = cellExtractor(cells, index)
-            } catch {
-                let (word, lemma, ctag, tag, feats, head, rel) = cellExtractor(cells, index)
-            }
-        }
-        
-    }
+//    func _parse(input_: String,
+//                cell_extractor: ((String, String, String) -> (Int, String, String, String, String, String, String, String))? = nil,
+//                zeroBased: Bool = false,
+//                cellSeparator: CharacterSet? = nil,
+//                top_relation_label: String = "ROOT") {
+//        
+//        func extract_3_cells(cells: (String, String, String), index: Int) -> (Int, String, String, String, String, String, String, String) {
+//            let word = cells.0
+//            let tag = cells.1
+//            let head = cells.2
+//            return (index, word, word, tag, tag, "", head, "")
+//        }
+//        
+//        func extract_4_cells(cells: (String, String, String, String), index: Int) -> (Int, String, String, String, String, String, String, String) {
+//            let word = cells.0
+//            let tag = cells.1
+//            let head = cells.2
+//            let rel = cells.3
+//            return (index, word, word, tag, tag, "", head, rel)
+//        }
+//        
+//        func extract_7_cells(cells: (String, String, String, String, String, String, String), index: Int) -> (Int, String, String, String, String, String, String, String) {
+//            var castIndex = index
+//            let line_index = cells.0
+//            let word = cells.1
+//            let lemma = cells.2
+//            let tag = cells.3
+//            let head = cells.5
+//            let rel = cells.6
+//            
+//            if (Int(line_index) != nil) {
+//                castIndex = Int(line_index)!
+//            }
+//            
+//            return (castIndex, word, lemma, tag, tag, "", head, rel)
+//        }
+//        
+//        func extract_10_cells(cells: (String, String, String, String, String, String, String, String, String, String), index: Int) -> (Int, String, String, String, String, String, String, String) {
+//            var castIndex = index
+//            let line_index = cells.0
+//            let word = cells.1
+//            let lemma = cells.2
+//            let ctag = cells.3
+//            let tag = cells.4
+//            let feats = cells.5
+//            let head = cells.6
+//            let rel = cells.7
+//            
+//            if (Int(line_index) != nil) {
+//                castIndex = Int(line_index)!
+//            }
+//            
+//            return (castIndex, word, lemma, ctag, tag, feats, head, rel)
+//        }
+//        
+//        let extractors = [
+//            3: extract_3_cells,
+//            4: extract_4_cells,
+//            7: extract_7_cells,
+//            10: extract_10_cells,
+//            ] as [Int : Any]
+//        
+//        var inputLines = [String]()
+//        
+//        if (type(of: input_) == String.self) {
+//            var inputLines = [String]()
+//            for line in input_.split(separator: "\n") {
+//                inputLines.append(String(line))
+//            }
+//        } else {
+//            inputLines = [input_]
+//        }
+//        
+//        var cellNumber: Int? = nil
+//        for (index, line) in inputLines.enumerated() {
+//            var cells = line.components(separatedBy: cellSeparator!)
+//            
+//            if (cellNumber == nil) {
+//                cellNumber = cells.count
+//            } else {
+//                assert(cellNumber == cells.count)
+//            }
+//            
+//            var cellExtractor: (([String], Int) -> (String, String, String, String, String, String, String, String))
+//            if (cellSeparator == nil) {
+//                do {
+//                    let cellExtractor = extractors[cellNumber!]
+//                } catch {
+//                    fatalError("Number of tab-delimited fields" + String(cellNumber!) + " not supported by CoNLL(10) or Malt-Tab(4) format")
+//                }
+//            }
+//            
+//            do {
+//                let (index, word, lemma, ctag, tag, feats, head, rel) = cellExtractor(cells, index)
+//            } catch {
+//                let (word, lemma, ctag, tag, feats, head, rel) = cellExtractor(cells, index)
+//            }
+//        }
+//        
+//    }
     
     
 }

@@ -7,25 +7,48 @@
 //
 
 import XCTest
+import CoreML
 @testable import DependencyParser
 
 class DependencyParserTests: XCTestCase {
-    let parser: Parser = Parser()
+//    let parser: Parser = Parser()
     let testSentenceWithPos = [("In", "ADP"), ("an", "DET"), ("Oct.", "PROPN"), ("19", "NUM"), ("review", "NOUN"), ("of", "ADP"), ("``", "PUNCT"), ("The", "DET"), ("Misanthrope", "NOUN"), ("''", "PUNCT"), ("at", "ADP"), ("Chicago", "PROPN"), ("'s", "PART"), ("Goodman", "PROPN"), ("Theatre", "PROPN"), ("-LRB-", "PUNCT"), ("``", "PUNCT"), ("Revitalized", "VERB"), ("Classics", "NOUN"), ("Take", "VERB"), ("the", "DET"), ("Stage", "NOUN"), ("in", "ADP"), ("Windy", "PROPN"), ("City", "PROPN"), (",", "PUNCT"), ("''", "PUNCT"), ("Leisure", "NOUN"), ("&", "CONJ"), ("Arts", "NOUN"), ("-RRB-", "PUNCT"), (",", "PUNCT"), ("the", "DET"), ("role", "NOUN"), ("of", "ADP"), ("Celimene", "PROPN"), (",", "PUNCT"), ("played", "VERB"), ("by", "ADP"), ("Kim", "PROPN"), ("Cattrall", "PROPN"), (",", "PUNCT"), ("was", "AUX"), ("mistakenly", "ADV"), ("attributed", "VERB"), ("to", "ADP"), ("Christina", "PROPN"), ("Haag", "PROPN"), (".", "PUNCT")]
 
-    override func setUpWithError() throws {
-        
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+//    override func setUpWithError() throws {
+//
+//        // Put setup code here. This method is called before the invocation of each test method in the class.
+//    }
+//
+//    override func tearDownWithError() throws {
+//        // Put teardown code here. This method is called after the invocation of each test method in the class.
+//    }
 
     func testParser() throws {
-        // This is an example of a functional test case.
+        // this will not work until predict is implemented properly -> don't leave it uncommented until then!
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        print(self.parser.predict(sentence: "hhe heheh eheh eh") ?? "empty")
+        do {
+            
+        }
+        let array1 = try MLMultiArray(shape: [1,18], dataType: .float32)
+        let array_1 = [0, 4002, 4002, 1087, 2360, 4001, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002]
+        for (i, x) in array_1.enumerated() {
+            array1[i] = NSNumber(floatLiteral: Double(x))
+        }
+
+        let array2 = try MLMultiArray(shape: [1,18], dataType: .float32)
+        let array_2 = [0, 19, 19, 11, 14, 12, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19]
+        for (i, x) in array_2.enumerated() {
+            array2[i] = NSNumber(floatLiteral: Double(x))
+        }
+
+        let array3 = try MLMultiArray(shape: [1,12], dataType: .float32)
+        let array_3 = [41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41]
+        for (i, x) in array_3.enumerated() {
+            array3[i] = NSNumber(floatLiteral: Double(x))
+        }
+//        let preds = self.parser.predict(wordIDs: array1, tagIDs: array2, deprelIDs: array3)
+//        print(preds)
+        
     }
     
     func testPartialParse_init() throws {
@@ -115,6 +138,8 @@ class DependencyParserTests: XCTestCase {
     func testPartialParser_parse() throws {
         
     }
+    
+    
         
     
     func testPerformanceExample() throws {

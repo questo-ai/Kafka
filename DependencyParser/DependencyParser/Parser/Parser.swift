@@ -13,10 +13,12 @@ import CoreML
 public class Parser: NSObject {
     var model: DependencyParser!
     var tagger: NLTagger!
+    var transducer: Transducer!
     
-    override init() {
+    init(wordList: [String?], tagList: [String], deprelList: [String]) {
         self.model = DependencyParser()
         self.tagger = NLTagger(tagSchemes: [.lexicalClass])
+        self.transducer = Transducer(wordList: wordList, tagList: tagList, deprelList: deprelList)
     }
     
     func POSTag(sentence: String) -> [(String, String)] {
@@ -34,30 +36,13 @@ public class Parser: NSObject {
     }
     
     
-    func predict(sentence: String) -> MLMultiArray?{
-        do {
-            let array1 = try MLMultiArray(shape: [1,18], dataType: .float32)
-            let array_1 = [0, 4002, 4002, 1087, 2360, 4001, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002]
-            for (i, x) in array_1.enumerated() {
-                array1[i] = NSNumber(floatLiteral: Double(x))
-            }
-            
-            let array2 = try MLMultiArray(shape: [1,18], dataType: .float32)
-            let array_2 = [0, 19, 19, 11, 14, 12, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19]
-            for (i, x) in array_2.enumerated() {
-                array2[i] = NSNumber(floatLiteral: Double(x))
-            }
-            
-            let array3 = try MLMultiArray(shape: [1,12], dataType: .float32)
-            let array_3 = [41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41]
-            for (i, x) in array_3.enumerated() {
-                array3[i] = NSNumber(floatLiteral: Double(x))
-            }
-            let output = try model.prediction(Placeholder: array1, Placeholder_1: array2, Placeholder_2: array3)
-            return output.output_td_vec
-        } catch  {
-            print(error)
-            return nil
-        }
-    }
+//    func predict(wordIDs: MLMultiArray, tagIDs: MLMultiArray, deprelIDs: MLMultiArray) -> MLMultiArray?{
+//        do {
+//            let output = try model.prediction(Placeholder: wordIDs, Placeholder_1: tagIDs, Placeholder_2: deprelIDs)
+//            return self.transducer.td_vec2trans_deprel(td_vec: output.output_td_vec)
+//        } catch  {
+//            print(error)
+//            return nil
+//        }
+//    }
 }
