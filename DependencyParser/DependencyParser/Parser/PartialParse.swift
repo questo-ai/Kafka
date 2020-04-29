@@ -16,14 +16,14 @@ enum ParserError: Error {
 }
 
 class PartialParse: NSObject {
-    private let left_arc_id = 0
-    private let right_arc_id = 1
-    private let shift_id = 2
-    private let root_tag = "TOP"
-    private var stack: [Int]
-    private var next: Int
-    private var arcs: [(Int, Int, String?)]
-    private var sentence: [(String?, String)]
+    internal let left_arc_id = 0
+    internal let right_arc_id = 1
+    internal let shift_id = 2
+    internal let root_tag = "TOP"
+    internal var stack: [Int]
+    internal var next: Int
+    internal var arcs: [(Int, Int, String?)]
+    internal var sentence: [(String?, String)]
     
     
     init(sentence: [(String, String)]) {
@@ -62,16 +62,26 @@ class PartialParse: NSObject {
     
     func get_n_leftmost_deps(sentence_idx: Int, n: Int?) -> [Int] {
         var deps: [Int] = []
+        
+//        deps = [dep[1] for dep in self.arcs if dep[0] == sentence_idx]
+//        deps.sort()
+//        return deps[:n]
+        
         for dep in self.arcs {
             if (dep.0 == sentence_idx) {
                 deps.append(dep.1)
             }
         }
         deps.sort()
+        print(deps)
         if (n == nil) {
             return deps
         } else {
-            return Array(deps[0...(n!)])
+            if deps.isEmpty {
+                return deps
+            } else {
+                return Array(deps[0...(n!-1)])
+            }
         }
     }
     
