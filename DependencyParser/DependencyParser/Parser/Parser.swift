@@ -32,6 +32,8 @@ public class Parser: NSObject {
         }
         return tags
     }
+    
+    
     func predict(sentence: String) -> MLMultiArray?{
         do {
             let array1 = try MLMultiArray(shape: [1,18], dataType: .float32)
@@ -58,8 +60,4 @@ public class Parser: NSObject {
             return nil
         }
     }
-    
-    
-    
-    
 }
