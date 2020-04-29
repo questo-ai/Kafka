@@ -34,6 +34,9 @@ class PartialParse: NSObject {
         self.arcs = []
     }
     
+    func removed_by_address() {
+        
+    }
     
     var complete: Bool {
         get {

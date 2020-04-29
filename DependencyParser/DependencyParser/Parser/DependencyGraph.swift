@@ -47,14 +47,108 @@ class DependencyGraph: NSObject {
             
         }
     }
-    
-    
     func remove_by_address(address: Int) {
         self.nodes.removeValue(forKey: address)
     }
     
-    
     func redirect_arcs(originals: [Int: [Node]], redirect: [Int: [Node]]) {
+//        Redirects arcs to any of the nodes in the originals list
+//        to the redirect node address.
+//        for node in self.nodes.values():
+//            new_deps = []
+//            for dep in node["deps"]:
+//                if dep in originals:
+//                    new_deps.append(redirect)
+//                else:
+//                    new_deps.append(dep)
+//            node["deps"] = new_deps
+        for node in nodes.values {
+            let new_deps = [Node]()
+            if let deps = node.deps?.enumerated(){
+                for dep in deps{
+                    if dep in originals{
+                        
+                    }
+                }
+            }
+        }
+
+    }
+    
+    func add_arc(head_address: Int, mod_address: Int) {
+//        Adds an arc from the node specified by head_address to the
+//        node specified by the mod address.
+    }
+    
+    func connect_graph() {
+//       Fully connects all non-root nodes.  All nodes are set to be dependents
+//       of the root node.
+    }
+    func get_by_address(node_address: Int){
+    }
+    func contains_address(node_address: Int){
+    }
+    func left_children(node_index: Int){
+        // Returns the number of left children under the node specified
+        // by the given address.
+    }
+    func right_children(node_index: Int){
+        // Returns the number of right children under the node specified
+        // by the given address.
+    }
+    func add_node(node: Node){
+
+    }
+    func _word(node: Node, filter: Bool = true){
+
+    }
+    func _tree(i: Int){
+        // Turn dependency graphs into NLTK trees.
+        // :param int i: index of a node
+        // :return: either a word (if the indexed node is a leaf) or a ``Tree``.
+    }
+    func tree(){
+        // Starting with the ``root`` node, build a dependency tree using the NLTK
+        // ``Tree`` constructor. Dependency labels are omitted.
+    }
+    func triples(node: Node){
+        // Extract dependency triples of the form:
+        // ((head word, head tag), rel, (dep word, dep tag))
+    }
+    func _hd(i: Int){
+
+
+    }
+    func _rel(i: Int){
+    }
+    func contains_cycle(){
+        
+        //Check whether there are cycles.
+
+        // >>> dg = DependencyGraph(treebank_data)
+        // >>> dg.contains_cycle()
+        // False
+
+        // >>> cyclic_dg = DependencyGraph()
+        // >>> top = {'word': None, 'deps': [1], 'rel': 'TOP', 'address': 0}
+        // >>> child1 = {'word': None, 'deps': [2], 'rel': 'NTOP', 'address': 1}
+        // >>> child2 = {'word': None, 'deps': [4], 'rel': 'NTOP', 'address': 2}
+        // >>> child3 = {'word': None, 'deps': [1], 'rel': 'NTOP', 'address': 3}
+        // >>> child4 = {'word': None, 'deps': [3], 'rel': 'NTOP', 'address': 4}
+        // >>> cyclic_dg.nodes = {
+        // ...     0: top,
+        // ...     1: child1,
+        // ...     2: child2,
+        // ...     3: child3,
+        // ...     4: child4,
+        // ... }
+        // >>> cyclic_dg.root = top
+
+        // >>> cyclic_dg.contains_cycle()
+        // [3, 1, 2, 4]
+
+    }
+    func get_cycle_path(curr_node: Node, goal_node_index: Int){
     }
     
     func _parse(input_: String,
