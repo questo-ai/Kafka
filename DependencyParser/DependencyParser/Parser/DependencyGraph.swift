@@ -37,9 +37,9 @@ class DependencyGraph: NSObject {
     var nodes = [Int: Node]()
     
     init(tree_str: String? = nil,
-         cell_extractor: ((String, String, String) -> (Int, String, String, String, String, String, String, String))? = nil,
+         cellExtractor: ((String, String, String) -> (Int, String, String, String, String, String, String, String))? = nil,
          zero_based: Bool = false,
-         cell_separator: String? = nil,
+         cellSeparator: CharacterSet? = nil,
         top_relation_label: String = "ROOT") {
         
         self.nodes[0] = Node(address: 0, ctag: "TOP", tag: "TOP")
@@ -154,7 +154,7 @@ class DependencyGraph: NSObject {
     func _parse(input_: String,
                 cell_extractor: ((String, String, String) -> (Int, String, String, String, String, String, String, String))? = nil,
                 zero_based: Bool = false,
-                cell_separator: String? = nil,
+                cellSeparator: CharacterSet? = nil,
                 top_relation_label: String = "ROOT") {
         
         func extract_3_cells(cells: (String, String, String), index: Int) -> (Int, String, String, String, String, String, String, String) {
@@ -213,17 +213,42 @@ class DependencyGraph: NSObject {
             10: extract_10_cells,
             ] as [Int : Any]
         
-        var cellNumber: Int? = nil
+        var inputLines = [String]()
+        
         if (type(of: input_) == String.self) {
             var inputLines = [String]()
             for line in input_.split(separator: "\n") {
                 inputLines.append(String(line))
             }
+        } else {
+            inputLines = [input_]
         }
         
-//        for (index, line) in inputLines.enumerated() {
-//            
-//        }
+        var cellNumber: Int? = nil
+        for (index, line) in inputLines.enumerated() {
+            var cells = line.components(separatedBy: cellSeparator!)
+            
+            if (cellNumber == nil) {
+                cellNumber = cells.count
+            } else {
+                assert(cellNumber == cells.count)
+            }
+            
+            var cellExtractor: (([String], Int) -> (String, String, String, String, String, String, String, String))
+            if (cellSeparator == nil) {
+                do {
+                    let cellExtractor = extractors[cellNumber!]
+                } catch {
+                    fatalError("Number of tab-delimited fields" + String(cellNumber!) + " not supported by CoNLL(10) or Malt-Tab(4) format")
+                }
+            }
+            
+            do {
+                let (index, word, lemma, ctag, tag, feats, head, rel) = cellExtractor(cells, index)
+            } catch {
+                let (word, lemma, ctag, tag, feats, head, rel) = cellExtractor(cells, index)
+            }
+        }
         
     }
     
