@@ -97,7 +97,11 @@ class PartialParse: NSObject {
         if (n == nil) {
             return deps
         } else {
-            return Array(deps[0...(n!)])
+            if deps.isEmpty {
+                return deps
+            } else {
+                return Array(deps[0...(n!-1)])
+            }
         }
     }
     
