@@ -171,7 +171,7 @@ class Transducer: NSObject {
         return (self.convertArrayToML(array: wordIDs), self.convertArrayToML(array: tagIDs), self.convertArrayToML(array: deprelIDs))
     }
     
-    func td_vec2trans_deprel(td_vec: MLMultiArray, shift_id: Int = PartialParse.shift_id, left_arc_id: Int = PartialParse.left_arc_id, right_arc_id: Int = PartialParse.right_arc_id) -> (Int, String?) {
+    func td_vec2trans_deprel(td_vec: MLMultiArray, shift_id: Int = 0, left_arc_id: Int = 1, right_arc_id: Int = 2) -> (Int, String?) {
 ///        The maximum value index is chosen as the transition to take
 ///
 ///        Args:

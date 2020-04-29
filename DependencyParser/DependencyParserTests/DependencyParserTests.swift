@@ -11,57 +11,24 @@ import CoreML
 @testable import DependencyParser
 
 class DependencyParserTests: XCTestCase {
-    let parser: Parser = Parser()
     let testSentenceWithPos = [("In", "ADP"), ("an", "DET"), ("Oct.", "PROPN"), ("19", "NUM"), ("review", "NOUN"), ("of", "ADP"), ("``", "PUNCT"), ("The", "DET"), ("Misanthrope", "NOUN"), ("''", "PUNCT"), ("at", "ADP"), ("Chicago", "PROPN"), ("'s", "PART"), ("Goodman", "PROPN"), ("Theatre", "PROPN"), ("-LRB-", "PUNCT"), ("``", "PUNCT"), ("Revitalized", "VERB"), ("Classics", "NOUN"), ("Take", "VERB"), ("the", "DET"), ("Stage", "NOUN"), ("in", "ADP"), ("Windy", "PROPN"), ("City", "PROPN"), (",", "PUNCT"), ("''", "PUNCT"), ("Leisure", "NOUN"), ("&", "CONJ"), ("Arts", "NOUN"), ("-RRB-", "PUNCT"), (",", "PUNCT"), ("the", "DET"), ("role", "NOUN"), ("of", "ADP"), ("Celimene", "PROPN"), (",", "PUNCT"), ("played", "VERB"), ("by", "ADP"), ("Kim", "PROPN"), ("Cattrall", "PROPN"), (",", "PUNCT"), ("was", "AUX"), ("mistakenly", "ADV"), ("attributed", "VERB"), ("to", "ADP"), ("Christina", "PROPN"), ("Haag", "PROPN"), (".", "PUNCT")]
-
-//    override func setUpWithError() throws {
-//
-//        // Put setup code here. This method is called before the invocation of each test method in the class.
-//    }
-//
-//    override func tearDownWithError() throws {
-//        // Put teardown code here. This method is called after the invocation of each test method in the class.
-//    }
-
-    func testParser() throws {
-        // this will not work until predict is implemented properly -> don't leave it uncommented until then!
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        do {
-            
-        }
-        let array1 = try MLMultiArray(shape: [1,18], dataType: .float32)
-        let array_1 = [0, 4002, 4002, 1087, 2360, 4001, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002]
-        for (i, x) in array_1.enumerated() {
-            array1[i] = NSNumber(floatLiteral: Double(x))
-        }
-
-        let array2 = try MLMultiArray(shape: [1,18], dataType: .float32)
-        let array_2 = [0, 19, 19, 11, 14, 12, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19]
-        for (i, x) in array_2.enumerated() {
-            array2[i] = NSNumber(floatLiteral: Double(x))
-        }
-
-        let array3 = try MLMultiArray(shape: [1,12], dataType: .float32)
-        let array_3 = [41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41]
-        for (i, x) in array_3.enumerated() {
-            array3[i] = NSNumber(floatLiteral: Double(x))
-        }
-        let preds = Parser.predict(wordIDs: array1, tagIDs: array2, deprelIDs: array3)
-        print(preds)
-        
-    }
-    
-    func testPartialParse_init() throws {
-        let partialParserTest = PartialParse(sentence: self.testSentenceWithPos)
-    }
+    let transducer: Transducer = Transducer(
+               wordList: TransducerData.wordList,
+               tagList: TransducerData.tagList,
+               deprelList: TransducerData.deprelList
+           )
+    let parser = Parser(wordList: TransducerData.wordList, tagList: TransducerData.tagList, deprelList: TransducerData.deprelList)
+   func testPartialParse_init() throws {
+       let partialParserTest = PartialParse(sentence: self.testSentenceWithPos)
+   }
     func testvec2deprel() throws {
         let collection: [Float32] = [14.15625,-12.75781,-15.72656,-17.01562,-11.20312,-5.386719,-6.378906,-19.125,-5.65625,-13.99219,-1.739258,-3.699219,-10.67188,-12.15625,-6.050781,-16.09375,-9.984375,-5.886719,-12.25,-17.09375,-3.677734,-4.222656,-12.82812,-10.65625,-8.226562,-8.703125,-16.15625,-5.816406,-15.07812,-10.28125,-8.992188,-9.320312,-6.996094,-11.01562,-3.558594,-6.890625,-9.351562,-13.02344,-5.824219,-14.5,-11.35938,-15.08594,-15.14844,-9.015625,-7.902344,-6.710938,-2.71875,-6.464844,-5.777344,-7.917969,-10.19531,-7.847656,-11.32812,-15.29688,-6.300781,-8.75,-7.03125,-4.023438,-8.257812,-16.3125,-16.46875,-1.148438,-5.609375,-16.04688,-11.17969,-4.855469,-10.09375,-6.960938,-5.65625,-4.128906,-7.066406,-6.246094,-7.90625,-19.75,-8.257812,-7.484375,-18.51562,-9.804688,-10.39844,-1.605469,-6.757812,-5.996094,-15.75781]
         let td_vec = try MLMultiArray(collection)
-        print(Transducer.td_vec2trans_deprel(td_vec: td_vec))
+        print(transducer.td_vec2trans_deprel(td_vec: td_vec))
     }
     
     func testPredict() throws {
-        
+        print(parser.predict(sentences: [testSentenceWithPos]))
     }
     
     func testPartialParse_complete() throws {

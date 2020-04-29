@@ -14,6 +14,7 @@
 		02C1C7A12457E28700D742FC /* PartialParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A02457E28700D742FC /* PartialParse.swift */; };
 		02C1C7A32457E36C00D742FC /* DependencyParser.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A22457E36C00D742FC /* DependencyParser.mlmodel */; };
 		02C1C7A52459CC7B00D742FC /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A42459CC7B00D742FC /* Math.swift */; };
+		02C1C7A72459DC2D00D742FC /* TransducerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A62459DC2D00D742FC /* TransducerData.swift */; };
 		3F1E69D0245986780047D364 /* TransducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1E69CF245986780047D364 /* TransducerTests.swift */; };
 		4692098024586422004798EE /* DependencyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692097F24586422004798EE /* DependencyGraph.swift */; };
 		46CEC27A245948A5000802C6 /* Transducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CEC279245948A5000802C6 /* Transducer.swift */; };
@@ -40,6 +41,7 @@
 		02C1C7A02457E28700D742FC /* PartialParse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialParse.swift; sourceTree = "<group>"; };
 		02C1C7A22457E36C00D742FC /* DependencyParser.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = DependencyParser.mlmodel; sourceTree = "<group>"; };
 		02C1C7A42459CC7B00D742FC /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		02C1C7A62459DC2D00D742FC /* TransducerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransducerData.swift; sourceTree = "<group>"; };
 		3F1E69CF245986780047D364 /* TransducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransducerTests.swift; sourceTree = "<group>"; };
 		4692097F24586422004798EE /* DependencyGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyGraph.swift; sourceTree = "<group>"; };
 		46CEC279245948A5000802C6 /* Transducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transducer.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			children = (
 				02C1C7922457DA5F00D742FC /* DependencyParserTests.swift */,
 				3F1E69CF245986780047D364 /* TransducerTests.swift */,
+				02C1C7A62459DC2D00D742FC /* TransducerData.swift */,
 				02C1C7942457DA5F00D742FC /* Info.plist */,
 			);
 			path = DependencyParserTests;
@@ -238,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02C1C7A72459DC2D00D742FC /* TransducerData.swift in Sources */,
 				3F1E69D0245986780047D364 /* TransducerTests.swift in Sources */,
 				02C1C7932457DA5F00D742FC /* DependencyParserTests.swift in Sources */,
 			);

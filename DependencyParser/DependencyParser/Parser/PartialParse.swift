@@ -16,9 +16,9 @@ enum ParserError: Error {
 }
 
 class PartialParse: NSObject {
-    public static let left_arc_id = 0
-    public static let right_arc_id = 1
-    public static let shift_id = 2
+    public let left_arc_id = 0
+    public let right_arc_id = 1
+    public let shift_id = 2
     public let root_tag = "TOP"
     public var stack: [Int]
     public var next: Int
