@@ -114,7 +114,7 @@ class Transducer: NSObject {
                 tagIDs[6 + leftIdx + 2 * stackIdx] = self.tag2id[tag, default: self.unkTagId]
                 deprelIDs[leftIdx + 2 * stackIdx] = self.deprel2id[deprels[0]!, default: self.unkDeprelId]
 
-                if (leftIdx != nil) { // this condition is probably wrong
+                if (leftIdx != 0) { // this condition is probably wrong
                     for leftLeftDep in partial.get_n_leftmost_deps(sentence_idx: leftDep, n: 1) {
                         (word, tag) = partial.sentence[leftLeftDep]
                         deprels = []
@@ -145,7 +145,7 @@ class Transducer: NSObject {
                 tagIDs[10 + rightIdx + 2 * stackIdx] = self.tag2id[tag, default: self.unkTagId]
                 deprelIDs[4 + rightIdx + 2 * stackIdx] = self.deprel2id[deprels[0]!, default: self.unkDeprelId]
 
-                if (rightIdx != nil) { // this condition is probably wrong
+                if (rightIdx != 0) { // this condition is probably wrong
                     for rightRightDep in partial.get_n_rightmost_deps(sentence_idx: rightDep, n: 1) {
                         (word, tag) = partial.sentence[rightRightDep]
                         deprels = []
@@ -167,11 +167,11 @@ class Transducer: NSObject {
             wordIDs[3 + bufIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
             tagIDs[3 + bufIdx] = self.tag2id[tag, default: self.unkTagId]
         }
-        print(wordIDs, tagIDs, deprelIDs)
+        
         return (self.convertArrayToML(array: wordIDs), self.convertArrayToML(array: tagIDs), self.convertArrayToML(array: deprelIDs))
     }
     
-    func td_vec2trans_deprel(td_vec: MLMultiArray, shift_id: Int = 0, left_arc_id: Int = 1, right_arc_id: Int = 2) -> (Int, String?) {
+    func td_vec2trans_deprel(td_vec: MLMultiArray, shift_id: Int = 2, left_arc_id: Int = 0, right_arc_id: Int = 1) -> (Int, String?) {
 ///        The maximum value index is chosen as the transition to take
 ///
 ///        Args:
