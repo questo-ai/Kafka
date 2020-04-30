@@ -49,11 +49,11 @@ class PartialParse: NSObject {
         if (self.complete) {
             fatalError("ValueError")
         } else if ((transition_id == self.left_arc_id) && (deprel != nil) && (self.stack.count >= 2)) {
-            self.arcs.append((self.stack[-1], self.stack[-2], deprel))
-            self.stack.remove(at: -2)
+            self.arcs.append((self.stack[self.stack.count-1], self.stack[self.stack.count-2], deprel))
+            self.stack.remove(at: self.stack.count-2)
         } else if ((transition_id == self.right_arc_id) && (deprel != nil) && (self.stack.count >= 2)) {
-            self.arcs.append((self.stack[-2], self.stack[-1], deprel))
-            self.stack.remove(at: -1)
+            self.arcs.append((self.stack[self.stack.count-2], self.stack[self.stack.count-1], deprel))
+            self.stack.remove(at: self.stack.count-1)
         } else if ((transition_id == self.shift_id) && (self.next < self.sentence.count)) {
             self.stack.append(self.next)
             self.next += 1
@@ -76,14 +76,13 @@ class PartialParse: NSObject {
             }
         }
         deps.sort()
-        print(deps)
         if (n == nil) {
             return deps
         } else {
             if deps.isEmpty {
                 return deps
             } else {
-                return Array(deps[0...(n!-1)])
+                return Array(deps[0...(n!-2)])
             }
         }
     }
@@ -103,7 +102,7 @@ class PartialParse: NSObject {
             if deps.isEmpty {
                 return deps
             } else {
-                return Array(deps[0...(n!-1)])
+                return Array(deps[0...(n!-2)])
             }
         }
     }

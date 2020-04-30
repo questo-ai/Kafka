@@ -9,7 +9,6 @@
 import Foundation
 import Accelerate
 import CoreML
-
 ///
 /// From M.I. Hollemans
 ///
@@ -146,5 +145,16 @@ struct Math {
         }
         // This point might be reached due to floating point inaccuracies:
         return (probabilities.count - 1)
+    }
+}
+
+
+/// Allows reverse indexing of an array by using array[back: negativeIndex]
+/// https://stackoverflow.com/questions/32489635/swift-negative-indexing-in-arrays
+
+extension Collection where Index: Comparable {
+    subscript(back i: Int) -> Iterator.Element {
+        let backBy = i + 1
+        return self[self.index(self.endIndex, offsetBy: -backBy)]
     }
 }

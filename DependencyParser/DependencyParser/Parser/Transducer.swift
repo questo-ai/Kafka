@@ -91,7 +91,8 @@ class Transducer: NSObject {
         var deprelIDs = [Int](repeating: self.nullDeprelId, count: 12)
         
         for stackIdx in 0...(min(3, partial.stack.count)-1) {
-            let sentenceIdx = partial.stack.suffix(min(3, partial.stack.count)-stackIdx)[0] // test crashed on this line
+            let stackReversed = partial.stack.reversed() as [Int]
+            let sentenceIdx = stackReversed[stackIdx]
             var (word, tag) = partial.sentence[sentenceIdx]
             wordIDs[stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
             tagIDs[stackIdx] = self.tag2id[tag, default: self.unkTagId]
@@ -162,10 +163,13 @@ class Transducer: NSObject {
             }
         }
         
-        for (bufIdx, sentenceIdx) in (partial.next...(min(partial.next+3, partial.sentence.count))-1).enumerated() {
-            let (word, tag) = partial.sentence[sentenceIdx]
-            wordIDs[3 + bufIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
-            tagIDs[3 + bufIdx] = self.tag2id[tag, default: self.unkTagId]
+        
+        if (partial.next != min(partial.next+3, partial.sentence.count)) {
+            for (bufIdx, sentenceIdx) in (partial.next...(min(partial.next+3, partial.sentence.count)-1)).enumerated() {
+                let (word, tag) = partial.sentence[sentenceIdx]
+                wordIDs[3 + bufIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
+                tagIDs[3 + bufIdx] = self.tag2id[tag, default: self.unkTagId]
+            }
         }
         
         return (self.convertArrayToML(array: wordIDs), self.convertArrayToML(array: tagIDs), self.convertArrayToML(array: deprelIDs))

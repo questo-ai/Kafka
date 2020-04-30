@@ -35,7 +35,7 @@ public class Parser: NSObject {
     }
     
     
-    func _predict(_ wordIDs: MLMultiArray, _ tagIDs: MLMultiArray, _ deprelIDs: MLMultiArray) -> (Int, String?){
+    func _predict(_ wordIDs: MLMultiArray, _ tagIDs: MLMultiArray, _ deprelIDs: MLMultiArray) -> (Int, String?) {
         do {
             let output = try model.prediction(Placeholder: wordIDs, Placeholder_1: tagIDs, Placeholder_2: deprelIDs)
             return self.transducer.td_vec2trans_deprel(td_vec: output.output_td_vec)
@@ -44,23 +44,33 @@ public class Parser: NSObject {
             return (-1, nil)
         }
     }
-    func predict(sentences: [[(String, String)]]) ->  [[(Int, Int, String?)]]{
+    
+    
+    func predict(sentences: [[(String, String)]]) ->  [[(Int, Int, String?)]] {
         var arcs = [[(Int, Int, String?)]]()
         // Uses an object wrapper to reference same array
         var pps = PartialParses()
         for sentence in sentences {
             let pp = PartialParse(sentence: sentence)
             while !pp.complete {
-                pps.collection.append(pp)
                 let feats = transducer.pp2feat(partial: pp)
                 let td_pair = _predict(feats.0, feats.1, feats.2)
                 pp.parse_step(transition_id: td_pair.0, deprel: td_pair.1)
             }
+            pps.collection.append(pp)
         }
-        for parse in pps.collection{
+        for parse in pps.collection {
             arcs.append(parse.arcs)
         }
         return arcs
+    }
+    
+    func predictOnSentences(sentences: [String]) -> [[(Int, Int, String?)]] {
+        var taggedSentences = [[(String, String)]]()
+        for sentence in sentences {
+            taggedSentences.append(self.POSTag(sentence: sentence))
+        }
+        return self.predict(sentences: taggedSentences)
     }
 }
 
