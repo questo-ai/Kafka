@@ -24,6 +24,11 @@ class DependencyParserTests: XCTestCase {
     
     func testPartialParse_init() throws {
        let partialParserTest = PartialParse(sentence: self.testSentenceWithPos)
+
+    }
+    
+    func testPOS() throws {
+        print(parser.POSTag(sentence: "In an Oct. 19 review of \"The Misanthrope \"at Chicago's Goodman Theatre (\"Revitalized Classics Take the Stage in Windy City , \"Leisure & Arts ) , the role of Celimene , played by Kim Cattrall , was mistakenly attributed to Christina Haag ."))
     }
     
     func testvec2deprel() throws {
