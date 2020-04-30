@@ -39,17 +39,17 @@ class Transducer: NSObject {
         self.id2tag = tagList
         self.id2tag.insert(self.rootTag, at: 0)
         self.id2tag.append(self.unkTag)
-        self.id2deprel = tagList
+        self.id2deprel = deprelList
         self.id2deprel.insert(self.rootDeprel, at: 0)
         self.id2deprel.append(self.unkDeprel)
-        for (index, value) in self.id2tag.enumerated() {
-            self.word2id[value!] = index
+        for (index, value) in self.id2word.enumerated() {
+            self.word2id[value ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD"] = index
         }
         for (index, value) in self.id2tag.enumerated() {
-            self.tag2id[value!] = index
+            self.tag2id[value ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD"] = index
         }
         for (index, value) in self.id2deprel.enumerated() {
-            self.deprel2id[value!] = index
+            self.deprel2id[value ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD"] = index
         }
         self.unkWordId = self.id2word.count - 1
         self.unkTagId = self.id2tag.count - 1
@@ -90,10 +90,14 @@ class Transducer: NSObject {
         var tagIDs = [Int](repeating: self.nullTagId, count: 18)
         var deprelIDs = [Int](repeating: self.nullDeprelId, count: 12)
         
-        for stackIdx in 0...min(3, partial.stack.count) {
-            let sentenceIdx = partial.stack[-1 - stackIdx] // test crashed on this line 
+        for stackIdx in 0...(min(3, partial.stack.count)-1) {
+            let sentenceIdx = partial.stack.suffix(min(3, partial.stack.count)-stackIdx)[0] // test crashed on this line
             var (word, tag) = partial.sentence[sentenceIdx]
-            wordIDs[stackIdx] = self.word2id[word!, default: self.unkWordId]
+            if let word = word {
+                wordIDs[stackIdx] = self.word2id[word, default: self.unkWordId]
+            } else {
+                wordIDs[stackIdx] = self.unkWordId
+            }
             tagIDs[stackIdx] = self.tag2id[tag, default: self.unkTagId]
             if stackIdx == 2 {
                 continue
@@ -164,10 +168,10 @@ class Transducer: NSObject {
         
         for (bufIdx, sentenceIdx) in (partial.next...min(partial.next+3, partial.sentence.count)).enumerated() {
             let (word, tag) = partial.sentence[bufIdx]
-            wordIDs[3 + bufIdx] = self.word2id[word!, default: self.unkWordId]
+            wordIDs[3 + bufIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
             tagIDs[3 + bufIdx] = self.tag2id[tag, default: self.unkTagId]
         }
-        
+        print(wordIDs, tagIDs, deprelIDs)
         return (self.convertArrayToML(array: wordIDs), self.convertArrayToML(array: tagIDs), self.convertArrayToML(array: deprelIDs))
     }
     

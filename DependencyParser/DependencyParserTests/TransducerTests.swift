@@ -55,7 +55,7 @@ class TransducerTests: XCTestCase {
         }
         
         let returned = self.transducer.pp2feat(partial: pp_complete)
-        
+        print(returned)
         XCTAssert(returned.0 == correct_word_ids)
         XCTAssert(returned.1 == correct_tag_ids)
         XCTAssert(returned.2 == correct_deprel_ids)

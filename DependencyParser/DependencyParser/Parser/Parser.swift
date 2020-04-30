@@ -50,10 +50,12 @@ public class Parser: NSObject {
         var pps = PartialParses()
         for sentence in sentences {
             let pp = PartialParse(sentence: sentence)
-            pps.collection.append(pp)
-            let feats = transducer.pp2feat(partial: pp)
-            let td_pair = _predict(feats.0, feats.1, feats.2)
-            pp.parse_step(transition_id: td_pair.0, deprel: td_pair.1)
+            while !pp.complete {
+                pps.collection.append(pp)
+                let feats = transducer.pp2feat(partial: pp)
+                let td_pair = _predict(feats.0, feats.1, feats.2)
+                pp.parse_step(transition_id: td_pair.0, deprel: td_pair.1)
+            }
         }
         for parse in pps.collection{
             arcs.append(parse.arcs)
