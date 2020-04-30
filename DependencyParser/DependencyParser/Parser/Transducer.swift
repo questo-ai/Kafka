@@ -93,11 +93,7 @@ class Transducer: NSObject {
         for stackIdx in 0...(min(3, partial.stack.count)-1) {
             let sentenceIdx = partial.stack.suffix(min(3, partial.stack.count)-stackIdx)[0] // test crashed on this line
             var (word, tag) = partial.sentence[sentenceIdx]
-            if let word = word {
-                wordIDs[stackIdx] = self.word2id[word, default: self.unkWordId]
-            } else {
-                wordIDs[stackIdx] = self.unkWordId
-            }
+            wordIDs[stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
             tagIDs[stackIdx] = self.tag2id[tag, default: self.unkTagId]
             if stackIdx == 2 {
                 continue
@@ -114,7 +110,7 @@ class Transducer: NSObject {
                     }
                 }
                 
-                wordIDs[6 + leftIdx + 2 * stackIdx] = self.word2id[word!, default: self.unkWordId]
+                wordIDs[6 + leftIdx + 2 * stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
                 tagIDs[6 + leftIdx + 2 * stackIdx] = self.tag2id[tag, default: self.unkTagId]
                 deprelIDs[leftIdx + 2 * stackIdx] = self.deprel2id[deprels[0]!, default: self.unkDeprelId]
 
@@ -127,7 +123,7 @@ class Transducer: NSObject {
                                 deprels.append(arc.2)
                             }
                         }
-                        wordIDs[14 + stackIdx] = self.word2id[word!, default: self.unkWordId]
+                        wordIDs[14 + stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
                         tagIDs[14 + stackIdx] = self.tag2id[tag, default: self.unkTagId]
                         deprelIDs[8 + stackIdx] = self.deprel2id[deprels[0]!, default: self.unkDeprelId]
                     }
@@ -145,7 +141,7 @@ class Transducer: NSObject {
                     }
                 }
                 
-                wordIDs[10 + rightIdx + 2 * stackIdx] = self.word2id[word!, default: self.unkWordId]
+                wordIDs[10 + rightIdx + 2 * stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
                 tagIDs[10 + rightIdx + 2 * stackIdx] = self.tag2id[tag, default: self.unkTagId]
                 deprelIDs[4 + rightIdx + 2 * stackIdx] = self.deprel2id[deprels[0]!, default: self.unkDeprelId]
 
@@ -158,7 +154,7 @@ class Transducer: NSObject {
                                 deprels.append(arc.2)
                             }
                         }
-                        wordIDs[16 + stackIdx] = self.word2id[word!, default: self.unkWordId]
+                        wordIDs[16 + stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
                         tagIDs[16 + stackIdx] = self.tag2id[tag, default: self.unkTagId]
                         deprelIDs[10 + stackIdx] = self.deprel2id[deprels[0]!, default: self.unkDeprelId]
                     }
@@ -166,8 +162,8 @@ class Transducer: NSObject {
             }
         }
         
-        for (bufIdx, sentenceIdx) in (partial.next...min(partial.next+3, partial.sentence.count)).enumerated() {
-            let (word, tag) = partial.sentence[bufIdx]
+        for (bufIdx, sentenceIdx) in (partial.next...(min(partial.next+3, partial.sentence.count))-1).enumerated() {
+            let (word, tag) = partial.sentence[sentenceIdx]
             wordIDs[3 + bufIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
             tagIDs[3 + bufIdx] = self.tag2id[tag, default: self.unkTagId]
         }
@@ -187,7 +183,9 @@ class Transducer: NSObject {
 ///            *has_deprel is false
         do {
             let max_idx = Math.argmax32(td_vec).0
-            if max_idx <= id2deprel.count {
+            if max_idx == 0 {
+                return (shift_id, nil)
+            } else if max_idx <= id2deprel.count {
                 return (left_arc_id, id2deprel[max_idx - 1])
             } else {
                 return (right_arc_id, id2deprel[max_idx - id2deprel.count - 1])
