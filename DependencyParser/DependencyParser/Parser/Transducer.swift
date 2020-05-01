@@ -6,9 +6,7 @@
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 
-import UIKit
 import CoreML
-
 
 class Transducer: NSObject {
     var id2word = [String?]()
@@ -185,17 +183,13 @@ class Transducer: NSObject {
 ///        Returns:
 ///            (transition_id, deprel) where deprel is always None if
 ///            *has_deprel is false
-        do {
-            let max_idx = Math.argmax32(td_vec).0
-            if max_idx == 0 {
-                return (shift_id, nil)
-            } else if max_idx <= id2deprel.count {
-                return (left_arc_id, id2deprel[max_idx - 1])
-            } else {
-                return (right_arc_id, id2deprel[max_idx - id2deprel.count - 1])
-            }
-        } catch {
+        let max_idx = Math.argmax32(td_vec).0
+        if max_idx == 0 {
             return (shift_id, nil)
+        } else if max_idx <= id2deprel.count {
+            return (left_arc_id, id2deprel[max_idx - 1])
+        } else {
+            return (right_arc_id, id2deprel[max_idx - id2deprel.count - 1])
         }
     }
 }

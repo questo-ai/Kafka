@@ -29,7 +29,7 @@ class TransducerTests: XCTestCase {
 
     func test_pp2feat() throws {
         // test complete should be true
-        var pp_complete = PartialParse(sentence: self.testSentenceWithPos)
+        let pp_complete = PartialParse(sentence: self.testSentenceWithPos)
                 
         pp_complete.stack = [0]
         pp_complete.next = 1

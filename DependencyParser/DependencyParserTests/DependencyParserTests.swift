@@ -24,19 +24,6 @@ class DependencyParserTests: XCTestCase {
     
     let parser = Parser(wordList: TransducerData.wordList, tagList: TransducerData.tagList, deprelList: TransducerData.deprelList)
     
-    func testPartialParse_init() throws {
-       let partialParser = PartialParse(sentence: self.testSentenceWithPos)
-    }
-    
-    func testPOS() throws {
-        let predPOS = parser.predictOnSentences(sentences: [testSentence])
-        let truePOS = parser.predict(sentences: [testSentenceWithPos])
-        
-        // POS is not perfect => assertEquals fails heavily.
-        // actual predicted deprels aren't very incorrect, though.
-//        assertEquals(actual: predPOS, expected: truePOS)
-    }
-    
     func testvec2deprel() throws {
         let collection: [Float32] = [14.15625,-12.75781,-15.72656,-17.01562,-11.20312,-5.386719,-6.378906,-19.125,-5.65625,-13.99219,-1.739258,-3.699219,-10.67188,-12.15625,-6.050781,-16.09375,-9.984375,-5.886719,-12.25,-17.09375,-3.677734,-4.222656,-12.82812,-10.65625,-8.226562,-8.703125,-16.15625,-5.816406,-15.07812,-10.28125,-8.992188,-9.320312,-6.996094,-11.01562,-3.558594,-6.890625,-9.351562,-13.02344,-5.824219,-14.5,-11.35938,-15.08594,-15.14844,-9.015625,-7.902344,-6.710938,-2.71875,-6.464844,-5.777344,-7.917969,-10.19531,-7.847656,-11.32812,-15.29688,-6.300781,-8.75,-7.03125,-4.023438,-8.257812,-16.3125,-16.46875,-1.148438,-5.609375,-16.04688,-11.17969,-4.855469,-10.09375,-6.960938,-5.65625,-4.128906,-7.066406,-6.246094,-7.90625,-19.75,-8.257812,-7.484375,-18.51562,-9.804688,-10.39844,-1.605469,-6.757812,-5.996094,-15.75781]
         let td_vec = try MLMultiArray(collection)
@@ -78,7 +65,7 @@ class DependencyParserTests: XCTestCase {
     
     func testPartialParse_complete() throws {
         // test complete should be true
-        var pp_complete = PartialParse(sentence: self.testSentenceWithPos)
+        let pp_complete = PartialParse(sentence: self.testSentenceWithPos)
         
         pp_complete.stack = [0]
         pp_complete.next = 50
@@ -88,7 +75,7 @@ class DependencyParserTests: XCTestCase {
         
         // test complete shouldn't be true
         
-        var pp_incomplete = PartialParse(sentence: self.testSentenceWithPos)
+        let pp_incomplete = PartialParse(sentence: self.testSentenceWithPos)
         
         pp_incomplete.stack = [0, 5, 6]
         pp_incomplete.next = 7
@@ -163,7 +150,7 @@ class DependencyParserTests: XCTestCase {
     
     func testPartialParser_get_n_leftmost_deps() throws {
         // test where return non-empty, n=1
-        var pp_nonempty = PartialParse(sentence: self.testSentenceWithPos)
+        let pp_nonempty = PartialParse(sentence: self.testSentenceWithPos)
         pp_nonempty.stack = [0, 5, 9, 11, 15]
         pp_nonempty.next = 16
         pp_nonempty.arcs = [(5, 4, "nummod"), (5, 3, "compound"), (5, 2, "det"), (5, 1, "case"), (9, 8, "det"), (9, 7, "punct"), (9, 6, "case"), (9, 10, "punct"), (12, 13, "case"), (15, 14, "compound"), (15, 12, "nmod:poss")]
@@ -172,7 +159,7 @@ class DependencyParserTests: XCTestCase {
         
         // test where return is empty, n=1
         
-        var pp_empty = PartialParse(sentence: self.testSentenceWithPos)
+        let pp_empty = PartialParse(sentence: self.testSentenceWithPos)
         pp_empty.stack = [0, 1, 2, 3, 5]
         pp_empty.next = 6
         pp_empty.arcs = [(5, 4, "nummod")]
@@ -184,7 +171,7 @@ class DependencyParserTests: XCTestCase {
     }
     
     func testPartialParser_get_n_rightmost_deps() throws {
-        var pp_nonempty = PartialParse(sentence: self.testSentenceWithPos)
+        let pp_nonempty = PartialParse(sentence: self.testSentenceWithPos)
         pp_nonempty.stack = [0, 5, 9]
         pp_nonempty.next = 16
         pp_nonempty.arcs =  [(5, 4, "nummod"), (5, 3, "compound"), (5, 2, "det"), (5, 1, "case"), (9, 8, "det"), (9, 7, "punct"), (9, 6, "case"), (9, 10, "punct"), (12, 13, "case"), (15, 14, "compound"), (15, 12, "nmod:poss"), (15, 11, "case"), (9, 15, "nmod")]

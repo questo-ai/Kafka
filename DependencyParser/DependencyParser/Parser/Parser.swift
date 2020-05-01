@@ -6,11 +6,10 @@
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 
-import UIKit
 import NaturalLanguage
 import CoreML
 
-public class Parser: NSObject {
+public class Parser {
     var model = DependencyParser()
     var tagger: NLTagger!
     var transducer: Transducer!
@@ -27,7 +26,7 @@ public class Parser: NSObject {
         //
         self.tagger.enumerateTags(in: sentence.startIndex..<sentence.endIndex, unit: .word, scheme: .lexicalClass, options: options) { tag, tokenRange in
             if let tag = tag {
-                tags.append((sentence.substring(with: tokenRange), tag.UPOS!))
+                tags.append((String(sentence[tokenRange]), tag.UPOS!))
             }
             return true
         }
