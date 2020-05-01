@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PartialParse</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="partialparse">PartialParse</h1>
+<p>This is the internal documentation for the <code>PartialParse</code> class. Wherever details are omitted, please refer to the original code.</p>
+<h2 id="instance-variables">Instance Variables</h2>
+<h4 id="constants">Constants</h4>
+<p><strong><code>self.left_arc_id</code></strong><br>
+Type: <code>Int</code><br>
+<em>Value: <code>1</code></em><br>
+An identifier signifying a left arc transition. Used for internal parsing logic.</p>
+<p><strong><code>self.right_arc_id</code></strong><br>
+Type: <code>Int</code><br>
+<em>Value: <code>1</code></em><br>
+An identifier signifying a right arc transition. Used for internal parsing logic.</p>
+<p><strong><code>self.shift_id</code></strong><br>
+Type: <code>Int</code><br>
+<em>Value: <code>2</code></em><br>
+An identifier signifying a shift transition. Used for internal parsing logic.</p>
+<p><strong><code>self.root_tag</code></strong><br>
+Type: <code>String</code><br>
+<em>Value: <code>"TOP"</code></em><br>
+A POS-tag given exclusively to the root. Used for internal parsing logic.</p>
+<h4 id="mutable">Mutable</h4>
+<p><strong><code>self.stack</code></strong><br>
+Type: <code>[Int]</code><br>
+An array of indices referring to elements of sentence. Used for internal parsing logic.</p>
+<p><strong><code>self.next</code></strong><br>
+Type: <code>Int</code><br>
+The next index that can be shifted from the buffer to the stack. Used for internal parsing logic.</p>
+<p><strong><code>self.arcs</code></strong><br>
+Type: <code>[(Int, Int, String?)]</code><br>
+A list of triples <code>(idx_head, idx_dep, deprel)</code> signifying the dependency relation <code>idx_head -&gt;_deprel idx_dep</code>, where idx_head is the index of the head word, idx_dep is the index of the dependant, and deprel is a string representing the dependency relation label.</p>
+<p><strong><code>self.sentence</code></strong><br>
+Type: <code>[(String?, String)]</code><br>
+An array of tuples of ordered pairs of <code>(word, tag)</code>, where tag is the POS tag for the corresponding word in the sentence.</p>
+</div>
+</body>
+
+</html>

@@ -27,7 +27,7 @@ Holds instance of <code>Transducer</code> in <code>init()</code>.</p>
 Performs a prediction using the CoreML model and returns the raw <code>trans/deprel</code> pairs.</p>
 <p><strong>Returns</strong><br>
 Type: <code>[[Int, Int, String?]]</code><br>
-Returns array of arrays, each corresponding to the arcs for a given sentence. Each sub-array contains tuples with three elements — the first is the index of the head (relative to the sentence), the second is the index of the word (relative to the sentence) related to the head, and the third is the dependency itself.</p>
+Returns array of arrays, each corresponding to the arcs for a given sentence. Each sub-array contains tuples with three elements — the first is the index of the head (relative to the sentence), the second is the index of the dependent (relative to the sentence), and the third is the dependency itself.</p>
 <p><strong>Additional Notes</strong><br>
 Overloaded function.</p>
 <h2 id="predictsentences-string-string---int-int-string"><code>predict(sentences: [[(String, String)]]) -&gt; [[(Int, Int, String?)]]</code></h2>

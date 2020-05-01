@@ -12,6 +12,10 @@
   <div class="stackedit__html"><h1 id="internal-practices">Internal Practices</h1>
 <h2 id="documentation-updates">Documentation Updates</h2>
 <p>Documentation should be edited in the <a href="https://stackedit.io/">StackEdit</a>. A different markdown editor can be used, if desired. However, StackEdit must be used to export the markdown into a HTML file, because the way GitHub renders Markdown is ugly.</p>
+<p><strong>Values of Instance Variables</strong><br>
+Where an instance variable stores an object, mention it in the single-sentence description. Otherwise, include a line e.g. <em>Value: <code>1</code></em>.</p>
+<p><strong>Constant vs. Mutable</strong><br>
+Distinguish between the two wherever the distinction is relevant. For example, there are certain classes where constants are used for internal parsing logic; the distinction is important there. However,</p>
 <h2 id="development-practises">Development Practises</h2>
 <p><strong>Branches</strong><br>
 All development should take place on <code>dev</code> or other branches <em>specifically intended for development</em>. The <code>master</code> branch is <em>only for production releases</em>.</p>
