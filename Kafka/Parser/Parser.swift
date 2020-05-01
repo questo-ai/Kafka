@@ -14,7 +14,7 @@ public class Parser {
     var tagger: NLTagger!
     var transducer: Transducer!
     
-    init(wordList: [String?], tagList: [String], deprelList: [String]) {
+    init(wordList: [String], tagList: [String], deprelList: [String]) {
         self.tagger = NLTagger(tagSchemes: [.lexicalClass])
         self.transducer = Transducer(wordList: wordList, tagList: tagList, deprelList: deprelList)
     }
@@ -33,7 +33,6 @@ public class Parser {
         return tags
     }
     
-    
     func _predict(_ wordIDs: MLMultiArray, _ tagIDs: MLMultiArray, _ deprelIDs: MLMultiArray) -> (Int, String?) {
         do {
             let output = try model.prediction(Placeholder: wordIDs, Placeholder_1: tagIDs, Placeholder_2: deprelIDs)
@@ -43,7 +42,6 @@ public class Parser {
             return (-1, nil)
         }
     }
-    
     
     func predict(sentences: [[(String, String)]]) ->  [[(Int, Int, String?)]] {
         var arcs = [[(Int, Int, String?)]]()
