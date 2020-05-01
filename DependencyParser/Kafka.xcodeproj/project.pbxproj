@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02C1C78E2457DA5F00D742FC /* DependencyParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02C1C7842457DA5F00D742FC /* DependencyParser.framework */; };
-		02C1C7932457DA5F00D742FC /* DependencyParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7922457DA5F00D742FC /* DependencyParserTests.swift */; };
+		02C1C78E2457DA5F00D742FC /* Kafka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02C1C7842457DA5F00D742FC /* Kafka.framework */; };
+		02C1C7932457DA5F00D742FC /* KafkaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7922457DA5F00D742FC /* KafkaTests.swift */; };
 		02C1C7952457DA5F00D742FC /* DependencyParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 02C1C7872457DA5F00D742FC /* DependencyParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02C1C79F2457E17700D742FC /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C79E2457E17700D742FC /* Parser.swift */; };
 		02C1C7A12457E28700D742FC /* PartialParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A02457E28700D742FC /* PartialParse.swift */; };
@@ -30,11 +30,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		02C1C7842457DA5F00D742FC /* DependencyParser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DependencyParser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		02C1C7842457DA5F00D742FC /* Kafka.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Kafka.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		02C1C7872457DA5F00D742FC /* DependencyParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DependencyParser.h; sourceTree = "<group>"; };
 		02C1C7882457DA5F00D742FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		02C1C78D2457DA5F00D742FC /* DependencyParserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DependencyParserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		02C1C7922457DA5F00D742FC /* DependencyParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyParserTests.swift; sourceTree = "<group>"; };
+		02C1C78D2457DA5F00D742FC /* KafkaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KafkaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		02C1C7922457DA5F00D742FC /* KafkaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KafkaTests.swift; sourceTree = "<group>"; };
 		02C1C7942457DA5F00D742FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		02C1C79E2457E17700D742FC /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		02C1C7A02457E28700D742FC /* PartialParse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialParse.swift; sourceTree = "<group>"; };
@@ -57,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02C1C78E2457DA5F00D742FC /* DependencyParser.framework in Frameworks */,
+				02C1C78E2457DA5F00D742FC /* Kafka.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,8 +67,8 @@
 		02C1C77A2457DA5F00D742FC = {
 			isa = PBXGroup;
 			children = (
-				02C1C7862457DA5F00D742FC /* DependencyParser */,
-				02C1C7912457DA5F00D742FC /* DependencyParserTests */,
+				02C1C7862457DA5F00D742FC /* Kafka */,
+				02C1C7912457DA5F00D742FC /* KafkaTests */,
 				02C1C7852457DA5F00D742FC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -76,13 +76,13 @@
 		02C1C7852457DA5F00D742FC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				02C1C7842457DA5F00D742FC /* DependencyParser.framework */,
-				02C1C78D2457DA5F00D742FC /* DependencyParserTests.xctest */,
+				02C1C7842457DA5F00D742FC /* Kafka.framework */,
+				02C1C78D2457DA5F00D742FC /* KafkaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		02C1C7862457DA5F00D742FC /* DependencyParser */ = {
+		02C1C7862457DA5F00D742FC /* Kafka */ = {
 			isa = PBXGroup;
 			children = (
 				4692097E245863E4004798EE /* Parser */,
@@ -90,18 +90,18 @@
 				02C1C7A22457E36C00D742FC /* DependencyParser.mlmodel */,
 				02C1C7882457DA5F00D742FC /* Info.plist */,
 			);
-			path = DependencyParser;
+			path = Kafka;
 			sourceTree = "<group>";
 		};
-		02C1C7912457DA5F00D742FC /* DependencyParserTests */ = {
+		02C1C7912457DA5F00D742FC /* KafkaTests */ = {
 			isa = PBXGroup;
 			children = (
-				02C1C7922457DA5F00D742FC /* DependencyParserTests.swift */,
+				02C1C7922457DA5F00D742FC /* KafkaTests.swift */,
 				3F1E69CF245986780047D364 /* TransducerTests.swift */,
 				02C1C7A62459DC2D00D742FC /* TransducerData.swift */,
 				02C1C7942457DA5F00D742FC /* Info.plist */,
 			);
-			path = DependencyParserTests;
+			path = KafkaTests;
 			sourceTree = "<group>";
 		};
 		4692097E245863E4004798EE /* Parser */ = {
@@ -129,9 +129,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		02C1C7832457DA5F00D742FC /* DependencyParser */ = {
+		02C1C7832457DA5F00D742FC /* Kafka */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 02C1C7982457DA5F00D742FC /* Build configuration list for PBXNativeTarget "DependencyParser" */;
+			buildConfigurationList = 02C1C7982457DA5F00D742FC /* Build configuration list for PBXNativeTarget "Kafka" */;
 			buildPhases = (
 				02C1C77F2457DA5F00D742FC /* Headers */,
 				02C1C7802457DA5F00D742FC /* Sources */,
@@ -142,14 +142,14 @@
 			);
 			dependencies = (
 			);
-			name = DependencyParser;
+			name = Kafka;
 			productName = DependencyParser;
-			productReference = 02C1C7842457DA5F00D742FC /* DependencyParser.framework */;
+			productReference = 02C1C7842457DA5F00D742FC /* Kafka.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		02C1C78C2457DA5F00D742FC /* DependencyParserTests */ = {
+		02C1C78C2457DA5F00D742FC /* KafkaTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 02C1C79B2457DA5F00D742FC /* Build configuration list for PBXNativeTarget "DependencyParserTests" */;
+			buildConfigurationList = 02C1C79B2457DA5F00D742FC /* Build configuration list for PBXNativeTarget "KafkaTests" */;
 			buildPhases = (
 				02C1C7892457DA5F00D742FC /* Sources */,
 				02C1C78A2457DA5F00D742FC /* Frameworks */,
@@ -160,9 +160,9 @@
 			dependencies = (
 				02C1C7902457DA5F00D742FC /* PBXTargetDependency */,
 			);
-			name = DependencyParserTests;
+			name = KafkaTests;
 			productName = DependencyParserTests;
-			productReference = 02C1C78D2457DA5F00D742FC /* DependencyParserTests.xctest */;
+			productReference = 02C1C78D2457DA5F00D742FC /* KafkaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -184,7 +184,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 02C1C77E2457DA5F00D742FC /* Build configuration list for PBXProject "DependencyParser" */;
+			buildConfigurationList = 02C1C77E2457DA5F00D742FC /* Build configuration list for PBXProject "Kafka" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -197,8 +197,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				02C1C7832457DA5F00D742FC /* DependencyParser */,
-				02C1C78C2457DA5F00D742FC /* DependencyParserTests */,
+				02C1C7832457DA5F00D742FC /* Kafka */,
+				02C1C78C2457DA5F00D742FC /* KafkaTests */,
 			);
 		};
 /* End PBXProject section */
@@ -239,7 +239,7 @@
 			files = (
 				02C1C7A72459DC2D00D742FC /* TransducerData.swift in Sources */,
 				3F1E69D0245986780047D364 /* TransducerTests.swift in Sources */,
-				02C1C7932457DA5F00D742FC /* DependencyParserTests.swift in Sources */,
+				02C1C7932457DA5F00D742FC /* KafkaTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,7 +248,7 @@
 /* Begin PBXTargetDependency section */
 		02C1C7902457DA5F00D742FC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 02C1C7832457DA5F00D742FC /* DependencyParser */;
+			target = 02C1C7832457DA5F00D742FC /* Kafka */;
 			targetProxy = 02C1C78F2457DA5F00D742FC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -466,7 +466,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		02C1C77E2457DA5F00D742FC /* Build configuration list for PBXProject "DependencyParser" */ = {
+		02C1C77E2457DA5F00D742FC /* Build configuration list for PBXProject "Kafka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				02C1C7962457DA5F00D742FC /* Debug */,
@@ -475,7 +475,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		02C1C7982457DA5F00D742FC /* Build configuration list for PBXNativeTarget "DependencyParser" */ = {
+		02C1C7982457DA5F00D742FC /* Build configuration list for PBXNativeTarget "Kafka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				02C1C7992457DA5F00D742FC /* Debug */,
@@ -484,7 +484,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		02C1C79B2457DA5F00D742FC /* Build configuration list for PBXNativeTarget "DependencyParserTests" */ = {
+		02C1C79B2457DA5F00D742FC /* Build configuration list for PBXNativeTarget "KafkaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				02C1C79C2457DA5F00D742FC /* Debug */,

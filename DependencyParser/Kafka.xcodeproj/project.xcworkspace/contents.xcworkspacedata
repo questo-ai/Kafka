@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:DependencyParser.xcodeproj">
+      location = "self:/Users/taichikato/Developer/spacy-ios/DependencyParser/Kafka.xcodeproj">
    </FileRef>
 </Workspace>

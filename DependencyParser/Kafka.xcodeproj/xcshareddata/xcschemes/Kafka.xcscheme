@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "02C1C7832457DA5F00D742FC"
-               BuildableName = "DependencyParser.framework"
-               BlueprintName = "DependencyParser"
-               ReferencedContainer = "container:DependencyParser.xcodeproj">
+               BuildableName = "Kafka.framework"
+               BlueprintName = "Kafka"
+               ReferencedContainer = "container:Kafka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "02C1C78C2457DA5F00D742FC"
-               BuildableName = "DependencyParserTests.xctest"
-               BlueprintName = "DependencyParserTests"
-               ReferencedContainer = "container:DependencyParser.xcodeproj">
+               BuildableName = "KafkaTests.xctest"
+               BlueprintName = "KafkaTests"
+               ReferencedContainer = "container:Kafka.xcodeproj">
             </BuildableReference>
             <SkippedTests>
                <Test
@@ -66,9 +66,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "02C1C7832457DA5F00D742FC"
-            BuildableName = "DependencyParser.framework"
-            BlueprintName = "DependencyParser"
-            ReferencedContainer = "container:DependencyParser.xcodeproj">
+            BuildableName = "Kafka.framework"
+            BlueprintName = "Kafka"
+            ReferencedContainer = "container:Kafka.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
