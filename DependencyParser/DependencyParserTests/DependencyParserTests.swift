@@ -77,9 +77,9 @@ class DependencyParserTests: XCTestCase {
     
     func testPartialParser_parse_step() throws {
         // definitely can (isolated)
+        var pp: PartialParse!
         
-        var pp = PartialParse(sentence: self.testSentenceWithPos)
-    
+        pp = PartialParse(sentence: self.testSentenceWithPos)
         pp.stack = [0]
         pp.next = 1
         pp.arcs = []
@@ -90,7 +90,51 @@ class DependencyParserTests: XCTestCase {
         XCTAssert(pp.next == 2)
         XCTAssert(pp.arcs.isEmpty)
         
-        // add check where deprel isn't nil
+        
+        // test: transition_id == self.left_arc_id and deprel and len(self.stack) >= 2
+        
+        pp = PartialParse(sentence: self.testSentenceWithPos)
+        pp.stack = [0, 1, 2, 3, 4, 5]
+        pp.next = 6
+        pp.arcs = []
+        
+        pp.parse_step(transition_id: 0, deprel: "nummod")
+    
+        XCTAssert(pp.stack == [0,1,2,3,5])
+        XCTAssert(pp.next == 6)
+        XCTAssert(pp.arcs[0] == (5, 4, "nummod"))
+        
+        
+        // test: transition_id == self.right_arc_id and deprel and len(self.stack) >= 2
+        
+        pp = PartialParse(sentence: self.testSentenceWithPos)
+        pp.stack = [0, 5, 9, 10]
+        pp.next = 11
+        pp.arcs = [(5, 4, "nummod"), (5, 3, "compound"), (5, 2, "det"), (5, 1, "case"), (9, 8, "det"), (9, 7, "punct"), (9, 6, "case")]
+        
+        pp.parse_step(transition_id: 1, deprel: "punct")
+        
+        XCTAssert(pp.stack ==  [0, 5, 9])
+        XCTAssert(pp.next == 11)
+        for arc_count in 0..<(pp.arcs.count) {
+            XCTAssert(pp.arcs[arc_count] == [(5, 4, "nummod"), (5, 3, "compound"), (5, 2, "det"), (5, 1, "case"), (9, 8, "det"), (9, 7, "punct"), (9, 6, "case"), (9, 10, "punct")][arc_count])
+        }
+        
+        
+        // test: transition_id == self.shift_id and self.next < len(self.sentence)
+
+        pp = PartialParse(sentence: self.testSentenceWithPos)
+        pp.stack = [0, 5, 9]
+        pp.next = 11
+        pp.arcs = [(5, 4, "nummod"), (5, 3, "compound"), (5, 2, "det"), (5, 1, "case"), (9, 8, "det"), (9, 7, "punct"), (9, 6, "case"), (9, 10, "punct")]
+        
+        pp.parse_step(transition_id: 2, deprel: nil)
+        
+        XCTAssert(pp.stack ==  [0, 5, 9, 11])
+        XCTAssert(pp.next == 12)
+        for arc_count in 0..<(pp.arcs.count) {
+            XCTAssert(pp.arcs[arc_count] == [(5, 4, "nummod"), (5, 3, "compound"), (5, 2, "det"), (5, 1, "case"), (9, 8, "det"), (9, 7, "punct"), (9, 6, "case"), (9, 10, "punct")][arc_count])
+        }
         
         
     }
