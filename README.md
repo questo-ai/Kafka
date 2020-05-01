@@ -7,7 +7,13 @@
     <a href="#">
         <img alt="License" src="https://github.com/questo-ai/kafka/workflows/CI/badge.svg">
     </a>
-    <a href="https://github.com/allenai/allennlp/blob/master/LICENSE">
+    <a href=#"">
+        <img alt="License" src="https://img.shields.io/badge/platform-iOS-violet.svg">
+    </a>
+    <a href="#">
+        <img alt="License" src="https://img.shields.io/badge/language-swift-orange.svg">
+    </a>
+    <a href="https://github.com/questo-ai/kafka/blob/master/LICENSE">
         <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg">
     </a>
 </p>
