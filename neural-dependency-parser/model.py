@@ -405,10 +405,21 @@ class ParserModel(Model):
         predictions = self.sess.run(self.pred, feed_dict=feed)
         return predictions
 
-    def predict(self, partial_parses):
+    def predict(self, partial_parses, print_feats=False, print_td_vecs=False):
         '''Use this model to predict the next transitions/deprels of pps'''
         feats = self.transducer.pps2feats(partial_parses)
+
+        if print_feats:
+            print('feats')
+            feats_copy = feats
+            print(list(feats_copy))
+
         td_vecs = self.predict_on_batch(feats)
+
+        if print_td_vecs:
+            print('td_vecs')
+            print(td_vecs)
+
         preds = [
             self.transducer.td_vec2trans_deprel(td_vec) for td_vec in td_vecs]
         return preds

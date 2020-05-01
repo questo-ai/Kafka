@@ -113,6 +113,24 @@ class PartialParse(object):
                 with the leftmost @ 0, immediately right of leftmost @
                 1, etc.
         '''
+        // n==nil
+                // deps.count < n
+                // deps.isEmpty
+                // ??? final one??
+
+
+        print("="*10)
+        print("DUMPING PARTIALPARSE BEFORE STEP")
+        print(self.sentence)
+        print(self.stack)
+        print(self.next)
+        print(self.arcs)
+
+        if n=None:
+            print("n==nil")
+            print("sentence_idx" + sentence_idx)
+            print("deps[:n]: " + deps[:n])
+
         deps = [dep[1] for dep in self.arcs if dep[0] == sentence_idx]
         deps.sort()
         return deps[:n]

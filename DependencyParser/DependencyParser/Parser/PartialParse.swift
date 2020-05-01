@@ -25,7 +25,6 @@ class PartialParse: NSObject {
     public var arcs: [(Int, Int, String?)]
     public var sentence: [(String?, String)]
     
-    
     init(sentence: [(String, String)]) {
         self.sentence = sentence
         self.sentence.insert((nil, self.root_tag), at: 0)
@@ -44,7 +43,6 @@ class PartialParse: NSObject {
         }
     }
     
-    
     func parse_step(transition_id: Int, deprel: String?) {
         if (self.complete) {
             fatalError("ValueError")
@@ -62,7 +60,6 @@ class PartialParse: NSObject {
         }
     }
     
-    
     func get_n_leftmost_deps(sentence_idx: Int, n: Int?) -> [Int] {
         var deps: [Int] = []
         for dep in self.arcs {
@@ -73,17 +70,12 @@ class PartialParse: NSObject {
         deps.sort()
         if (n == nil) {
             return deps
-        } else if (deps.count < n!) {
+        } else if (deps.count < n!) || deps.isEmpty {
             return deps
         } else {
-            if deps.isEmpty {
-                return deps
-            } else {
-                return Array(deps[0...(n!-1)])
-            }
+            return Array(deps[0...(n!-1)])
         }
     }
-    
     
     func get_n_rightmost_deps(sentence_idx: Int, n: Int?) -> [Int] {
         var deps: [Int] = []
@@ -111,7 +103,6 @@ class PartialParse: NSObject {
         for (v1, v2) in a {if v1 == c1 && v2 == c2 { return true } }
         return false
     }
-    
     
     func get_oracle(graph: DependencyGraph) -> (Int, String) {
         if (self.complete) {
@@ -168,7 +159,6 @@ class PartialParse: NSObject {
             
         return (transition_id, deprel!)
     }
-    
     
     func parse(td_pairs: [(Int, String)]) -> [(Int, Int, String?)] {
         for (transition_id, deprel) in td_pairs {

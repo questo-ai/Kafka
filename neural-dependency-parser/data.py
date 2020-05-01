@@ -362,14 +362,21 @@ class Transducer(object):
         '''
         max_idx = np.argmax(td_vec)
         if not has_deprel:
+            # print("((shift_id, left_arc_id, right_arc_id)[max_idx], None)")
+            # print(((shift_id, left_arc_id, right_arc_id)[max_idx], None))
             return ((shift_id, left_arc_id, right_arc_id)[max_idx], None)
         elif not max_idx:
+            # print("(shift_id, None)")
+            # print((shift_id, None))
             return (shift_id, None)
         elif max_idx <= len(self.id2deprel):
+            # print("(left_arc_id, self.id2deprel[max_idx - 1])")
+            # print((left_arc_id, self.id2deprel[max_idx - 1]))
             return (left_arc_id, self.id2deprel[max_idx - 1])
         else:
-            return (
-                right_arc_id, self.id2deprel[max_idx - len(self.id2deprel) - 1])
+            # print("(right_arc_id, self.id2deprel[max_idx - len(self.id2deprel) - 1])")
+            # print((right_arc_id, self.id2deprel[max_idx - len(self.id2deprel) - 1]))
+            return (right_arc_id, self.id2deprel[max_idx - len(self.id2deprel) - 1])
 
 class TrainingIterable(object):
     '''Produces iterators over training data
@@ -520,6 +527,100 @@ def score_arcs(actuals, expecteds, las=True):
             accum += int(ex.get(ac_d) is not None and ex.get(ac_d)[0] == ac_h)
     return ((accumL / max(tokens, 1)) if las else None, accum / max(tokens, 1))
 
+
+def cop_transducer_shit(
+        data_set=mystery, word_embedding_path='word2vec.pkl.gz', las=True,
+        max_batch_size=2048, transition_cache=None, seed=1234):
+    print('Loading word embeddings...', end='')
+    stdout.flush()
+    if word_embedding_path.endswith('.gz'):
+        with gz_open(word_embedding_path, 'rb') as file_obj:
+            word_list, word_embeddings = load(file_obj)
+    else:
+        with open(word_embedding_path, 'rb') as file_obj:
+            word_list, word_embeddings = load(file_obj)
+    # add null embedding (we'll initialize later)
+    word_embeddings = np.append(
+        word_embeddings,
+        np.empty((1, word_embeddings.shape[1]), dtype=np.float32),
+        axis=0
+    )
+    print('there are {} word embeddings.'.format(word_embeddings.shape[0]))
+    print('Determining POS tags...', end='')
+    stdout.flush()
+    tag_set = set()
+    for sentence in data_set.tagged_sents('train.conll'):
+        for _, tag in sentence:
+            tag_set.add(tag)
+    tag_list = sorted(tag_set)
+    print('there are {} tags.'.format(len(tag_list)))
+    training_graphs = data_set.parsed_sents('train.conll')
+    if las:
+        print('Determining deprel labels...', end='')
+        stdout.flush()
+        deprel_set = set()
+        for graph in training_graphs:
+            for node in graph.nodes.values():
+                if node['address']: # not root
+                    deprel_set.add(node['rel'])
+        deprel_list = sorted(deprel_set)
+        print('there are {} deprel labels.'.format(len(deprel_list)))
+    else:
+        deprel_list = []
+    return word_list, tag_list, deprel_list
+
+
+def load_dev_set(
+        data_set=mystery, word_embedding_path='word2vec.pkl.gz', las=True,
+        max_batch_size=2048, transition_cache=None, seed=1234):
+    print('Loading word embeddings...', end='')
+    stdout.flush()
+    if word_embedding_path.endswith('.gz'):
+        with gz_open(word_embedding_path, 'rb') as file_obj:
+            word_list, word_embeddings = load(file_obj)
+    else:
+        with open(word_embedding_path, 'rb') as file_obj:
+            word_list, word_embeddings = load(file_obj)
+    # add null embedding (we'll initialize later)
+    word_embeddings = np.append(
+        word_embeddings,
+        np.empty((1, word_embeddings.shape[1]), dtype=np.float32),
+        axis=0
+    )
+    # print('there are {} word embeddings.'.format(word_embeddings.shape[0]))
+    print('Determining POS tags...', end='')
+    stdout.flush()
+    tag_set = set()
+    for sentence in data_set.tagged_sents('train.conll'):
+        for _, tag in sentence:
+            tag_set.add(tag)
+    tag_list = sorted(tag_set)
+    print('there are {} tags.'.format(len(tag_list)))
+    training_graphs = data_set.parsed_sents('train.conll')
+    if las:
+        print('Determining deprel labels...', end='')
+        stdout.flush()
+        deprel_set = set()
+        for graph in training_graphs:
+            for node in graph.nodes.values():
+                if node['address']: # not root
+                    deprel_set.add(node['rel'])
+        deprel_list = sorted(deprel_set)
+        print('there are {} deprel labels.'.format(len(deprel_list)))
+    else:
+        deprel_list = []
+    transducer = Transducer(word_list, tag_list, deprel_list)
+    print('Getting dev data...', end='')
+    stdout.flush()
+    dev_sentences = data_set.tagged_sents('dev.conll')
+    dev_arcs = tuple(
+        list(transducer.graph2arc(graph, include_deprel=las))
+        for graph in data_set.parsed_sents('dev.conll')
+    )
+    print('there are {} samples.'.format(len(dev_arcs)))
+
+    return dev_sentences, dev_arcs
+
 def load_and_preprocess_data(
         data_set=mystery, word_embedding_path='word2vec.pkl.gz', las=True,
         max_batch_size=2048, transition_cache=None, seed=1234):
@@ -542,7 +643,6 @@ def load_and_preprocess_data(
     if word_embedding_path.endswith('.gz'):
         with gz_open(word_embedding_path, 'rb') as file_obj:
             word_list, word_embeddings = load(file_obj)
-        print(word_list)
     else:
         with open(word_embedding_path, 'rb') as file_obj:
             word_list, word_embeddings = load(file_obj)
@@ -560,7 +660,6 @@ def load_and_preprocess_data(
         for _, tag in sentence:
             tag_set.add(tag)
     tag_list = sorted(tag_set)
-    print(tag_list)
     print('there are {} tags.'.format(len(tag_list)))
     training_graphs = data_set.parsed_sents('train.conll')
     if las:
@@ -572,7 +671,6 @@ def load_and_preprocess_data(
                 if node['address']: # not root
                     deprel_set.add(node['rel'])
         deprel_list = sorted(deprel_set)
-        print(deprel_list)
         print('there are {} deprel labels.'.format(len(deprel_list)))
     else:
         deprel_list = []
