@@ -1,16 +1,10 @@
 <div align="center">
     <br>
     <img src="https://github.com/questo-ai/kafka/raw/master/docs/Header.jpg" width="600"/>
-    <p>
-    An NLP development library, built on CoreML in Swift, for using state-of-the-art lingusitic models at ease.
-    </p>
     <hr/>
 </div>
 <p align="center">
 </p>
-<br/>
-
-# Kafka NLP
 
 Kafka is an advanced Natural Language Processing library written in Swift. It's built for speed, simplicity, and easy integration into apps. Kafka currently provides linear **neural network models** for tagging and parsing, with pretrained models and word vectors. It's commercial open-source software, released under the MIT license.
 
