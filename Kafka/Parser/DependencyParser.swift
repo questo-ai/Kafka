@@ -11,13 +11,7 @@ import CoreML
 
 open class DependencyParser {
     private var model = DependencyParserModel()
-    private var transducer: Transducer!
-    
-    init() {
-        self.transducer = Transducer(wordList: Data.wordList, tagList: Data.tagList, deprelList: Data.deprelList)
-    }
-
-    
+    private var transducer = Transducer(wordList: Data.wordList, tagList: Data.tagList, deprelList: Data.deprelList)
     
     internal func predict(_ wordIDs: MLMultiArray, _ tagIDs: MLMultiArray, _ deprelIDs: MLMultiArray) -> (Int, String?) {
         do {
@@ -28,7 +22,6 @@ open class DependencyParser {
             return (-1, nil)
         }
     }
-    
     
     internal func predict(sentences: [[(String, String)]]) ->  [[(Int, Int, String?)]] {
         var arcs = [[(Int, Int, String?)]]()
@@ -48,6 +41,7 @@ open class DependencyParser {
         }
         return arcs
     }
+    
     public func predict(text: Doc) -> Doc{
         let arcs = self.predict(sentences: text.taggedSentences())
         text.arcs = arcs
