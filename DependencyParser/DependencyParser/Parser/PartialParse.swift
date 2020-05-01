@@ -65,11 +65,6 @@ class PartialParse: NSObject {
     
     func get_n_leftmost_deps(sentence_idx: Int, n: Int?) -> [Int] {
         var deps: [Int] = []
-        
-//        deps = [dep[1] for dep in self.arcs if dep[0] == sentence_idx]
-//        deps.sort()
-//        return deps[:n]
-        
         for dep in self.arcs {
             if (dep.0 == sentence_idx) {
                 deps.append(dep.1)
@@ -78,11 +73,13 @@ class PartialParse: NSObject {
         deps.sort()
         if (n == nil) {
             return deps
+        } else if (deps.count < n!) {
+            return deps
         } else {
             if deps.isEmpty {
                 return deps
             } else {
-                return Array(deps[0...(n!-2)])
+                return Array(deps[0...(n!-1)])
             }
         }
     }
@@ -98,11 +95,13 @@ class PartialParse: NSObject {
         deps.sort(by: >)
         if (n == nil) {
             return deps
+        } else if (deps.count < n!) {
+            return deps
         } else {
             if deps.isEmpty {
                 return deps
             } else {
-                return Array(deps[0...(n!-2)])
+                return Array(deps[0...(n!-1)])
             }
         }
     }

@@ -49,7 +49,9 @@ class DependencyParserTests: XCTestCase {
     }
     
     func testPredictOnSentences() throws {
-        print(parser.predictOnSentences(sentences: ["Arya is a good boy."]))
+        let sentences = ["Goh Chok Tong was passed the reins of leadership by Lee Kuan Yew in 1990."]
+        print(parser.predictOnSentences(sentences: sentences))
+//        parser.predictOnSentences(sentences: sentences)
     }
     
     func testPartialParse_complete() throws {
