@@ -9,7 +9,6 @@
 import Foundation
 import Accelerate
 import CoreML
-
 ///
 /// From M.I. Hollemans
 ///

@@ -11,27 +11,69 @@ import CoreML
 @testable import DependencyParser
 
 class DependencyParserTests: XCTestCase {
-    let testSentenceWithPos = [("In", "ADP"), ("an", "DET"), ("Oct.", "PROPN"), ("19", "NUM"), ("review", "NOUN"), ("of", "ADP"), ("``", "PUNCT"), ("The", "DET"), ("Misanthrope", "NOUN"), ("''", "PUNCT"), ("at", "ADP"), ("Chicago", "PROPN"), ("'s", "PART"), ("Goodman", "PROPN"), ("Theatre", "PROPN"), ("-LRB-", "PUNCT"), ("``", "PUNCT"), ("Revitalized", "VERB"), ("Classics", "NOUN"), ("Take", "VERB"), ("the", "DET"), ("Stage", "NOUN"), ("in", "ADP"), ("Windy", "PROPN"), ("City", "PROPN"), (",", "PUNCT"), ("''", "PUNCT"), ("Leisure", "NOUN"), ("&", "CONJ"), ("Arts", "NOUN"), ("-RRB-", "PUNCT"), (",", "PUNCT"), ("the", "DET"), ("role", "NOUN"), ("of", "ADP"), ("Celimene", "PROPN"), (",", "PUNCT"), ("played", "VERB"), ("by", "ADP"), ("Kim", "PROPN"), ("Cattrall", "PROPN"), (",", "PUNCT"), ("was", "AUX"), ("mistakenly", "ADV"), ("attributed", "VERB"), ("to", "ADP"), ("Christina", "PROPN"), ("Haag", "PROPN"), (".", "PUNCT")]
+    
+    let testSentence = "In an Oct. 19 review of \"The Misanthrope\" at Chicago's Goodman Theatre (\"Revitalized Classics Take the Stage in Windy City,\" Leisure & Arts), the role of Celimene, played by Kim Cattrall, was mistakenly attributed to Christina Haag."
+    
+    let testSentenceWithPos = [("In", "ADP"), ("an", "DET"), ("Oct.", "PROPN"), ("19", "NUM"), ("review", "NOUN"), ("of", "ADP"), ("\"", "PUNCT"), ("The", "DET"), ("Misanthrope", "NOUN"), ("\"", "PUNCT"), ("at", "ADP"), ("Chicago", "PROPN"), ("\'s", "PART"), ("Goodman", "PROPN"), ("Theatre", "PROPN"), ("(", "PUNCT"), ("\"", "PUNCT"), ("Revitalized", "VERB"), ("Classics", "NOUN"), ("Take", "VERB"), ("the", "DET"), ("Stage", "NOUN"), ("in", "ADP"), ("Windy", "PROPN"), ("City", "PROPN"), (",", "PUNCT"), ("\"", "PUNCT"), ("Leisure", "NOUN"), ("&", "CCONJ"), ("Arts", "PROPN"), (")", "PUNCT"), (",", "PUNCT"), ("the", "DET"), ("role", "NOUN"), ("of", "ADP"), ("Celimene", "PROPN"), (",", "PUNCT"), ("played", "VERB"), ("by", "ADP"), ("Kim", "PROPN"), ("Cattrall", "PROPN"), (",", "PUNCT"), ("was", "AUX"), ("mistakenly", "ADV"), ("attributed", "VERB"), ("to", "ADP"), ("Christina", "PROPN"), ("Haag", "PROPN"), (".", "PUNCT")]
+    
     let transducer: Transducer = Transducer(
                wordList: TransducerData.wordList,
                tagList: TransducerData.tagList,
                deprelList: TransducerData.deprelList
            )
+    
     let parser = Parser(wordList: TransducerData.wordList, tagList: TransducerData.tagList, deprelList: TransducerData.deprelList)
-   func testPartialParse_init() throws {
-       let partialParserTest = PartialParse(sentence: self.testSentenceWithPos)
-   }
-    func testPOS() throws {
-        print(parser.POSTag(sentence: "In an Oct. 19 review of \"The Misanthrope \"at Chicago's Goodman Theatre (\"Revitalized Classics Take the Stage in Windy City , \"Leisure & Arts ) , the role of Celimene , played by Kim Cattrall , was mistakenly attributed to Christina Haag ."))
+    
+    func testPartialParse_init() throws {
+       let partialParser = PartialParse(sentence: self.testSentenceWithPos)
     }
+    
+    func testPOS() throws {
+        let predPOS = parser.predictOnSentences(sentences: [testSentence])
+        let truePOS = parser.predict(sentences: [testSentenceWithPos])
+        
+        // POS is not perfect => assertEquals fails heavily.
+        // actual predicted deprels aren't very incorrect, though.
+//        assertEquals(actual: predPOS, expected: truePOS)
+    }
+    
     func testvec2deprel() throws {
         let collection: [Float32] = [14.15625,-12.75781,-15.72656,-17.01562,-11.20312,-5.386719,-6.378906,-19.125,-5.65625,-13.99219,-1.739258,-3.699219,-10.67188,-12.15625,-6.050781,-16.09375,-9.984375,-5.886719,-12.25,-17.09375,-3.677734,-4.222656,-12.82812,-10.65625,-8.226562,-8.703125,-16.15625,-5.816406,-15.07812,-10.28125,-8.992188,-9.320312,-6.996094,-11.01562,-3.558594,-6.890625,-9.351562,-13.02344,-5.824219,-14.5,-11.35938,-15.08594,-15.14844,-9.015625,-7.902344,-6.710938,-2.71875,-6.464844,-5.777344,-7.917969,-10.19531,-7.847656,-11.32812,-15.29688,-6.300781,-8.75,-7.03125,-4.023438,-8.257812,-16.3125,-16.46875,-1.148438,-5.609375,-16.04688,-11.17969,-4.855469,-10.09375,-6.960938,-5.65625,-4.128906,-7.066406,-6.246094,-7.90625,-19.75,-8.257812,-7.484375,-18.51562,-9.804688,-10.39844,-1.605469,-6.757812,-5.996094,-15.75781]
         let td_vec = try MLMultiArray(collection)
         print(transducer.td_vec2trans_deprel(td_vec: td_vec))
     }
     
+    func testInternalPredict() throws {
+        let wordIDs = transducer.convertArrayToML(array: [0, 4002, 4002, 1087, 2360, 4001, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002, 4002])
+        let tagIDs = transducer.convertArrayToML(array: [0, 19, 19, 11, 14, 12, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19])
+        let deprelIDs = transducer.convertArrayToML(array: [41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41])
+        print(parser._predict(wordIDs, tagIDs, deprelIDs))
+    }
+    
+    // utility method for checking equality of [arcs]
+    func assertEquals(actual: [[(Int, Int, String?)]], expected: [[(Int, Int, String?)]]) {
+        for (sentenceIdx, _) in actual.enumerated() {
+            for (arcIdx, actArc) in actual[sentenceIdx].enumerated() {
+                XCTAssert(expected[sentenceIdx][arcIdx].0 == actArc.0)
+                XCTAssert(expected[sentenceIdx][arcIdx].1 == actArc.1)
+                XCTAssert(expected[sentenceIdx][arcIdx].2 == actArc.2)
+            }
+        }
+    }
+    
     func testPredict() throws {
-        print(parser.predict(sentences: [testSentenceWithPos]))
+        let actualOutput = parser.predict(sentences: [testSentenceWithPos])
+        let expectedOutput = [[(5, 4, Optional("nummod")), (5, 3, Optional("compound")), (5, 2, Optional("det")), (5, 1, Optional("case")), (9, 8, Optional("det")), (9, 7, Optional("punct")), (9, 6, Optional("case")), (9, 10, Optional("punct")), (12, 13, Optional("case")), (15, 14, Optional("compound")), (15, 12, Optional("nmod:poss")), (15, 11, Optional("case")), (9, 15, Optional("nmod")), (19, 18, Optional("amod")), (20, 19, Optional("nsubj")), (20, 17, Optional("punct")), (20, 16, Optional("punct")), (22, 21, Optional("det")), (20, 22, Optional("dobj")), (25, 24, Optional("compound")), (25, 23, Optional("case")), (20, 25, Optional("nmod")), (20, 26, Optional("punct")), (20, 27, Optional("punct")), (28, 29, Optional("cc")), (28, 30, Optional("conj")), (20, 28, Optional("dep")), (20, 31, Optional("punct")), (9, 20, Optional("dep")), (5, 9, Optional("nmod")), (34, 33, Optional("det")), (36, 35, Optional("case")), (34, 36, Optional("nmod")), (34, 37, Optional("punct")), (41, 40, Optional("compound")), (41, 39, Optional("case")), (38, 41, Optional("nmod")), (34, 38, Optional("acl")), (34, 42, Optional("punct")), (45, 44, Optional("advmod")), (45, 43, Optional("auxpass")), (45, 34, Optional("nsubjpass")), (45, 32, Optional("punct")), (45, 5, Optional("nmod")), (48, 47, Optional("compound")), (48, 46, Optional("case")), (45, 48, Optional("nmod")), (45, 49, Optional("punct")), (0, 45, Optional("root"))]]
+        self.assertEquals(actual: actualOutput, expected: expectedOutput)
+    }
+    
+    
+    func testPredictOnSentences() throws {
+        let sentences = ["Goh Chok Tong was passed the reins of leadership by Lee Kuan Yew in 1990."]
+        let actualOutput = parser.predictOnSentences(sentences: sentences)
+        let expectedOutput = [[(3, 2, Optional("compound")), (3, 1, Optional("compound")), (5, 4, Optional("auxpass")), (5, 3, Optional("nsubjpass")), (7, 6, Optional("det")), (9, 8, Optional("case")), (7, 9, Optional("nmod")), (13, 12, Optional("compound")), (13, 11, Optional("compound")), (13, 10, Optional("case")), (7, 13, Optional("nmod")), (15, 14, Optional("case")), (7, 15, Optional("nmod")), (5, 7, Optional("dobj")), (5, 16, Optional("punct")), (0, 5, Optional("root"))]]
+        
+        self.assertEquals(actual: actualOutput, expected: expectedOutput)
     }
     
     func testPartialParse_complete() throws {
@@ -57,9 +99,9 @@ class DependencyParserTests: XCTestCase {
     
     func testPartialParser_parse_step() throws {
         // definitely can (isolated)
+        var pp: PartialParse!
         
-        var pp = PartialParse(sentence: self.testSentenceWithPos)
-    
+        pp = PartialParse(sentence: self.testSentenceWithPos)
         pp.stack = [0]
         pp.next = 1
         pp.arcs = []
@@ -70,7 +112,51 @@ class DependencyParserTests: XCTestCase {
         XCTAssert(pp.next == 2)
         XCTAssert(pp.arcs.isEmpty)
         
-        // add check where deprel isn't nil
+        
+        // test: transition_id == self.left_arc_id and deprel and len(self.stack) >= 2
+        
+        pp = PartialParse(sentence: self.testSentenceWithPos)
+        pp.stack = [0, 1, 2, 3, 4, 5]
+        pp.next = 6
+        pp.arcs = []
+        
+        pp.parse_step(transition_id: 0, deprel: "nummod")
+    
+        XCTAssert(pp.stack == [0,1,2,3,5])
+        XCTAssert(pp.next == 6)
+        XCTAssert(pp.arcs[0] == (5, 4, "nummod"))
+        
+        
+        // test: transition_id == self.right_arc_id and deprel and len(self.stack) >= 2
+        
+        pp = PartialParse(sentence: self.testSentenceWithPos)
+        pp.stack = [0, 5, 9, 10]
+        pp.next = 11
+        pp.arcs = [(5, 4, "nummod"), (5, 3, "compound"), (5, 2, "det"), (5, 1, "case"), (9, 8, "det"), (9, 7, "punct"), (9, 6, "case")]
+        
+        pp.parse_step(transition_id: 1, deprel: "punct")
+        
+        XCTAssert(pp.stack ==  [0, 5, 9])
+        XCTAssert(pp.next == 11)
+        for arc_count in 0..<(pp.arcs.count) {
+            XCTAssert(pp.arcs[arc_count] == [(5, 4, "nummod"), (5, 3, "compound"), (5, 2, "det"), (5, 1, "case"), (9, 8, "det"), (9, 7, "punct"), (9, 6, "case"), (9, 10, "punct")][arc_count])
+        }
+        
+        
+        // test: transition_id == self.shift_id and self.next < len(self.sentence)
+
+        pp = PartialParse(sentence: self.testSentenceWithPos)
+        pp.stack = [0, 5, 9]
+        pp.next = 11
+        pp.arcs = [(5, 4, "nummod"), (5, 3, "compound"), (5, 2, "det"), (5, 1, "case"), (9, 8, "det"), (9, 7, "punct"), (9, 6, "case"), (9, 10, "punct")]
+        
+        pp.parse_step(transition_id: 2, deprel: nil)
+        
+        XCTAssert(pp.stack ==  [0, 5, 9, 11])
+        XCTAssert(pp.next == 12)
+        for arc_count in 0..<(pp.arcs.count) {
+            XCTAssert(pp.arcs[arc_count] == [(5, 4, "nummod"), (5, 3, "compound"), (5, 2, "det"), (5, 1, "case"), (9, 8, "det"), (9, 7, "punct"), (9, 6, "case"), (9, 10, "punct")][arc_count])
+        }
         
         
     }

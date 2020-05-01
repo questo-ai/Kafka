@@ -43,13 +43,13 @@ class Transducer: NSObject {
         self.id2deprel.insert(self.rootDeprel, at: 0)
         self.id2deprel.append(self.unkDeprel)
         for (index, value) in self.id2word.enumerated() {
-            self.word2id[value ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD"] = index
+            self.word2id[value ?? "NIL_WORD"] = index
         }
         for (index, value) in self.id2tag.enumerated() {
-            self.tag2id[value ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD"] = index
+            self.tag2id[value ?? "NIL_WORD"] = index
         }
         for (index, value) in self.id2deprel.enumerated() {
-            self.deprel2id[value ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD"] = index
+            self.deprel2id[value ?? "NIL_WORD"] = index
         }
         self.unkWordId = self.id2word.count - 1
         self.unkTagId = self.id2tag.count - 1
@@ -91,9 +91,10 @@ class Transducer: NSObject {
         var deprelIDs = [Int](repeating: self.nullDeprelId, count: 12)
         
         for stackIdx in 0...(min(3, partial.stack.count)-1) {
-            let sentenceIdx = partial.stack.suffix(min(3, partial.stack.count)-stackIdx)[0] // test crashed on this line
+            let stackReversed = partial.stack.reversed() as [Int]
+            let sentenceIdx = stackReversed[stackIdx]
             var (word, tag) = partial.sentence[sentenceIdx]
-            wordIDs[stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
+            wordIDs[stackIdx] = self.word2id[word ?? "NIL_WORD", default: self.unkWordId]
             tagIDs[stackIdx] = self.tag2id[tag, default: self.unkTagId]
             if stackIdx == 2 {
                 continue
@@ -102,7 +103,7 @@ class Transducer: NSObject {
             for (leftIdx, leftDep) in partial.get_n_leftmost_deps(sentence_idx: sentenceIdx, n: 2).enumerated() {
                 (word, tag) = partial.sentence[leftDep]
                 
-                var deprels = [String?]() // not quite sure how to implement next() functionality
+                var deprels = [String?]()
                 
                 for arc in partial.arcs {
                     if (arc.1 == leftDep) {
@@ -110,11 +111,11 @@ class Transducer: NSObject {
                     }
                 }
                 
-                wordIDs[6 + leftIdx + 2 * stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
+                wordIDs[6 + leftIdx + 2 * stackIdx] = self.word2id[word ?? "NIL_WORD", default: self.unkWordId]
                 tagIDs[6 + leftIdx + 2 * stackIdx] = self.tag2id[tag, default: self.unkTagId]
                 deprelIDs[leftIdx + 2 * stackIdx] = self.deprel2id[deprels[0]!, default: self.unkDeprelId]
 
-                if (leftIdx != 0) { // this condition is probably wrong
+                if (leftIdx != 0) {
                     for leftLeftDep in partial.get_n_leftmost_deps(sentence_idx: leftDep, n: 1) {
                         (word, tag) = partial.sentence[leftLeftDep]
                         deprels = []
@@ -123,7 +124,7 @@ class Transducer: NSObject {
                                 deprels.append(arc.2)
                             }
                         }
-                        wordIDs[14 + stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
+                        wordIDs[14 + stackIdx] = self.word2id[word ?? "NIL_WORD", default: self.unkWordId]
                         tagIDs[14 + stackIdx] = self.tag2id[tag, default: self.unkTagId]
                         deprelIDs[8 + stackIdx] = self.deprel2id[deprels[0]!, default: self.unkDeprelId]
                     }
@@ -133,7 +134,7 @@ class Transducer: NSObject {
             for (rightIdx, rightDep) in partial.get_n_rightmost_deps(sentence_idx: sentenceIdx, n: 2).enumerated() {
                 (word, tag) = partial.sentence[rightDep]
                 
-                var deprels = [String?]() // not quite sure how to implement next() functionality
+                var deprels = [String?]()
                 
                 for arc in partial.arcs {
                     if (arc.1 == rightDep) {
@@ -141,11 +142,11 @@ class Transducer: NSObject {
                     }
                 }
                 
-                wordIDs[10 + rightIdx + 2 * stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
+                wordIDs[10 + rightIdx + 2 * stackIdx] = self.word2id[word ?? "NIL_WORD", default: self.unkWordId]
                 tagIDs[10 + rightIdx + 2 * stackIdx] = self.tag2id[tag, default: self.unkTagId]
                 deprelIDs[4 + rightIdx + 2 * stackIdx] = self.deprel2id[deprels[0]!, default: self.unkDeprelId]
 
-                if (rightIdx != 0) { // this condition is probably wrong
+                if (rightIdx != 0) {
                     for rightRightDep in partial.get_n_rightmost_deps(sentence_idx: rightDep, n: 1) {
                         (word, tag) = partial.sentence[rightRightDep]
                         deprels = []
@@ -154,7 +155,7 @@ class Transducer: NSObject {
                                 deprels.append(arc.2)
                             }
                         }
-                        wordIDs[16 + stackIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
+                        wordIDs[16 + stackIdx] = self.word2id[word ?? "NIL_WORD", default: self.unkWordId]
                         tagIDs[16 + stackIdx] = self.tag2id[tag, default: self.unkTagId]
                         deprelIDs[10 + stackIdx] = self.deprel2id[deprels[0]!, default: self.unkDeprelId]
                     }
@@ -162,10 +163,13 @@ class Transducer: NSObject {
             }
         }
         
-        for (bufIdx, sentenceIdx) in (partial.next...(min(partial.next+3, partial.sentence.count))-1).enumerated() {
-            let (word, tag) = partial.sentence[sentenceIdx]
-            wordIDs[3 + bufIdx] = self.word2id[word ?? "NONE_NIL_SENSICAL_WORD_HEHE_XD", default: self.unkWordId]
-            tagIDs[3 + bufIdx] = self.tag2id[tag, default: self.unkTagId]
+        
+        if (partial.next != min(partial.next+3, partial.sentence.count)) {
+            for (bufIdx, sentenceIdx) in (partial.next...(min(partial.next+3, partial.sentence.count)-1)).enumerated() {
+                let (word, tag) = partial.sentence[sentenceIdx]
+                wordIDs[3 + bufIdx] = self.word2id[word ?? "NIL_WORD", default: self.unkWordId]
+                tagIDs[3 + bufIdx] = self.tag2id[tag, default: self.unkTagId]
+            }
         }
         
         return (self.convertArrayToML(array: wordIDs), self.convertArrayToML(array: tagIDs), self.convertArrayToML(array: deprelIDs))

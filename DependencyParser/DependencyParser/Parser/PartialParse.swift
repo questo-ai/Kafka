@@ -49,11 +49,11 @@ class PartialParse: NSObject {
         if (self.complete) {
             fatalError("ValueError")
         } else if ((transition_id == self.left_arc_id) && (deprel != nil) && (self.stack.count >= 2)) {
-            self.arcs.append((self.stack[-1], self.stack[-2], deprel))
-            self.stack.remove(at: -2)
+            self.arcs.append((self.stack[self.stack.count-1], self.stack[self.stack.count-2], deprel))
+            self.stack.remove(at: self.stack.count-2)
         } else if ((transition_id == self.right_arc_id) && (deprel != nil) && (self.stack.count >= 2)) {
-            self.arcs.append((self.stack[-2], self.stack[-1], deprel))
-            self.stack.remove(at: -1)
+            self.arcs.append((self.stack[self.stack.count-2], self.stack[self.stack.count-1], deprel))
+            self.stack.remove(at: self.stack.count-1)
         } else if ((transition_id == self.shift_id) && (self.next < self.sentence.count)) {
             self.stack.append(self.next)
             self.next += 1
@@ -65,19 +65,15 @@ class PartialParse: NSObject {
     
     func get_n_leftmost_deps(sentence_idx: Int, n: Int?) -> [Int] {
         var deps: [Int] = []
-        
-//        deps = [dep[1] for dep in self.arcs if dep[0] == sentence_idx]
-//        deps.sort()
-//        return deps[:n]
-        
         for dep in self.arcs {
             if (dep.0 == sentence_idx) {
                 deps.append(dep.1)
             }
         }
         deps.sort()
-        print(deps)
         if (n == nil) {
+            return deps
+        } else if (deps.count < n!) {
             return deps
         } else {
             if deps.isEmpty {
@@ -98,6 +94,8 @@ class PartialParse: NSObject {
         }
         deps.sort(by: >)
         if (n == nil) {
+            return deps
+        } else if (deps.count < n!) {
             return deps
         } else {
             if deps.isEmpty {
