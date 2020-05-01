@@ -37,7 +37,7 @@ public class Parser {
     func _predict(_ wordIDs: MLMultiArray, _ tagIDs: MLMultiArray, _ deprelIDs: MLMultiArray) -> (Int, String?) {
         do {
             let output = try model.prediction(Placeholder: wordIDs, Placeholder_1: tagIDs, Placeholder_2: deprelIDs)
-            return self.transducer.td_vec2trans_deprel(td_vec: output.output_td_vec)
+            return self.transducer.tdVec2transDeprel(tdVec: output.output_td_vec)
         } catch  {
             print(error)
             return (-1, nil)
