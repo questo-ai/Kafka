@@ -59,15 +59,5 @@ class TransducerTests: XCTestCase {
         XCTAssert(returned.0 == correct_word_ids)
         XCTAssert(returned.1 == correct_tag_ids)
         XCTAssert(returned.2 == correct_deprel_ids)
-        
-        
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }
