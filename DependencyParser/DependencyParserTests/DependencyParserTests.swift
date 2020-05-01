@@ -12,7 +12,9 @@ import CoreML
 
 class DependencyParserTests: XCTestCase {
     
-    let testSentenceWithPos = [("In", "ADP"), ("an", "DET"), ("Oct.", "PROPN"), ("19", "NUM"), ("review", "NOUN"), ("of", "ADP"), ("``", "PUNCT"), ("The", "DET"), ("Misanthrope", "NOUN"), ("''", "PUNCT"), ("at", "ADP"), ("Chicago", "PROPN"), ("'s", "PART"), ("Goodman", "PROPN"), ("Theatre", "PROPN"), ("-LRB-", "PUNCT"), ("``", "PUNCT"), ("Revitalized", "VERB"), ("Classics", "NOUN"), ("Take", "VERB"), ("the", "DET"), ("Stage", "NOUN"), ("in", "ADP"), ("Windy", "PROPN"), ("City", "PROPN"), (",", "PUNCT"), ("''", "PUNCT"), ("Leisure", "NOUN"), ("&", "CONJ"), ("Arts", "NOUN"), ("-RRB-", "PUNCT"), (",", "PUNCT"), ("the", "DET"), ("role", "NOUN"), ("of", "ADP"), ("Celimene", "PROPN"), (",", "PUNCT"), ("played", "VERB"), ("by", "ADP"), ("Kim", "PROPN"), ("Cattrall", "PROPN"), (",", "PUNCT"), ("was", "AUX"), ("mistakenly", "ADV"), ("attributed", "VERB"), ("to", "ADP"), ("Christina", "PROPN"), ("Haag", "PROPN"), (".", "PUNCT")]
+    let testSentence = "In an Oct. 19 review of \"The Misanthrope\" at Chicago's Goodman Theatre (\"Revitalized Classics Take the Stage in Windy City,\" Leisure & Arts), the role of Celimene, played by Kim Cattrall, was mistakenly attributed to Christina Haag."
+    
+    let testSentenceWithPos = [("In", "ADP"), ("an", "DET"), ("Oct.", "PROPN"), ("19", "NUM"), ("review", "NOUN"), ("of", "ADP"), ("\"", "PUNCT"), ("The", "DET"), ("Misanthrope", "NOUN"), ("\"", "PUNCT"), ("at", "ADP"), ("Chicago", "PROPN"), ("\'s", "PART"), ("Goodman", "PROPN"), ("Theatre", "PROPN"), ("(", "PUNCT"), ("\"", "PUNCT"), ("Revitalized", "VERB"), ("Classics", "NOUN"), ("Take", "VERB"), ("the", "DET"), ("Stage", "NOUN"), ("in", "ADP"), ("Windy", "PROPN"), ("City", "PROPN"), (",", "PUNCT"), ("\"", "PUNCT"), ("Leisure", "NOUN"), ("&", "CCONJ"), ("Arts", "PROPN"), (")", "PUNCT"), (",", "PUNCT"), ("the", "DET"), ("role", "NOUN"), ("of", "ADP"), ("Celimene", "PROPN"), (",", "PUNCT"), ("played", "VERB"), ("by", "ADP"), ("Kim", "PROPN"), ("Cattrall", "PROPN"), (",", "PUNCT"), ("was", "AUX"), ("mistakenly", "ADV"), ("attributed", "VERB"), ("to", "ADP"), ("Christina", "PROPN"), ("Haag", "PROPN"), (".", "PUNCT")]
     
     let transducer: Transducer = Transducer(
                wordList: TransducerData.wordList,
@@ -23,12 +25,16 @@ class DependencyParserTests: XCTestCase {
     let parser = Parser(wordList: TransducerData.wordList, tagList: TransducerData.tagList, deprelList: TransducerData.deprelList)
     
     func testPartialParse_init() throws {
-       let partialParserTest = PartialParse(sentence: self.testSentenceWithPos)
-
+       let partialParser = PartialParse(sentence: self.testSentenceWithPos)
     }
     
     func testPOS() throws {
-        print(parser.POSTag(sentence: "In an Oct. 19 review of \"The Misanthrope \"at Chicago's Goodman Theatre (\"Revitalized Classics Take the Stage in Windy City , \"Leisure & Arts ) , the role of Celimene , played by Kim Cattrall , was mistakenly attributed to Christina Haag ."))
+        let predPOS = parser.predictOnSentences(sentences: [testSentence])
+        let truePOS = parser.predict(sentences: [testSentenceWithPos])
+        
+        // POS is not perfect => assertEquals fails heavily.
+        // actual predicted deprels aren't very incorrect, though.
+//        assertEquals(actual: predPOS, expected: truePOS)
     }
     
     func testvec2deprel() throws {
@@ -44,14 +50,30 @@ class DependencyParserTests: XCTestCase {
         print(parser._predict(wordIDs, tagIDs, deprelIDs))
     }
     
-    func testPredict() throws {
-        print(parser.predict(sentences: [testSentenceWithPos]))
+    // utility method for checking equality of [arcs]
+    func assertEquals(actual: [[(Int, Int, String?)]], expected: [[(Int, Int, String?)]]) {
+        for (sentenceIdx, _) in actual.enumerated() {
+            for (arcIdx, actArc) in actual[sentenceIdx].enumerated() {
+                XCTAssert(expected[sentenceIdx][arcIdx].0 == actArc.0)
+                XCTAssert(expected[sentenceIdx][arcIdx].1 == actArc.1)
+                XCTAssert(expected[sentenceIdx][arcIdx].2 == actArc.2)
+            }
+        }
     }
+    
+    func testPredict() throws {
+        let actualOutput = parser.predict(sentences: [testSentenceWithPos])
+        let expectedOutput = [[(5, 4, Optional("nummod")), (5, 3, Optional("compound")), (5, 2, Optional("det")), (5, 1, Optional("case")), (9, 8, Optional("det")), (9, 7, Optional("punct")), (9, 6, Optional("case")), (9, 10, Optional("punct")), (12, 13, Optional("case")), (15, 14, Optional("compound")), (15, 12, Optional("nmod:poss")), (15, 11, Optional("case")), (9, 15, Optional("nmod")), (19, 18, Optional("amod")), (20, 19, Optional("nsubj")), (20, 17, Optional("punct")), (20, 16, Optional("punct")), (22, 21, Optional("det")), (20, 22, Optional("dobj")), (25, 24, Optional("compound")), (25, 23, Optional("case")), (20, 25, Optional("nmod")), (20, 26, Optional("punct")), (20, 27, Optional("punct")), (28, 29, Optional("cc")), (28, 30, Optional("conj")), (20, 28, Optional("dep")), (20, 31, Optional("punct")), (9, 20, Optional("dep")), (5, 9, Optional("nmod")), (34, 33, Optional("det")), (36, 35, Optional("case")), (34, 36, Optional("nmod")), (34, 37, Optional("punct")), (41, 40, Optional("compound")), (41, 39, Optional("case")), (38, 41, Optional("nmod")), (34, 38, Optional("acl")), (34, 42, Optional("punct")), (45, 44, Optional("advmod")), (45, 43, Optional("auxpass")), (45, 34, Optional("nsubjpass")), (45, 32, Optional("punct")), (45, 5, Optional("nmod")), (48, 47, Optional("compound")), (48, 46, Optional("case")), (45, 48, Optional("nmod")), (45, 49, Optional("punct")), (0, 45, Optional("root"))]]
+        self.assertEquals(actual: actualOutput, expected: expectedOutput)
+    }
+    
     
     func testPredictOnSentences() throws {
         let sentences = ["Goh Chok Tong was passed the reins of leadership by Lee Kuan Yew in 1990."]
-        print(parser.predictOnSentences(sentences: sentences))
-//        parser.predictOnSentences(sentences: sentences)
+        let actualOutput = parser.predictOnSentences(sentences: sentences)
+        let expectedOutput = [[(3, 2, Optional("compound")), (3, 1, Optional("compound")), (5, 4, Optional("auxpass")), (5, 3, Optional("nsubjpass")), (7, 6, Optional("det")), (9, 8, Optional("case")), (7, 9, Optional("nmod")), (13, 12, Optional("compound")), (13, 11, Optional("compound")), (13, 10, Optional("case")), (7, 13, Optional("nmod")), (15, 14, Optional("case")), (7, 15, Optional("nmod")), (5, 7, Optional("dobj")), (5, 16, Optional("punct")), (0, 5, Optional("root"))]]
+        
+        self.assertEquals(actual: actualOutput, expected: expectedOutput)
     }
     
     func testPartialParse_complete() throws {
