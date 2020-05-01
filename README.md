@@ -1,6 +1,6 @@
 <div align="center">
     <br>
-    <img src="https://github.com/questo-ai/kafka/raw/master/docs/Header.jpg" width="400"/>
+    <img src="https://github.com/questo-ai/kafka/raw/master/docs/Header.jpg" width="600"/>
     <p>
     An NLP development library, built on CoreML in Swift, for using state-of-the-art lingusitic models at ease.
     </p>
