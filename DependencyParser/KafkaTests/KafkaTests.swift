@@ -182,14 +182,6 @@ class DependencyTests: XCTestCase {
 
     }
     
-    func testPartialParser_get_oracle() throws {
-        
-    }
-    
-    func testPartialParser_parse() throws {
-        
-    }
-    
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         self.measure {
