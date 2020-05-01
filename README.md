@@ -44,6 +44,64 @@ Kafka is an advanced Natural Language Processing library written in Swift. It's 
 [Transducer]: https://github.com/questo-ai/kafka/docs/Transducer.md
 
 ## Features
+- [x] Non-destructive tokenization
+- [x] Named entity recognition
+- [x] pretrained statistical models and word vectors
+- [x] State-of-the-art speed
+- [x] Easy deep learning integration
+- [x] Part-of-speech tagging
+- [x] Labelled dependency parsing
+- [ ] Syntax-driven sentence segmentation
+- [ ] Built in visualizers for syntax and NER
 ## Requirements
+iOS 12.0+ | macOS 10.14+ | Mac Catalyst 13.0+ | tvOS 12.0+ | watchOS 5.0+
 ## Integration
+#### CocoaPods
+
+You can use [CocoaPods](http://cocoapods.org/) to install `Kafka` by adding it to your `Podfile`:
+
+```ruby
+platform :ios, '13.0'
+use_frameworks!
+
+target 'MyApp' do
+    pod 'Kafka'
+end
+```
+
+#### Carthage
+You can use [Carthage](https://github.com/Carthage/Carthage) to install `Kafka` by adding it to your `Cartfile`:
+
+```
+github "questo-ai/kafka"
+```
+
+If you use Carthage to build your dependencies, make sure you have added `Kafka.framework` to the "Linked Frameworks and Libraries" section of your target, and have included them in your Carthage framework copying build phase.
+
 ## Usage
+#### Initialization
+
+```swift
+import Kafka
+```
+
+```swift
+// Initialise a dependency parser
+let parser = DependencyParser()
+```
+
+#### Parsing
+
+```swift
+let doc = Doc(string: "Memories warm you up from the inside. But they also tear you apart.") // From Haruki Murakami, Kafka on the Shore
+let result = parser.predict(text: doc)
+```
+#### Use dependency data
+```swift
+/// The dependency arcs is stored as a property of Doc, with type [[(Int, Int, String)]]
+/// arcs is a list of triples (idx_head, idx_dep, deprel) signifying the
+/// dependency relation `idx_head ->_deprel idx_dep`, where idx_head is
+/// the index of the head word, idx_dep is the index of the dependant,
+/// and deprel is a string representing the dependency relation label.
+print(result.arcs)
+```
