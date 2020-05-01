@@ -14,9 +14,9 @@ class TransducerTests: XCTestCase {
     let testSentenceWithPos = [("In", "ADP"), ("an", "DET"), ("Oct.", "PROPN"), ("19", "NUM"), ("review", "NOUN"), ("of", "ADP"), ("``", "PUNCT"), ("The", "DET"), ("Misanthrope", "NOUN"), ("''", "PUNCT"), ("at", "ADP"), ("Chicago", "PROPN"), ("'s", "PART"), ("Goodman", "PROPN"), ("Theatre", "PROPN"), ("-LRB-", "PUNCT"), ("``", "PUNCT"), ("Revitalized", "VERB"), ("Classics", "NOUN"), ("Take", "VERB"), ("the", "DET"), ("Stage", "NOUN"), ("in", "ADP"), ("Windy", "PROPN"), ("City", "PROPN"), (",", "PUNCT"), ("''", "PUNCT"), ("Leisure", "NOUN"), ("&", "CONJ"), ("Arts", "NOUN"), ("-RRB-", "PUNCT"), (",", "PUNCT"), ("the", "DET"), ("role", "NOUN"), ("of", "ADP"), ("Celimene", "PROPN"), (",", "PUNCT"), ("played", "VERB"), ("by", "ADP"), ("Kim", "PROPN"), ("Cattrall", "PROPN"), (",", "PUNCT"), ("was", "AUX"), ("mistakenly", "ADV"), ("attributed", "VERB"), ("to", "ADP"), ("Christina", "PROPN"), ("Haag", "PROPN"), (".", "PUNCT")]
     
     let transducer: Transducer = Transducer(
-        wordList: TransducerData.wordList,
-        tagList: TransducerData.tagList,
-        deprelList: TransducerData.deprelList
+        wordList: Data.wordList,
+        tagList: Data.tagList,
+        deprelList: Data.deprelList
     )
 
     override func setUpWithError() throws {

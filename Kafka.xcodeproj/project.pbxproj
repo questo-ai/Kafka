@@ -10,11 +10,13 @@
 		02C1C78E2457DA5F00D742FC /* Kafka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02C1C7842457DA5F00D742FC /* Kafka.framework */; };
 		02C1C7932457DA5F00D742FC /* KafkaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7922457DA5F00D742FC /* KafkaTests.swift */; };
 		02C1C7952457DA5F00D742FC /* DependencyParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 02C1C7872457DA5F00D742FC /* DependencyParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		02C1C79F2457E17700D742FC /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C79E2457E17700D742FC /* Parser.swift */; };
+		02C1C79F2457E17700D742FC /* DependencyParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C79E2457E17700D742FC /* DependencyParser.swift */; };
 		02C1C7A12457E28700D742FC /* PartialParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A02457E28700D742FC /* PartialParse.swift */; };
-		02C1C7A32457E36C00D742FC /* DependencyParser.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A22457E36C00D742FC /* DependencyParser.mlmodel */; };
+		02C1C7A32457E36C00D742FC /* DependencyParserModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A22457E36C00D742FC /* DependencyParserModel.mlmodel */; };
 		02C1C7A52459CC7B00D742FC /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A42459CC7B00D742FC /* Math.swift */; };
-		02C1C7A72459DC2D00D742FC /* TransducerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A62459DC2D00D742FC /* TransducerData.swift */; };
+		02C1C7A9245C211400D742FC /* Kafka.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A8245C211400D742FC /* Kafka.swift */; };
+		02C1C7AA245C21AC00D742FC /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7A62459DC2D00D742FC /* Data.swift */; };
+		02C1C7AC245C24E700D742FC /* Doc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C1C7AB245C24E700D742FC /* Doc.swift */; };
 		3F1E69D0245986780047D364 /* TransducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1E69CF245986780047D364 /* TransducerTests.swift */; };
 		46CEC27A245948A5000802C6 /* Transducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CEC279245948A5000802C6 /* Transducer.swift */; };
 /* End PBXBuildFile section */
@@ -36,11 +38,13 @@
 		02C1C78D2457DA5F00D742FC /* KafkaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KafkaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		02C1C7922457DA5F00D742FC /* KafkaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KafkaTests.swift; sourceTree = "<group>"; };
 		02C1C7942457DA5F00D742FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		02C1C79E2457E17700D742FC /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		02C1C79E2457E17700D742FC /* DependencyParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyParser.swift; sourceTree = "<group>"; };
 		02C1C7A02457E28700D742FC /* PartialParse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialParse.swift; sourceTree = "<group>"; };
-		02C1C7A22457E36C00D742FC /* DependencyParser.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = DependencyParser.mlmodel; sourceTree = "<group>"; };
+		02C1C7A22457E36C00D742FC /* DependencyParserModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = DependencyParserModel.mlmodel; sourceTree = "<group>"; };
 		02C1C7A42459CC7B00D742FC /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
-		02C1C7A62459DC2D00D742FC /* TransducerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransducerData.swift; sourceTree = "<group>"; };
+		02C1C7A62459DC2D00D742FC /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		02C1C7A8245C211400D742FC /* Kafka.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kafka.swift; sourceTree = "<group>"; };
+		02C1C7AB245C24E700D742FC /* Doc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Doc.swift; sourceTree = "<group>"; };
 		3F1E69CF245986780047D364 /* TransducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransducerTests.swift; sourceTree = "<group>"; };
 		46CEC279245948A5000802C6 /* Transducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,7 +91,7 @@
 			children = (
 				4692097E245863E4004798EE /* Parser */,
 				02C1C7872457DA5F00D742FC /* DependencyParser.h */,
-				02C1C7A22457E36C00D742FC /* DependencyParser.mlmodel */,
+				02C1C7A22457E36C00D742FC /* DependencyParserModel.mlmodel */,
 				02C1C7882457DA5F00D742FC /* Info.plist */,
 			);
 			path = Kafka;
@@ -98,7 +102,6 @@
 			children = (
 				02C1C7922457DA5F00D742FC /* KafkaTests.swift */,
 				3F1E69CF245986780047D364 /* TransducerTests.swift */,
-				02C1C7A62459DC2D00D742FC /* TransducerData.swift */,
 				02C1C7942457DA5F00D742FC /* Info.plist */,
 			);
 			path = KafkaTests;
@@ -109,8 +112,11 @@
 			children = (
 				02C1C7A42459CC7B00D742FC /* Math.swift */,
 				02C1C7A02457E28700D742FC /* PartialParse.swift */,
-				02C1C79E2457E17700D742FC /* Parser.swift */,
+				02C1C79E2457E17700D742FC /* DependencyParser.swift */,
+				02C1C7AB245C24E700D742FC /* Doc.swift */,
 				46CEC279245948A5000802C6 /* Transducer.swift */,
+				02C1C7A8245C211400D742FC /* Kafka.swift */,
+				02C1C7A62459DC2D00D742FC /* Data.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -225,9 +231,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02C1C79F2457E17700D742FC /* Parser.swift in Sources */,
-				02C1C7A32457E36C00D742FC /* DependencyParser.mlmodel in Sources */,
+				02C1C7A9245C211400D742FC /* Kafka.swift in Sources */,
+				02C1C79F2457E17700D742FC /* DependencyParser.swift in Sources */,
+				02C1C7AC245C24E700D742FC /* Doc.swift in Sources */,
+				02C1C7A32457E36C00D742FC /* DependencyParserModel.mlmodel in Sources */,
 				46CEC27A245948A5000802C6 /* Transducer.swift in Sources */,
+				02C1C7AA245C21AC00D742FC /* Data.swift in Sources */,
 				02C1C7A12457E28700D742FC /* PartialParse.swift in Sources */,
 				02C1C7A52459CC7B00D742FC /* Math.swift in Sources */,
 			);
@@ -237,7 +246,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02C1C7A72459DC2D00D742FC /* TransducerData.swift in Sources */,
 				3F1E69D0245986780047D364 /* TransducerTests.swift in Sources */,
 				02C1C7932457DA5F00D742FC /* KafkaTests.swift in Sources */,
 			);
@@ -380,7 +388,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JX67Y7GD38;
+				DEVELOPMENT_TEAM = W99UBY853J;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -406,7 +414,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JX67Y7GD38;
+				DEVELOPMENT_TEAM = W99UBY853J;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -430,7 +438,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JX67Y7GD38;
+				DEVELOPMENT_TEAM = W99UBY853J;
 				INFOPLIST_FILE = Kafka/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -449,7 +457,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JX67Y7GD38;
+				DEVELOPMENT_TEAM = W99UBY853J;
 				INFOPLIST_FILE = Kafka/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
