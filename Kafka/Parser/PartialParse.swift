@@ -22,7 +22,6 @@ class PartialParse: NSObject {
     public var arcs: [(Int, Int, String?)]
     public var sentence: [(String?, String)]
     
-    
     init(sentence: [(String, String)]) {
         self.sentence = sentence
         self.sentence.insert((nil, self.root_tag), at: 0)
@@ -31,9 +30,11 @@ class PartialParse: NSObject {
         self.arcs = []
     }
     
+    
     func removed_by_address() {
         
     }
+    
     
     var complete: Bool {
         get {
@@ -103,11 +104,13 @@ class PartialParse: NSObject {
         }
     }
     
+    
     func contains(a: [(Int, Int)], v: (Int,Int)) -> Bool {
         let (c1, c2) = v
         for (v1, v2) in a {if v1 == c1 && v2 == c2 { return true } }
         return false
     }
+    
     
     func parse(td_pairs: [(Int, String)]) -> [(Int, Int, String?)] {
         for (transition_id, deprel) in td_pairs {
