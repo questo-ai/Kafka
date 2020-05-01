@@ -1,5 +1,16 @@
-![Kafka NLP](https://github.com/questo-ai/blob/docs/header.jpeg)
-# Kafka NLP
+<div align="center">
+    <br>
+    <img src="https://github.com/questo-ai/kafka/raw/master/docs/Header.jpg" width="600"/>
+    <hr/>
+</div>
+<p align="center">
+    <a href="#">
+        <img alt="License" src="https://github.com/questo-ai/kafka/workflows/CI/badge.svg">
+    </a>
+    <a href="https://github.com/allenai/allennlp/blob/master/LICENSE">
+        <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg">
+    </a>
+</p>
 
 Kafka is an advanced Natural Language Processing library written in Swift. It's built for speed, simplicity, and easy integration into apps. Kafka currently provides linear **neural network models** for tagging and parsing, with pretrained models and word vectors. It's commercial open-source software, released under the MIT license.
 
