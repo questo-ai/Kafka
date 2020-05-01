@@ -16,6 +16,9 @@
     <a href="https://github.com/questo-ai/kafka/blob/master/LICENSE">
         <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg">
     </a>
+    <a href="https://github.com/Carthage/Carthage">
+        <img alt="Carthage compatible" src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat">
+    </a> 
 </p>
 
 Kafka is an advanced Natural Language Processing library written in Swift. It's built for speed, simplicity, and easy integration into apps. Kafka currently provides linear **neural network models** for tagging and parsing, with pretrained models and word vectors. It's commercial open-source software, released under the MIT license.
