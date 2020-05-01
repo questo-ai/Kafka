@@ -4,6 +4,9 @@
     <hr/>
 </div>
 <p align="center">
+    <a href="https://github.com/allenai/allennlp/blob/master/LICENSE">
+        <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg">
+    </a>
 </p>
 
 Kafka is an advanced Natural Language Processing library written in Swift. It's built for speed, simplicity, and easy integration into apps. Kafka currently provides linear **neural network models** for tagging and parsing, with pretrained models and word vectors. It's commercial open-source software, released under the MIT license.
