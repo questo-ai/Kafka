@@ -1,4 +1,26 @@
-![Kafka NLP](https://github.com/questo-ai/kafka/raw/master/docs/Header.jpg)
+<div align="center">
+    <br>
+    <img src="https://github.com/questo-ai/kafka/raw/master/docs/Header.jpg" width="400"/>
+    <p>
+    An NLP development library, built on CoreML in Swift, for using state-of-the-art lingusitic models at ease.
+    </p>
+    <hr/>
+</div>
+<p align="center">
+    <a href="https://github.com/allenai/allennlp/actions">
+        <img alt="Build" src="https://github.com/allenai/allennlp/workflows/Master/badge.svg?event=push&branch=master">
+    </a>
+    <a href="https://pypi.org/project/allennlp/">
+        <img alt="PyPI" src="https://img.shields.io/pypi/v/allennlp">
+    </a>
+    <a href="https://github.com/allenai/allennlp/blob/master/LICENSE">
+        <img alt="License" src="https://img.shields.io/github/license/allenai/allennlp.svg?color=blue&cachedrop">
+    </a>
+    <a href="https://codecov.io/gh/allenai/allennlp">
+        <img alt="Codecov" src="https://codecov.io/gh/allenai/allennlp/branch/master/graph/badge.svg">
+    </a>
+</p>
+<br/>
 # Kafka NLP
 
 Kafka is an advanced Natural Language Processing library written in Swift. It's built for speed, simplicity, and easy integration into apps. Kafka currently provides linear **neural network models** for tagging and parsing, with pretrained models and word vectors. It's commercial open-source software, released under the MIT license.
