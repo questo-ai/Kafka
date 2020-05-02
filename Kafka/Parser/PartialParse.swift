@@ -13,10 +13,10 @@ enum ParserError: Error {
 }
 
 class PartialParse: NSObject {
-    public let left_arc_id = 0
-    public let right_arc_id = 1
-    public let shift_id = 2
-    public let root_tag = "TOP"
+    public static let left_arc_id = 0
+    public static let right_arc_id = 1
+    public static let shift_id = 2
+    public static let root_tag = "TOP"
     public var stack: [Int]
     public var next: Int
     public var arcs: [(Int, Int, String?)]
@@ -25,7 +25,7 @@ class PartialParse: NSObject {
     
     init(sentence: [(String, String)]) {
         self.sentence = sentence
-        self.sentence.insert((nil, self.root_tag), at: 0)
+        self.sentence.insert((nil, PartialParse.root_tag), at: 0)
         self.stack = [0]
         self.next = 1
         self.arcs = []
@@ -44,13 +44,13 @@ class PartialParse: NSObject {
     func parse_step(transition_id: Int, deprel: String?) {
         if (self.complete) {
             fatalError("ValueError")
-        } else if ((transition_id == self.left_arc_id) && (deprel != nil) && (self.stack.count >= 2)) {
+        } else if ((transition_id == PartialParse.left_arc_id) && (deprel != nil) && (self.stack.count >= 2)) {
             self.arcs.append((self.stack[self.stack.count-1], self.stack[self.stack.count-2], deprel))
             self.stack.remove(at: self.stack.count-2)
-        } else if ((transition_id == self.right_arc_id) && (deprel != nil) && (self.stack.count >= 2)) {
+        } else if ((transition_id == PartialParse.right_arc_id) && (deprel != nil) && (self.stack.count >= 2)) {
             self.arcs.append((self.stack[self.stack.count-2], self.stack[self.stack.count-1], deprel))
             self.stack.remove(at: self.stack.count-1)
-        } else if ((transition_id == self.shift_id) && (self.next < self.sentence.count)) {
+        } else if ((transition_id == PartialParse.shift_id) && (self.next < self.sentence.count)) {
             self.stack.append(self.next)
             self.next += 1
         } else {

@@ -173,7 +173,7 @@ class Transducer: NSObject {
         return (self.convertArrayToML(array: wordIDs), self.convertArrayToML(array: tagIDs), self.convertArrayToML(array: deprelIDs))
     }
     
-    func tdVec2transDeprel(tdVec: MLMultiArray, shiftId: Int = 2, leftArcId: Int = 0, rightArcId: Int = 1) -> (Int, String?) {
+    func tdVec2transDeprel(tdVec: MLMultiArray) -> (Int, String?) {
 ///        The maximum value index is chosen as the transition to take
 ///
 ///        Args:
@@ -185,11 +185,11 @@ class Transducer: NSObject {
 ///            *has_deprel is false
         let maxIdx = Math.argmax32(tdVec).0
         if maxIdx == 0 {
-            return (shiftId, nil)
+            return (PartialParse.shift_id, nil)
         } else if maxIdx <= id2deprel.count {
-            return (leftArcId, id2deprel[maxIdx - 1])
+            return (PartialParse.left_arc_id, id2deprel[maxIdx - 1])
         } else {
-            return (rightArcId, id2deprel[maxIdx - id2deprel.count - 1])
+            return (PartialParse.right_arc_id, id2deprel[maxIdx - id2deprel.count - 1])
         }
     }
 }
