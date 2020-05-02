@@ -41,7 +41,6 @@ class PartialParse: NSObject {
         }
     }
     
-    
     func parse_step(transition_id: Int, deprel: String?) {
         if (self.complete) {
             fatalError("ValueError")
@@ -58,7 +57,6 @@ class PartialParse: NSObject {
             fatalError("ValueError")
         }
     }
-    
     
     func get_n_leftmost_deps(sentence_idx: Int, n: Int?) -> [Int] {
         var deps: [Int] = []
@@ -81,7 +79,6 @@ class PartialParse: NSObject {
         }
     }
     
-    
     func get_n_rightmost_deps(sentence_idx: Int, n: Int?) -> [Int] {
         var deps: [Int] = []
         for dep in self.arcs {
@@ -101,12 +98,6 @@ class PartialParse: NSObject {
                 return Array(deps[0...(n!-1)])
             }
         }
-    }
-    
-    func contains(a: [(Int, Int)], v: (Int,Int)) -> Bool {
-        let (c1, c2) = v
-        for (v1, v2) in a {if v1 == c1 && v2 == c2 { return true } }
-        return false
     }
     
     func parse(td_pairs: [(Int, String)]) -> [(Int, Int, String?)] {
