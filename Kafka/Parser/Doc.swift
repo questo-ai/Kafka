@@ -13,6 +13,7 @@ open class Doc {
     open var sentences: [String]?
     open var arcs: [[(Int, Int, String?)]]?
     private var tagger: NLTagger!
+    
     init(sentenceLists: [String]?) {
         self.tagger = NLTagger(tagSchemes: [.lexicalClass])
         self.sentences = sentenceLists
@@ -43,6 +44,7 @@ open class Doc {
         }
         return tags
     }
+    
     func taggedSentences() -> [[(String, String)]]{
         var taggedSentences = [[(String, String)]]()
         for sentence in (sentences ?? []) {

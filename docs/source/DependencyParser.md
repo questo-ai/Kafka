@@ -9,7 +9,7 @@ Holds instance of `DependencyParser()`.
 
 **`self.transducer`**
 Type: `Transducer` (_strict_)
-Holds instance of `Transducer` in `init()`.
+Holds instance of `Transducer()`.
 
 ## `predict(_ wordIDs: MLMultiArray, _ tagIDs: MLMultiArray, _ deprelIDs: MLMultiArray) -> (Int, String?)`
 

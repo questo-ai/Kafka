@@ -14,19 +14,19 @@
 <h2 id="instance-variables">Instance Variables</h2>
 <h4 id="constants">Constants</h4>
 <p><strong><code>self.left_arc_id</code></strong><br>
-Type: <code>Int</code><br>
+Type: <code>Int</code> (static)<br>
 <em>Value: <code>1</code></em><br>
 An identifier signifying a left arc transition. Used for internal parsing logic.</p>
 <p><strong><code>self.right_arc_id</code></strong><br>
-Type: <code>Int</code><br>
+Type: <code>Int</code> (static)<br>
 <em>Value: <code>1</code></em><br>
 An identifier signifying a right arc transition. Used for internal parsing logic.</p>
 <p><strong><code>self.shift_id</code></strong><br>
-Type: <code>Int</code><br>
+Type: <code>Int</code> (static)<br>
 <em>Value: <code>2</code></em><br>
 An identifier signifying a shift transition. Used for internal parsing logic.</p>
 <p><strong><code>self.root_tag</code></strong><br>
-Type: <code>String</code><br>
+Type: <code>String</code> (static)<br>
 <em>Value: <code>"TOP"</code></em><br>
 A POS-tag given exclusively to the root. Used for internal parsing logic.</p>
 <h4 id="mutable">Mutable</h4>
@@ -42,6 +42,47 @@ A list of triples <code>(idx_head, idx_dep, deprel)</code> signifying the depend
 <p><strong><code>self.sentence</code></strong><br>
 Type: <code>[(String?, String)]</code><br>
 An array of tuples of ordered pairs of <code>(word, tag)</code>, where tag is the POS tag for the corresponding word in the sentence.</p>
+<p><strong><code>self.complete</code></strong><br>
+Type: <code>Bool</code><br>
+True IFF the <code>PartialParse</code> is complete. Assumes that <code>PartialParse</code> is valid.</p>
+<h2 id="initsentence-string-string"><code>init(sentence: [(String, String)])</code></h2>
+<p><strong>Arguments</strong><br>
+<code>sentence</code>: ordered array of pairs <code>(word, tag)</code>, where <code>tag</code> is the POS tag for the corresponding word in the sentence. Stored in <code>self.sentence</code>, with a <code>root_tag</code> inserted at the beginning.</p>
+<p><strong>Purpose</strong><br>
+Initialize instance variables with the appropriate values.</p>
+<p><strong>Returns</strong><br>
+None.</p>
+<h2 id="parse_steptransition_id-int-deprel-string"><code>parse_step(transition_id: Int, deprel: String?)</code></h2>
+<p><strong>Arguments</strong><br>
+<code>transition_id</code>: an <code>Int</code> representing a type of transition (<em><code>left_arc_id</code></em>, <em><code>right_arc_id</code></em>, or <em><code>shift_id</code></em>).<br>
+<code>deprel</code>: the dependency label to assign the dependency transition. Ignored if <em><code>transition_id == shift_id</code></em>.</p>
+<p><strong>Purpose</strong><br>
+Updates the <code>PartialParse</code> object with a given transition.</p>
+<p><strong>Returns</strong><br>
+None.</p>
+<h2 id="get_n_leftmost_depssentence_idx-int-n-int---int"><code>get_n_leftmost_deps(sentence_idx: Int, n: Int?) -&gt; [Int]</code></h2>
+<p><strong>Arguments</strong><br>
+<code>sentence_idx</code>: an <code>Int</code> referring to the word at <em><code>self.sentence[sentence_idx]</code></em>.<br>
+<code>n</code>: the number of dependents to return as an <code>Int</code>. If <code>nil</code>, return all.</p>
+<p><strong>Purpose</strong><br>
+Returns a list of <code>n</code> leftmost dependants of word. Leftmost means closest to the beginning of the sentence. Note that only the direct dependants of the word on the stack are returned (i.e. no dependants of dependants).</p>
+<p><strong>Returns</strong><br>
+An array of integers that correspond to words in <code>self.sentence</code>.</p>
+<h2 id="get_n_rightmost_depssentence_idx-int-n-int---int"><code>get_n_rightmost_deps(sentence_idx: Int, n: Int?) -&gt; [Int]</code></h2>
+<p><strong>Arguments</strong><br>
+<code>sentence_idx</code>: an <code>Int</code> referring to the word at <em><code>self.sentence[sentence_idx]</code></em>.<br>
+<code>n</code>: the number of dependents to return as an <code>Int</code>. If <code>nil</code>, return all.</p>
+<p><strong>Purpose</strong><br>
+Returns a list of <code>n</code> rightmost dependants of word. Rightmost means closest to the end of the sentence. Note that only the direct dependants of the word on the stack are returned (i.e. no dependants of dependants).</p>
+<p><strong>Returns</strong><br>
+Returns a list of <code>n</code> rightmost dependants of word, as an array of integers that refer to words in <em><code>self.sentence</code></em>.</p>
+<h2 id="parsetd_pairs-int-string---int-int-string"><code>parse(td_pairs: [(Int, String)]) -&gt; [(Int, Int, String?)]</code></h2>
+<p><strong>Arguments</strong><br>
+<code>td_pairs</code>: list of <em><code>(transition_id, deprel)</code></em> pairs in the order they should be applied.</p>
+<p><strong>Purpose</strong><br>
+Applies the provided transitions/dependency relations to the <code>PartialParse</code>. Simply reapplies <code>parse_step</code> for every element in <code>td_pairs</code>.</p>
+<p><strong>Returns</strong><br>
+Returns <code>self.arcs</code>.</p>
 </div>
 </body>
 

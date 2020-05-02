@@ -9,19 +9,19 @@
 import CoreML
 
 class Transducer: NSObject {
+    let rootWord: String? = nil
+    let unkWord = "_"
+    let rootTag = "TOP"
+    let unkTag = "_"
+    let rootDeprel = "ROOT"
+    let unkDeprel = "_"
+    
     var id2word = [String?]()
     var id2tag = [String?]()
     var id2deprel = [String?]()
     var word2id = [String: Int]()
     var tag2id = [String: Int]()
     var deprel2id = [String: Int]()
-    
-    var rootWord: String?
-    var unkWord = "_"
-    var rootTag = "TOP"
-    var unkTag = "_"
-    var rootDeprel = "ROOT"
-    var unkDeprel = "_"
     
     var unkWordId: Int
     var unkTagId: Int
@@ -71,19 +71,6 @@ class Transducer: NSObject {
     }
     
     func pp2feat(partial: PartialParse) -> (MLMultiArray,MLMultiArray,MLMultiArray){
-//        word/tag vectors (18 each):
-//            - top 3 ids on stack
-//            - top 3 ids on buffer
-//            - 1st and 2nd leftmost and rightmost dependants from top
-//              two words on stack (8)
-//            - leftmost-leftmost and rightmost-rightmost of top two words
-//              on stack (4)
-//
-//        deprel vector (12):
-//            - 1st and 2nd leftmost and rightmost dependants from top
-//              two words on stack (8)
-//            - leftmost-leftmost and rightmost-rightmost of top two words
-//              on stack (4)
         var wordIDs = [Int](repeating: self.nullWordId, count: 18)
         var tagIDs = [Int](repeating: self.nullTagId, count: 18)
         var deprelIDs = [Int](repeating: self.nullDeprelId, count: 12)
@@ -173,23 +160,15 @@ class Transducer: NSObject {
         return (self.convertArrayToML(array: wordIDs), self.convertArrayToML(array: tagIDs), self.convertArrayToML(array: deprelIDs))
     }
     
-    func tdVec2transDeprel(tdVec: MLMultiArray, shiftId: Int = 2, leftArcId: Int = 0, rightArcId: Int = 1) -> (Int, String?) {
-///        The maximum value index is chosen as the transition to take
-///
-///        Args:
-///            has_deprel : whether td_vec contains the deprel or is
-///                simply a one-hot of transitions
-///
-///        Returns:
-///            (transition_id, deprel) where deprel is always None if
-///            *has_deprel is false
+    func tdVec2transDeprel(tdVec: MLMultiArray) -> (Int, String?) {
+        // note that this code assumes there is always a dependency, i.e. there isn't any case for handling when has_deprel is false
         let maxIdx = Math.argmax32(tdVec).0
         if maxIdx == 0 {
-            return (shiftId, nil)
+            return (PartialParse.shift_id, nil)
         } else if maxIdx <= id2deprel.count {
-            return (leftArcId, id2deprel[maxIdx - 1])
+            return (PartialParse.left_arc_id, id2deprel[maxIdx - 1])
         } else {
-            return (rightArcId, id2deprel[maxIdx - id2deprel.count - 1])
+            return (PartialParse.right_arc_id, id2deprel[maxIdx - id2deprel.count - 1])
         }
     }
 }
