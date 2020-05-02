@@ -174,15 +174,7 @@ class Transducer: NSObject {
     }
     
     func tdVec2transDeprel(tdVec: MLMultiArray) -> (Int, String?) {
-///        The maximum value index is chosen as the transition to take
-///
-///        Args:
-///            has_deprel : whether td_vec contains the deprel or is
-///                simply a one-hot of transitions
-///
-///        Returns:
-///            (transition_id, deprel) where deprel is always None if
-///            *has_deprel is false
+        // note that this code assumes there is always a dependency, i.e. there isn't any case for handling when has_deprel is false
         let maxIdx = Math.argmax32(tdVec).0
         if maxIdx == 0 {
             return (PartialParse.shift_id, nil)
