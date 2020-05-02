@@ -9,19 +9,19 @@
 import CoreML
 
 class Transducer: NSObject {
+    let rootWord: String? = nil
+    let unkWord = "_"
+    let rootTag = "TOP"
+    let unkTag = "_"
+    let rootDeprel = "ROOT"
+    let unkDeprel = "_"
+    
     var id2word = [String?]()
     var id2tag = [String?]()
     var id2deprel = [String?]()
     var word2id = [String: Int]()
     var tag2id = [String: Int]()
     var deprel2id = [String: Int]()
-    
-    var rootWord: String?
-    var unkWord = "_"
-    var rootTag = "TOP"
-    var unkTag = "_"
-    var rootDeprel = "ROOT"
-    var unkDeprel = "_"
     
     var unkWordId: Int
     var unkTagId: Int
