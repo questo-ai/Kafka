@@ -7,42 +7,30 @@
 //
 
 import UIKit
+import NaturalLanguage
+//import CoreML
 
 open class Sentence {
     var text: String
-    var tokens: [Token]
+    var doc: Doc
+    var tokens: [Token]?
+    var tagger: POSTagger
+    var dependencyParser: DependencyParser!
     
-    init(tokens: [Token]) {
-        self.tokens = tokens
-    }
-    
-    convenience init(text: String) {
-        self.text = text
+    init(sentence: String, tagger: POSTagger, dependencyParser: DependencyParser, doc: Doc) {
+        self.text = sentence
+        self.doc = doc
+        self.tagger = tagger
+        self.dependencyParser = dependencyParser
+        var tokens = [Token]()
+        let tagged = self.tagger.tag(sentence: sentence)
+        let arcs = self.dependencyParser.predict(sentence: tagged)
         
-        let tokens = POSTag(sentence: text)
-        self.init(tokens)
-    }
-    
-    private func POSTag(sentence: String) -> [(String, String)] {
-        var tags: [(String, String)] = []
-        tagger.string = sentence
-        let options: NLTagger.Options = [.omitWhitespace]
-        //
-        self.tagger.enumerateTags(in: sentence.startIndex..<sentence.endIndex, unit: .word, scheme: .lexicalClass, options: options) { tag, tokenRange in
-            if let tag = tag {
-                tags.append((String(sentence[tokenRange]), tag.UPOS!))
-            }
-            return true
+        for arc in arcs {
+            let textTagPair = tagged[arc.1]
+            let token = Token(offset: arc.1, doc: doc, sent: self, token: textTagPair.0, headIndex: arc.0, pos: textTagPair.1, dep: arc.2!, sentiment: nil)
+            tokens[arc.1] = token
         }
-        return tags
-    }
-    
-    
-    func taggedSentences() -> [[(String, String)]]{
-        var taggedSentences = [[(String, String)]]()
-        for sentence in (sentences ?? []) {
-            taggedSentences.append(self.POSTag(sentence: sentence))
-        }
-        return taggedSentences
+        self.tokens = tokens
     }
 }

@@ -12,24 +12,28 @@ import NaturalLanguage
 open class Doc {
     open var sentences: [Sentence]?
     open var arcs: [[(Int, Int, String?)]]?
-    private var tagger: NLTagger!
+    open var dependencyParser: DependencyParser!
+    open var tagger: POSTagger!
     
     
-    init(sentenceLists: [Sentence]?) {
-        self.tagger = NLTagger(tagSchemes: [.lexicalClass])
-        self.sentences = sentenceLists
+    init(sentenceList: [String]) {
+        self.tagger = POSTagger()
+        self.dependencyParser = DependencyParser()
+        for sentence in sentenceList {
+            self.sentences!.append(Sentence(sentence: sentence, tagger: self.tagger, dependencyParser: self.dependencyParser, doc: self))
+        }
     }
     
     
     convenience init(string: String) {
-        var sentences: [Sentence]?
+        var sentences = [String]()
         let sentenceTokenizer = NLTokenizer(unit: .sentence)
         sentenceTokenizer.string = string
         sentenceTokenizer.enumerateTokens(in: string.startIndex..<string.endIndex) { tokenRange, _ in
-            let sentence = Sentence(text: String(string[tokenRange]))
-            sentences?.append(sentence)
+            let sentence = String(string[tokenRange])
+            sentences.append(sentence)
             return true
         }
-        self.init(sentenceLists: sentences)
+        self.init(sentenceList: sentences)
     }
 }
