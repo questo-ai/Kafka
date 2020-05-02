@@ -22,17 +22,12 @@ class PartialParse: NSObject {
     public var arcs: [(Int, Int, String?)]
     public var sentence: [(String?, String)]
     
-    
     init(sentence: [(String, String)]) {
         self.sentence = sentence
         self.sentence.insert((nil, PartialParse.root_tag), at: 0)
         self.stack = [0]
         self.next = 1
         self.arcs = []
-    }
-    
-    func removed_by_address() {
-        
     }
     
     var complete: Bool {

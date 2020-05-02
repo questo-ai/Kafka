@@ -71,19 +71,6 @@ class Transducer: NSObject {
     }
     
     func pp2feat(partial: PartialParse) -> (MLMultiArray,MLMultiArray,MLMultiArray){
-//        word/tag vectors (18 each):
-//            - top 3 ids on stack
-//            - top 3 ids on buffer
-//            - 1st and 2nd leftmost and rightmost dependants from top
-//              two words on stack (8)
-//            - leftmost-leftmost and rightmost-rightmost of top two words
-//              on stack (4)
-//
-//        deprel vector (12):
-//            - 1st and 2nd leftmost and rightmost dependants from top
-//              two words on stack (8)
-//            - leftmost-leftmost and rightmost-rightmost of top two words
-//              on stack (4)
         var wordIDs = [Int](repeating: self.nullWordId, count: 18)
         var tagIDs = [Int](repeating: self.nullTagId, count: 18)
         var deprelIDs = [Int](repeating: self.nullDeprelId, count: 12)
