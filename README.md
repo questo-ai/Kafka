@@ -37,14 +37,17 @@ Kafka is an advanced Natural Language Processing library written in Swift. It's 
 | [Math]             | Math holds helper functions for common mathematical computations
 | [PartialParse]     | A PartialParse is a snapshot of an arc-standard dependency parse
 | [Transducer]       | Holds methods for conversions between data types
+| [Internal Practices]       | Holds methods for conversions between data types
+
 
 [Data]: docs/source/Data.md
-[DependencyParser]: docs/source/Dependency_Parser.md
+[DependencyParser]: docs/source/DependencyParser.md
 [Doc]: docs/source/Doc.md
 [Kafka]: docs/source/Kafka.md
 [Math]: docs/source/Math.md
 [PartialParse]: docs/source/PartialParse.md
 [Transducer]: docs/source/Transducer.md
+[Internal Practices]: docs/source/Internal_Practices.md
 
 ## Features
 - [x] Non-destructive tokenization
