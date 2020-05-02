@@ -10,7 +10,7 @@ import Foundation
 import NaturalLanguage
 
 open class Doc {
-    open var sentences: [Sentence]?
+    open var sentences: [Sentence] = []
     open var arcs: [[(Int, Int, String?)]]?
     open var dependencyParser: DependencyParser!
     open var tagger: POSTagger!
@@ -19,8 +19,10 @@ open class Doc {
     init(sentenceList: [String]) {
         self.tagger = POSTagger()
         self.dependencyParser = DependencyParser()
+        var x: Sentence
         for sentence in sentenceList {
-            self.sentences!.append(Sentence(sentence: sentence, tagger: self.tagger, dependencyParser: self.dependencyParser, doc: self))
+            x = Sentence(sentence: sentence, tagger: self.tagger, dependencyParser: self.dependencyParser, doc: self)
+            self.sentences.append(x)
         }
     }
     

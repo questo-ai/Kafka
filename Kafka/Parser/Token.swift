@@ -24,7 +24,7 @@ open class Token {
     var sent: Sentence
     var headIndex: Int
     var head: Token {
-        return self.sent.tokens![self.headIndex]
+        return self.sent.tokens[self.headIndex]
     }
 //    var lefts: [Token] {
 //

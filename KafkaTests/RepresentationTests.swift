@@ -21,8 +21,7 @@ class RepresentationTests: XCTestCase {
     }
 
     func testDoc() throws {
-        let d = Doc(sentenceList: ["In an Oct. 19 review of \"The Misanthrope\" at Chicago's Goodman Theatre (\"Revitalized Classics Take the Stage in Windy City,\" Leisure & Arts), the role of Celimene, played by Kim Cattrall, was mistakenly attributed to Christina Haag."])
-        
+        let d = Doc(string: "Khush and Arya enjoy coding together.")
     }
 
     func testPerformanceExample() throws {
