@@ -9,6 +9,7 @@
 import XCTest
 import CoreML
 @testable import Kafka
+
 class DependencyTests: XCTestCase {
     
     let testSentence = "In an Oct. 19 review of \"The Misanthrope\" at Chicago's Goodman Theatre (\"Revitalized Classics Take the Stage in Windy City,\" Leisure & Arts), the role of Celimene, played by Kim Cattrall, was mistakenly attributed to Christina Haag."
@@ -181,6 +182,4 @@ class DependencyTests: XCTestCase {
         }
     }
     
-    
-
 }
