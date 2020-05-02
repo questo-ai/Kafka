@@ -23,6 +23,20 @@ class RepresentationTests: XCTestCase {
     func testDoc() throws {
         let d = Doc(string: "Khush and Arya enjoy coding together.")
     }
+    
+    func testLefts() throws {
+        let d = Doc(string: "Johnathon enjoys the occasional sampling of heroin.")
+        for left in d.sentences[0].tokens[4].lefts {
+            print(left.text)
+        }
+    }
+    
+    func testRights() throws {
+        let d = Doc(string: "Johnathon enjoys the occasional sampling of heroin.")
+        for right in d.sentences[0].tokens[4].rights {
+            print(right.text)
+        }
+    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.

@@ -26,12 +26,35 @@ open class Token {
     var head: Token {
         return self.sent.tokens[self.headIndex]
     }
-//    var lefts: [Token] {
-//
-//    }
-//    var rights: [Token] {
-//
-//    }
+    
+    var lefts: [Token] {
+        var leftsTemp: [Token] = []
+        for position in (self.lEdge...self.index) {
+            if (self.sent.tokens[position].head.index == self.index) {
+                leftsTemp.append(self.sent.tokens[position])
+            }
+        }
+        return leftsTemp
+    }
+    var lKids = 0
+    var lEdge: Int
+    
+    var rights: [Token] {
+        var rightsTemp: [Token] = []
+        for position in stride(from: self.rEdge, through: self.index, by: -1) {
+            if (self.sent.tokens[position].head.index == self.index) {
+                rightsTemp.append(self.sent.tokens[position])
+            }
+        }
+        return rightsTemp.reversed()
+    }
+    var rKids = 0
+    var rEdge: Int
+    
+    var subtree: [Token] {
+        return Array(self.sent.tokens[self.lEdge...self.rEdge])
+    }
+    
     var pos: String
     var dep: String
     var sentiment: Float?
@@ -41,9 +64,15 @@ open class Token {
         self.doc = doc
         self.sent = sent
         self.text = token
-        self.headIndex = headIndex
+        if (headIndex == -1) {
+            self.headIndex = offset
+        } else {
+            self.headIndex = headIndex
+        }
         self.pos = pos
         self.dep = dep
         self.sentiment = sentiment
+        self.lEdge = index
+        self.rEdge = index
     }
 }

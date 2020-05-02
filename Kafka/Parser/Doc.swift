@@ -15,7 +15,6 @@ open class Doc {
     open var dependencyParser: DependencyParser!
     open var tagger: POSTagger!
     
-    
     init(sentenceList: [String]) {
         self.tagger = POSTagger()
         self.dependencyParser = DependencyParser()

@@ -16,6 +16,7 @@ open class Sentence {
     var tokens: [Token] = []
     var tagger: POSTagger
     var dependencyParser: DependencyParser!
+    var length: Int
     
     init(sentence: String, tagger: POSTagger, dependencyParser: DependencyParser, doc: Doc) {
         self.text = sentence
@@ -25,7 +26,7 @@ open class Sentence {
         let tagged = self.tagger.tag(sentence: sentence)
         var tokens = [Token?](repeating: nil, count: tagged.count)
         let arcs = self.dependencyParser.predict(sentence: tagged)
-        
+        self.length = tagged.count
         
         for arc in arcs {
             let textTagPair = tagged[arc.1-1]
@@ -35,6 +36,41 @@ open class Sentence {
         
         for token in tokens {
             self.tokens.append(token!)
+        }
+        
+        self.setLeftRightChildrenAndEdges()
+    }
+    
+    func setLeftRightChildrenAndEdges() {
+        var head: Token
+        var child: Token
+        
+        for i in 0...self.length-1 {
+            child = self.tokens[i]
+            head = self.tokens[child.headIndex]
+            if (child.index < head.index) {
+                head.lKids += 1
+            }
+            if (child.lEdge < head.lEdge) {
+                head.lEdge = child.lEdge
+            }
+            if (child.rEdge > head.rEdge) {
+                head.rEdge = child.rEdge 
+            }
+        }
+        
+        for i in stride(from: self.length-1, to: 0, by: -1) {
+            child = self.tokens[i]
+            head = self.tokens[child.headIndex]
+            if (child.index > head.index) {
+                head.rKids += 1
+            }
+            if (child.rEdge > head.rEdge) {
+                head.rEdge = child.rEdge
+            }
+            if (child.lEdge < head.lEdge) {
+                head.lEdge = child.lEdge
+            }
         }
     }
 }
