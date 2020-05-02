@@ -32,9 +32,17 @@ class RepresentationTests: XCTestCase {
     }
     
     func testRights() throws {
+        // TEST ON THIS TOO: Johanathon enjoys the occasional sampling of some heroin.
         let d = Doc(string: "Johnathon enjoys the occasional sampling of heroin.")
         for right in d.sentences[0].tokens[4].rights {
             print(right.text)
+        }
+    }
+    
+    func testSubtree() throws {
+        let d = Doc(string: "Johnathon enjoys the occasional sampling of heroin.")
+        for x in d.sentences[0].tokens[4].subtree {
+            print(x.text)
         }
     }
 

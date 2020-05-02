@@ -38,6 +38,23 @@ open class Sentence {
             self.tokens.append(token!)
         }
         
+        for token in self.tokens {
+            if token.dep == "nmod" {
+                var nmod_token = token
+                var nmod_og_token_index = nmod_token.index
+                
+                var case_token: Token?
+                for token in self.tokens {
+                    if (token.headIndex == nmod_token.index) {
+                        case_token = token
+                    }
+                }
+                var case_og_token_index = case_token!.index
+                
+                fatalError("need to finish this translation code")
+            }
+        }
+        
         self.setLeftRightChildrenAndEdges()
     }
     

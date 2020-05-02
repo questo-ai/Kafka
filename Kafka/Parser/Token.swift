@@ -41,11 +41,28 @@ open class Token {
     
     var rights: [Token] {
         var rightsTemp: [Token] = []
-        for position in stride(from: self.rEdge, through: self.index, by: -1) {
-            if (self.sent.tokens[position].head.index == self.index) {
-                rightsTemp.append(self.sent.tokens[position])
+        
+        var s = self.subtree
+        for x in s {print(x.text + "," +  String(x.headIndex))}
+        print(s)
+        
+        
+        for token in subtree.reversed() {
+            if token.index == self.index {
+                break
+            }
+            
+            if token.headIndex == self.index {
+                rightsTemp.append(token)
             }
         }
+        
+//        for position in stride(from: self.rEdge, through: self.index, by: -1) {
+//            print(position)
+//            if (self.sent.tokens[position].head.index == self.index) {
+//                rightsTemp.append(self.sent.tokens[position])
+//            }
+//        }
         return rightsTemp.reversed()
     }
     var rKids = 0
