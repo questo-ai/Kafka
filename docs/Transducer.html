@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transducer</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="transducer">Transducer</h1>
+<p>This is the internal documentation for the <code>Transducer</code> class. Wherever details are omitted, please refer to the original code.</p>
+<h2 id="instance-variables">Instance Variables</h2>
+<h4 id="constants">Constants</h4>
+<p><strong><code>self.rootWord</code></strong><br>
+Type: <code>String?</code><br>
+<em>Value: <code>nil</code></em><br>
+Placeholder for root word.</p>
+<p><strong><code>self.unkWord</code></strong><br>
+Type: <code>String</code><br>
+<em>Value: <code>_</code></em><br>
+Placeholder for unknown word.</p>
+<p><strong><code>self.rootTag</code></strong><br>
+Type: <code>String</code><br>
+<em>Value: <code>TOP</code></em><br>
+POS tag assigned to root node.</p>
+<p><strong><code>self.unkTag</code></strong><br>
+Type: <code>String</code><br>
+<em>Value: <code>_</code></em><br>
+POS tag assigned to unknown word.</p>
+<p><strong><code>self.rootDeprel</code></strong><br>
+Type: <code>String</code><br>
+<em>Value: <code>ROOT</code></em><br>
+Dependency tag between root node and head word.</p>
+<p><strong><code>self.unkDeprel</code></strong><br>
+Type: <code>String</code><br>
+<em>Value: <code>_</code></em><br>
+Dependency tag for unknown relation.</p>
+<h4 id="mutable">Mutable</h4>
+<p><strong><code>self.id2word</code></strong><br>
+Type: <code>[String?]</code><br>
+Wordlist as an array, plus the unknown and root word. Position of word corresponds to its ID.</p>
+<p><strong><code>self.id2tag</code></strong><br>
+Type: <code>[String?]</code><br>
+POS tags as an array, plus the tag for unknown and root word. Position of tag corresponds to its ID.</p>
+<p><strong><code>self.id2deprel</code></strong><br>
+Type: <code>[String?]</code><br>
+Dependency tags as an array, plus the tag for unknown and root word. Position of tag corresponds to its ID.</p>
+<p><strong><code>self.word2id</code></strong><br>
+Type: <code>[String: Int]</code><br>
+Dictionary used to translate between words and their corresponding IDs.</p>
+<p><strong><code>self.tag2id</code></strong><br>
+Type: <code>[String: Int]</code><br>
+Dictionary used to translate between POS tags and their corresponding IDs.</p>
+<p><strong><code>self.deprel2id</code></strong><br>
+Type: <code>[String: Int]</code><br>
+Dictionary used to translate between dependency tags and their corresponding IDs.</p>
+<p><strong><code>self.unkWordId</code></strong><br>
+Type: <code>Int</code><br>
+Word ID for an unknown word.</p>
+<p><strong><code>self.unkTagId</code></strong><br>
+Type: <code>Int</code><br>
+POS tag ID for an unknown word.</p>
+<p><strong><code>self.unkDeprelId</code></strong><br>
+Type: <code>Int</code><br>
+Dependency tag ID for an unknown word.</p>
+<p><strong><code>self.nullWordId</code></strong><br>
+Type: <code>Int</code><br>
+Word ID that denotes null.</p>
+<p><strong><code>self.nullTagId</code></strong><br>
+Type: <code>Int</code><br>
+POS tag ID that denotes null.</p>
+<p><strong><code>self.nullDeprelId</code></strong><br>
+Type: <code>Int</code><br>
+Dependency tag ID that denotes null.</p>
+<h2 id="initwordlist-string-taglist-string-deprellist-string"><code>init(wordList: [String?], tagList: [String], deprelList: [String])</code></h2>
+<p><strong>Arguments</strong><br>
+<code>wordList</code>: wordlist as an array of <code>String</code>.<br>
+<code>tagList</code>: list of POS tags as an array of <code>String</code>.<br>
+<code>deprelList</code>: list of dependency tags as an array of <code>String</code>.</p>
+<p><strong>Purpose</strong><br>
+Initialize instance variables with the appropriate values.</p>
+<p><strong>Returns</strong><br>
+None.</p>
+<h2 id="convertarraytomlarray-int---mlmultiarray"><code>convertArrayToML(array: [Int]) -&gt; MLMultiArray</code></h2>
+<p><strong>Arguments</strong><br>
+<code>array</code>: the array of <code>Int</code> to convert .</p>
+<p><strong>Purpose</strong><br>
+Converts an array of <code>Int</code> into the CoreML-compatible <code>MLMultiArray</code>.</p>
+<p><strong>Returns</strong><br>
+Returns the converted array as <code>MLMultiArray</code>.</p>
+<h2 id="pp2featpartial-partialparse---mlmultiarraymlmultiarraymlmultiarray"><code>pp2feat(partial: PartialParse) -&gt; (MLMultiArray,MLMultiArray,MLMultiArray)</code></h2>
+<p><strong>Arguments</strong><br>
+<code>partial</code>: the <code>PartialParse</code> object from which to construct a feature vector triple.</p>
+<p><strong>Purpose</strong><br>
+Constructs a feature vector triple <code>(word, pos, deprel)</code> from a <code>PartialParse</code> object.</p>
+<p><strong>Returns</strong><br>
+Returns <code>(word, pos, deprel)</code>, all of which are of type <code>MLMultiArray</code>.</p>
+<p>The following two paragraphs will be difficult to make sense of without first understanding the paper our dependency parser comes from.</p>
+<p>The <code>word</code> and <code>tag</code> vectors have 18 values each for a single sentence. They are: top 3 ids on stack, top 3 ids on buffer, 1st and 2nd leftmost and rightmost dependants from top two words on stack (8), and leftmost-leftmost and rightmost-rightmost of top two words on stack (4).</p>
+<p>The <code>deprel</code> vector has 12 values for a single sentence. They are: 1st and 2nd leftmost and rightmost dependants from top two words on stack (8), and the leftmost-leftmost and rightmost-rightmost of top two words on stack (4).</p>
+<h2 id="tdvec2transdepreltdvec-mlmultiarray---int-string"><code>tdVec2transDeprel(tdVec: MLMultiArray) -&gt; (Int, String?)</code></h2>
+<p><strong>Arguments</strong><br>
+<code>partial</code>: the <code>trans/deprel</code> vector to translate, as an <code>MLMultiarray</code>.</p>
+<p><strong>Purpose</strong><br>
+Converts a <code>trans/deprel</code> vector into a <code>trans,deprel</code> pair.</p>
+<p><strong>Returns</strong><br>
+Returns <code>(transition_id, deprel)</code>.</p>
+</div>
+</body>
+
+</html>
