@@ -31,7 +31,7 @@ Kafka is an advanced Natural Language Processing library written in Swift. It's 
 | Documentation      |                                                                |
 | ------------------ | -------------------------------------------------------------- |
 | [Data]             | Contains word embeddings, a list of POS tags, and a list of dependency tags
-| [DependencyParser] | Dependency Parser parses Docs for dependency relations between word tokens
+| [DependencyParser](Dependency Parser.html) | Dependency Parser parses Docs for dependency relations between word tokens
 | [Doc]              | A container for accessing linguistic annotations.
 | [Kafka]            | An interface for the library
 | [Math]             | Math holds helper functions for common mathematical computations
@@ -39,7 +39,6 @@ Kafka is an advanced Natural Language Processing library written in Swift. It's 
 | [Transducer]       | Holds methods for conversions between data types
 
 [Data]: https://github.com/questo-ai/kafka/docs/Data.md
-[DependencyParser]: https://github.com/questo-ai/kafka/docs/DependencyParser.md
 [Doc]: https://github.com/questo-ai/kafka/docs/Doc.md
 [Kafka]: https://github.com/questo-ai/kafka/docs/Kafka.md
 [Math]: https://github.com/questo-ai/kafka/docs/Math.md
