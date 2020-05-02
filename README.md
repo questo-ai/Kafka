@@ -31,19 +31,20 @@ Kafka is an advanced Natural Language Processing library written in Swift. It's 
 | Documentation      |                                                                |
 | ------------------ | -------------------------------------------------------------- |
 | [Data]             | Contains word embeddings, a list of POS tags, and a list of dependency tags
-| [DependencyParser](Dependency Parser.html) | Dependency Parser parses Docs for dependency relations between word tokens
+| [DependencyParser] | Dependency Parser parses Docs for dependency relations between word tokens
 | [Doc]              | A container for accessing linguistic annotations.
 | [Kafka]            | An interface for the library
 | [Math]             | Math holds helper functions for common mathematical computations
 | [PartialParse]     | A PartialParse is a snapshot of an arc-standard dependency parse
 | [Transducer]       | Holds methods for conversions between data types
 
-[Data]: https://github.com/questo-ai/kafka/docs/Data.md
-[Doc]: https://github.com/questo-ai/kafka/docs/Doc.md
-[Kafka]: https://github.com/questo-ai/kafka/docs/Kafka.md
-[Math]: https://github.com/questo-ai/kafka/docs/Math.md
-[PartialParse]: https://github.com/questo-ai/kafka/docs/PartialParse.md
-[Transducer]: https://github.com/questo-ai/kafka/docs/Transducer.md
+[Data]: docs/Data.md
+[DependencyParser]: docs/Dependency_Parser.md
+[Doc]: docs/Doc.md
+[Kafka]: docs/Kafka.md
+[Math]: docs/Math.md
+[PartialParse]: docs/PartialParse.md
+[Transducer]: docs/Transducer.md
 
 ## Features
 - [x] Non-destructive tokenization
