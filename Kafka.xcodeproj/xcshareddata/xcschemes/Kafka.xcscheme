@@ -37,11 +37,6 @@
                BlueprintName = "KafkaTests"
                ReferencedContainer = "container:Kafka.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "TransducerTests/test_pp2feat()">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
