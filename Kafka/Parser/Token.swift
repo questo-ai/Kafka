@@ -2,16 +2,12 @@
 //  Token.swift
 //  Kafka
 //
-//  Created by Arya Vohra on 1/5/20.
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 
-import UIKit
-
-open class Token {
+open class Token: CustomStringConvertible {
     var text: String
-//    var textWithWs: String // not implemented
-//    var whitespace: String // maybe Char
+
     var index: Int
     var isSentStart: Bool {
         if (self.index == 0) {
@@ -23,15 +19,13 @@ open class Token {
     var doc: Doc
     var sent: Sentence
     var headIndex: Int
-    var head: Token {
-        return self.sent.tokens[self.headIndex]
-    }
+    var head: Token { return self.sent[self.headIndex] }
     
     var lefts: [Token] {
         var leftsTemp: [Token] = []
         for position in (self.lEdge...self.index) {
-            if (self.sent.tokens[position].head.index == self.index) {
-                leftsTemp.append(self.sent.tokens[position])
+            if (self.sent[position].head.index == self.index) {
+                leftsTemp.append(self.sent[position])
             }
         }
         return leftsTemp
@@ -42,39 +36,27 @@ open class Token {
     var rights: [Token] {
         var rightsTemp: [Token] = []
         
-        var s = self.subtree
-        for x in s {print(x.text + "," +  String(x.headIndex))}
-        print(s)
-        
-        
-        for token in subtree.reversed() {
-            if token.index == self.index {
-                break
-            }
-            
-            if token.headIndex == self.index {
-                rightsTemp.append(token)
+        for position in stride(from: self.rEdge, through: self.index, by: -1) {
+            if (self.sent[position].head.index == self.index) {
+                rightsTemp.append(self.sent[position])
             }
         }
         
-//        for position in stride(from: self.rEdge, through: self.index, by: -1) {
-//            print(position)
-//            if (self.sent.tokens[position].head.index == self.index) {
-//                rightsTemp.append(self.sent.tokens[position])
-//            }
-//        }
         return rightsTemp.reversed()
     }
+    
     var rKids = 0
     var rEdge: Int
     
     var subtree: [Token] {
-        return Array(self.sent.tokens[self.lEdge...self.rEdge])
+        return Array(self.sent[self.lEdge...self.rEdge])
     }
     
     var pos: String
     var dep: String
     var sentiment: Float?
+    
+    public var description: String { return self.text }
     
     init(offset: Int, doc: Doc, sent: Sentence, token: String, headIndex: Int, pos: String, dep: String, sentiment: Float?) {
         self.index = offset

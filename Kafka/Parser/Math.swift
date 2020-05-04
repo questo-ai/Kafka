@@ -22,8 +22,8 @@ import Accelerate
 import CoreML
 
 struct Math {
-    /// MLMultiArray helper.
-    /// Works in our specific use case.
+    // MLMultiArray helper.
+    // Works in our specific use case.
     static func argmax32(_ multiArray: MLMultiArray) -> (Int, Float) {
         assert(multiArray.dataType == .float32)
         let ptr = UnsafeMutablePointer<Float32>(OpaquePointer(multiArray.dataPointer))

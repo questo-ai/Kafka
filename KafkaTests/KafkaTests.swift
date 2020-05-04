@@ -1,8 +1,7 @@
 //
-//  DependencyParserTests.swift
-//  DependencyParserTests
+//  KafkaTests.swift
+//  KafkaTests
 //
-//  Created by Taichi Kato on 28/4/20.
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 

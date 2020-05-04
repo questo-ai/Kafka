@@ -2,7 +2,6 @@
 //  Parser.swift
 //  DependencyParser
 //
-//  Created by Taichi Kato on 28/4/20.
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 
@@ -54,6 +53,7 @@ open class DependencyParser {
     }
 }
 
+// helper struct used in predict()
 struct PartialParses {
     var collection = [PartialParse]()
 }

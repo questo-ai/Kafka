@@ -2,7 +2,6 @@
 //  Transducer.swift
 //  DependencyParser
 //
-//  Created by Arya Vohra on 29/4/20.
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 
@@ -71,19 +70,6 @@ class Transducer: NSObject {
     }
     
     func pp2feat(partial: PartialParse) -> (MLMultiArray,MLMultiArray,MLMultiArray){
-//        word/tag vectors (18 each):
-//            - top 3 ids on stack
-//            - top 3 ids on buffer
-//            - 1st and 2nd leftmost and rightmost dependants from top
-//              two words on stack (8)
-//            - leftmost-leftmost and rightmost-rightmost of top two words
-//              on stack (4)
-//
-//        deprel vector (12):
-//            - 1st and 2nd leftmost and rightmost dependants from top
-//              two words on stack (8)
-//            - leftmost-leftmost and rightmost-rightmost of top two words
-//              on stack (4)
         var wordIDs = [Int](repeating: self.nullWordId, count: 18)
         var tagIDs = [Int](repeating: self.nullTagId, count: 18)
         var deprelIDs = [Int](repeating: self.nullDeprelId, count: 12)
@@ -174,15 +160,6 @@ class Transducer: NSObject {
     }
     
     func tdVec2transDeprel(tdVec: MLMultiArray, shiftId: Int = 2, leftArcId: Int = 0, rightArcId: Int = 1) -> (Int, String?) {
-///        The maximum value index is chosen as the transition to take
-///
-///        Args:
-///            has_deprel : whether td_vec contains the deprel or is
-///                simply a one-hot of transitions
-///
-///        Returns:
-///            (transition_id, deprel) where deprel is always None if
-///            *has_deprel is false
         let maxIdx = Math.argmax32(tdVec).0
         if maxIdx == 0 {
             return (shiftId, nil)

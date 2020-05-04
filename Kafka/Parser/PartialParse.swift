@@ -2,15 +2,10 @@
 //  PartialParse.swift
 //  DependencyParser
 //
-//  Created by Arya Vohra on 28/4/20.
 //  Copyright © 2020 Questo. All rights reserved.
 //
 
 import NaturalLanguage
-
-enum ParserError: Error {
-    case ValueError
-}
 
 class PartialParse: NSObject {
     public let left_arc_id = 0
@@ -29,13 +24,7 @@ class PartialParse: NSObject {
         self.next = 1
         self.arcs = []
     }
-    
-    
-    func removed_by_address() {
-        
-    }
-    
-    
+
     var complete: Bool {
         get {
             return (self.next == self.sentence.count) && (self.stack.count == 1)

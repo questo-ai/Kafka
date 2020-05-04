@@ -2,11 +2,9 @@
 //  POSTagger.swift
 //  Kafka
 //
-//  Created by Arya Vohra on 2/5/20.
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 
-import UIKit
 import NaturalLanguage
 
 open class POSTagger {

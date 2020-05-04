@@ -2,21 +2,20 @@
 //  Sentence.swift
 //  Kafka
 //
-//  Created by Arya Vohra on 1/5/20.
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 
-import UIKit
 import NaturalLanguage
-//import CoreML
 
-open class Sentence {
+open class Sentence: CustomStringConvertible {
     var text: String
     var doc: Doc
     var tokens: [Token] = []
     var tagger: POSTagger
     var dependencyParser: DependencyParser!
     var length: Int
+    
+    public var description: String { return self.text }
     
     init(sentence: String, tagger: POSTagger, dependencyParser: DependencyParser, doc: Doc) {
         self.text = sentence
@@ -36,23 +35,6 @@ open class Sentence {
         
         for token in tokens {
             self.tokens.append(token!)
-        }
-        
-        for token in self.tokens {
-            if token.dep == "nmod" {
-                var nmod_token = token
-                var nmod_og_token_index = nmod_token.index
-                
-                var case_token: Token?
-                for token in self.tokens {
-                    if (token.headIndex == nmod_token.index) {
-                        case_token = token
-                    }
-                }
-                var case_og_token_index = case_token!.index
-                
-                fatalError("need to finish this translation code")
-            }
         }
         
         self.setLeftRightChildrenAndEdges()
@@ -89,5 +71,26 @@ open class Sentence {
                 head.lEdge = child.lEdge
             }
         }
+    }
+}
+
+extension Sentence: Collection {
+    public func index(after i: Int) -> Int {
+        return self.tokens.index(after: i)
+    }
+    
+    public var startIndex: Int {
+        return self.tokens.startIndex
+    }
+    
+    public var endIndex: Int {
+        return self.tokens.endIndex
+    }
+    
+    public typealias Element = Token
+    public typealias Index = Int
+    
+    public subscript(position: Index) -> Element {
+        return self.tokens[position]
     }
 }
