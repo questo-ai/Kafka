@@ -48,19 +48,19 @@ class RepresentationTests: XCTestCase {
     func testRights() throws {
         let d = Doc(text: self.testSentence)
         
-        var r = d.sentences[0][14].rights
-        
-        for right in r {
-            print(right.text)
+        let r = d.sentences[0]
+        for tok in r {
+            print(tok.rights)
         }
     }
     
     func testSubtree() throws {
         let d = Doc(text: self.testSentence)
         
+        let r = d.sentences[0]
         
-        for x in d.sentences[0][14].subtree {
-            print(x.text)
+        for tok in r {
+            print(tok.subtree)
         }
     }
 
