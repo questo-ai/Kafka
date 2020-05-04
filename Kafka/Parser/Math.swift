@@ -21,7 +21,7 @@ import Foundation
 import Accelerate
 import CoreML
 
-  struct Math {
+struct Math {
     // MLMultiArray helper.
     // Works in our specific use case.
     static func argmax32(_ multiArray: MLMultiArray) -> (Int, Float) {

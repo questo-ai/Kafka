@@ -2,7 +2,6 @@
 //  Transducer.swift
 //  DependencyParser
 //
-//  Created by Arya Vohra on 29/4/20.
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 
@@ -160,8 +159,7 @@ class Transducer: NSObject {
         return (self.convertArrayToML(array: wordIDs), self.convertArrayToML(array: tagIDs), self.convertArrayToML(array: deprelIDs))
     }
     
-    func tdVec2transDeprel(tdVec: MLMultiArray) -> (Int, String?) {
-        // note that this code assumes there is always a dependency, i.e. there isn't any case for handling when has_deprel is false
+    func tdVec2transDeprel(tdVec: MLMultiArray, shiftId: Int = 2, leftArcId: Int = 0, rightArcId: Int = 1) -> (Int, String?) {
         let maxIdx = Math.argmax32(tdVec).0
         if maxIdx == 0 {
             return (PartialParse.shift_id, nil)

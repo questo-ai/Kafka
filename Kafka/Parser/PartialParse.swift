@@ -2,15 +2,10 @@
 //  PartialParse.swift
 //  DependencyParser
 //
-//  Created by Arya Vohra on 28/4/20.
 //  Copyright © 2020 Questo. All rights reserved.
 //
 
 import NaturalLanguage
-
-enum ParserError: Error {
-    case ValueError
-}
 
 class PartialParse: NSObject {
     public static let left_arc_id = 0
@@ -29,7 +24,7 @@ class PartialParse: NSObject {
         self.next = 1
         self.arcs = []
     }
-    
+
     var complete: Bool {
         get {
             return (self.next == self.sentence.count) && (self.stack.count == 1)
@@ -94,6 +89,14 @@ class PartialParse: NSObject {
             }
         }
     }
+    
+    
+    func contains(a: [(Int, Int)], v: (Int,Int)) -> Bool {
+        let (c1, c2) = v
+        for (v1, v2) in a {if v1 == c1 && v2 == c2 { return true } }
+        return false
+    }
+    
     
     func parse(td_pairs: [(Int, String)]) -> [(Int, Int, String?)] {
         for (transition_id, deprel) in td_pairs {

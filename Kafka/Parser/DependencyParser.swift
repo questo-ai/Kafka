@@ -2,7 +2,6 @@
 //  Parser.swift
 //  DependencyParser
 //
-//  Created by Taichi Kato on 28/4/20.
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 
@@ -23,6 +22,17 @@ open class DependencyParser {
         }
     }
     
+    internal func predict(sentence: [(String, String)]) ->  [(Int, Int, String?)] {
+        // Uses an object wrapper to reference same array
+        let pp = PartialParse(sentence: sentence)
+        while !pp.complete {
+            let feats = transducer.pp2feat(partial: pp)
+            let td_pair = predict(feats.0, feats.1, feats.2)
+            pp.parse_step(transition_id: td_pair.0, deprel: td_pair.1)
+        }
+        return pp.arcs
+    }
+    
     internal func predict(sentences: [[(String, String)]]) ->  [[(Int, Int, String?)]] {
         var arcs = [[(Int, Int, String?)]]()
         // Uses an object wrapper to reference same array
@@ -41,14 +51,9 @@ open class DependencyParser {
         }
         return arcs
     }
-    
-    public func predict(text: Doc) -> Doc{
-        let arcs = self.predict(sentences: text.taggedSentences())
-        text.arcs = arcs
-        return text
-    }
 }
 
+// helper struct used in predict()
 struct PartialParses {
     var collection = [PartialParse]()
 }

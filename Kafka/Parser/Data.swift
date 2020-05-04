@@ -1,8 +1,7 @@
 //
-//  TransducerData.swift
-//  DependencyParserTests
+//  Data.swift
+//  Kafka
 //
-//  Created by Taichi Kato on 30/4/20.
 //  Copyright © 2020 Questo AI. All rights reserved.
 //
 
