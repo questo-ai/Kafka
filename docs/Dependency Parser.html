@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dependency Parser</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="dependencyparser">DependencyParser</h1>
+<p>This is the internal documentation for the <code>DependencyParser</code> class. Wherever details are omitted, please refer to the original code.</p>
+<h2 id="instance-variables">Instance Variables</h2>
+<p><strong><code>self.model</code></strong><br>
+Type: <code>DependencyParser</code><br>
+Holds instance of <code>DependencyParser()</code>.</p>
+<p><strong><code>self.transducer</code></strong><br>
+Type: <code>Transducer</code> (<em>strict</em>)<br>
+Holds instance of <code>Transducer()</code>.</p>
+<h2 id="predict_-wordids-mlmultiarray-_-tagids-mlmultiarray-_-deprelids-mlmultiarray---int-string"><code>predict(_ wordIDs: MLMultiArray, _ tagIDs: MLMultiArray, _ deprelIDs: MLMultiArray) -&gt; (Int, String?)</code></h2>
+<p><strong>Arguments</strong><br>
+<code>wordIDs</code>: list of word IDs (position in a wordlist) as <code>MLMultiArray</code>. Mandatory.<br>
+<code>tagIDs</code>: list of tag IDs (position in a list of tags) as <code>MLMultiArray</code>. Mandatory.<br>
+<code>deprelIDs</code>: list of dependency IDs (position in a list of dependency) as <code>MLMultiArray</code>. Mandatory.</p>
+<p><strong>Purpose</strong><br>
+Performs a prediction using the CoreML model and returns the raw <code>trans/deprel</code> pairs.</p>
+<p><strong>Returns</strong><br>
+Type: <code>[[Int, Int, String?]]</code><br>
+Returns array of arrays, each corresponding to the arcs for a given sentence. Each sub-array contains tuples with three elements — the first is the index of the head (relative to the sentence), the second is the index of the dependent (relative to the sentence), and the third is the dependency itself.</p>
+<p><strong>Additional Notes</strong><br>
+Overloaded function.</p>
+<h2 id="predictsentences-string-string---int-int-string"><code>predict(sentences: [[(String, String)]]) -&gt; [[(Int, Int, String?)]]</code></h2>
+<p><strong>Arguments</strong><br>
+<code>sentences</code>: array of sentences, where each sentence is represented as an array of <code>(word,pos)</code> tuples. Mandatory.</p>
+<p><strong>Purpose</strong><br>
+Performs prediction using the CoreML model, uses it to perform the dependency parsing, and returns an array of dependency relations for each sentence given.</p>
+<p><strong>Returns</strong><br>
+Type: <code>[[Int, Int, String?]]</code><br>
+Returns array of arrays, each corresponding to the arcs for a given sentence. Each sub-array contains tuples with three elements — the first is the index of the head (relative to the sentence), the second is the index of the word (relative to the sentence) related to the head, and the third is the dependency itself.</p>
+<p><strong>Additional Notes</strong><br>
+Overloaded function.</p>
+<h2 id="predicttext-doc---doc"><code>predict(text: Doc) -&gt; Doc</code></h2>
+<p><strong>Arguments</strong><br>
+<code>text</code>: a <code>Doc</code> object that contains the text to be parsed using the dependency parser.</p>
+<p><strong>Purpose</strong><br>
+Performs prediction using the CoreML model, uses it to perform the dependency parsing, and returns an array of dependency relations for each sentence given.</p>
+<p><strong>Returns</strong><br>
+Type: <code>Doc</code><br>
+Returns <code>Doc</code> object passed received from argument, with the arcs added to the appropriate instance variable.</p>
+<p><strong>Additional Notes</strong><br>
+Overloaded function.</p>
+</div>
+</body>
+
+</html>

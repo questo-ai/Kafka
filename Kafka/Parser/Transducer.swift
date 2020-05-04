@@ -8,19 +8,19 @@
 import CoreML
 
 class Transducer: NSObject {
+    let rootWord: String? = nil
+    let unkWord = "_"
+    let rootTag = "TOP"
+    let unkTag = "_"
+    let rootDeprel = "ROOT"
+    let unkDeprel = "_"
+    
     var id2word = [String?]()
     var id2tag = [String?]()
     var id2deprel = [String?]()
     var word2id = [String: Int]()
     var tag2id = [String: Int]()
     var deprel2id = [String: Int]()
-    
-    var rootWord: String?
-    var unkWord = "_"
-    var rootTag = "TOP"
-    var unkTag = "_"
-    var rootDeprel = "ROOT"
-    var unkDeprel = "_"
     
     var unkWordId: Int
     var unkTagId: Int
@@ -162,11 +162,11 @@ class Transducer: NSObject {
     func tdVec2transDeprel(tdVec: MLMultiArray, shiftId: Int = 2, leftArcId: Int = 0, rightArcId: Int = 1) -> (Int, String?) {
         let maxIdx = Math.argmax32(tdVec).0
         if maxIdx == 0 {
-            return (shiftId, nil)
+            return (PartialParse.shift_id, nil)
         } else if maxIdx <= id2deprel.count {
-            return (leftArcId, id2deprel[maxIdx - 1])
+            return (PartialParse.left_arc_id, id2deprel[maxIdx - 1])
         } else {
-            return (rightArcId, id2deprel[maxIdx - id2deprel.count - 1])
+            return (PartialParse.right_arc_id, id2deprel[maxIdx - id2deprel.count - 1])
         }
     }
 }
