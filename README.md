@@ -30,19 +30,23 @@ Kafka is an advanced Natural Language Processing library written in Swift. It's 
 
 | Documentation      |                                                                |
 | ------------------ | -------------------------------------------------------------- |
-| [Data]             | Contains word embeddings, a list of POS tags, and a list of dependency tags
-| [DependencyParser] | Dependency Parser parses Docs for dependency relations between word tokens
+| [Data]             | Contains word embeddings, a list of POS tags, and a list of dependency tags.
+| [DependencyParser] | Dependency Parser parses Docs for dependency relations between word tokens.
 | [Doc]              | A container for accessing linguistic annotations.
-| [Kafka]            | An interface for the library
-| [Math]             | Math holds helper functions for common mathematical computations
-| [PartialParse]     | A PartialParse is a snapshot of an arc-standard dependency parse
-| [Transducer]       | Holds methods for conversions between data types
-| [Internal Practices]       | Some documentation for our internal practises
+| [Sentence]              | A class that holds relevant information for a single sentence.
+| [Token]              | A class that holds relevant information for a single token.
+| [Kafka]            | An interface for the library.
+| [Math]             | Math holds helper functions for common mathematical computations.
+| [PartialParse]     | A PartialParse is a snapshot of an arc-standard dependency parse.
+| [Transducer]       | Holds methods for conversions between data types.
+| [Internal Practices]       | Some documentation for our internal practises.
 
 
 [Data]: docs/source/Data.md
 [DependencyParser]: docs/source/DependencyParser.md
 [Doc]: docs/source/Doc.md
+[Sentence]: docs/source/Sentence.md
+[Token]: docs/source/Token.md
 [Kafka]: docs/source/Kafka.md
 [Math]: docs/source/Math.md
 [PartialParse]: docs/source/PartialParse.md
