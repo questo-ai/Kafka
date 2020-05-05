@@ -91,23 +91,48 @@ If you use Carthage to build your dependencies, make sure you have added `Kafka.
 import Kafka
 ```
 
-```swift
-// Initialise a dependency parser
-let parser = DependencyParser()
-```
-
 #### Parsing
-
 ```swift
 let doc = Doc(string: "Memories warm you up from the inside. But they also tear you apart.") // From Haruki Murakami, Kafka on the Shore
-let result = parser.predict(text: doc)
+for sentence in doc.sentences {
+    for token in sentence {
+        /// The dependency arcs are stored as properties of the Tokens.
+        /// Arcs are (headIndex: Int, index: Int, tag: String) signifying
+        /// the dependency relation `headIndex ->tag index`, where headIndex
+        /// is the index of the head word, index is the index of the dependant,
+        /// and tag is a string representing the dependency relation label.
+        print(token.text, token.tag, head.text)
+    }
+}
 ```
-#### Use dependency data
+#### Accessing Token subtrees, lefts and rights
 ```swift
-/// The dependency arcs is stored as a property of Doc, with type [[(Int, Int, String)]]
-/// arcs is a list of triples (idx_head, idx_dep, deprel) signifying the
-/// dependency relation `idx_head ->_deprel idx_dep`, where idx_head is
-/// the index of the head word, idx_dep is the index of the dependant,
-/// and deprel is a string representing the dependency relation label.
-print(result.arcs)
+/// Kafka dependency graphs build a hierarchy of tokens in a sentence.
+/// e.g Memories warm you up from the inside.
+///          warm ___________
+///         /    \     \     \
+/// Memories     you   up    from
+///                              \
+///                            inside.
+///                          /
+///                        the
+
+/// token.lefts is of type [Token]
+for left in token.lefts {
+    /// you can manually access the String representation 
+    /// of a given token by using the token.text property
+    print(left.text)
+}
+
+/// token.rights is of type [Token]
+for right in token.rights {
+    /// Kafka classes conform to the CustomStringConvertible
+    /// protocol, so you can also just print them directly
+    print(right)
+}
+
+/// token.subtree is of type [Token]
+for node in token.subtree {
+    print(node.text)
+}
 ```
