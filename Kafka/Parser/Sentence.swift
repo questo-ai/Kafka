@@ -11,7 +11,7 @@ open class Sentence: CustomStringConvertible {
     var text: String
     var doc: Doc
     var tokens: [Token] = []
-    var tagger: POSTagger
+    var tagger: POSTagger!
     var dependencyParser: DependencyParser!
     var length: Int
     
@@ -29,7 +29,7 @@ open class Sentence: CustomStringConvertible {
         
         for arc in arcs {
             let textTagPair = tagged[arc.1-1]
-            let token = Token(offset: arc.1-1, doc: doc, sent: self, token: textTagPair.0, headIndex: arc.0-1, pos: textTagPair.1, dep: arc.2!, sentiment: nil)
+            let token = Token(offset: arc.1-1, doc: doc, sent: self, token: textTagPair.0, headIndex: arc.0-1, pos: textTagPair.1, dep: arc.2!)
             tokens[arc.1-1] = token
         }
         

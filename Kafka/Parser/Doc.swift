@@ -14,6 +14,7 @@ open class Doc: CustomStringConvertible {
     open var tagger: POSTagger!
     open var text: String
     
+    // used for implicit conversion to String when doing e.g. print
     public var description: String { return self.text }
     
     init(sentenceList: [String]) {

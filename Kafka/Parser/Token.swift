@@ -54,24 +54,24 @@ open class Token: CustomStringConvertible {
     
     var pos: String
     var dep: String
-    var sentiment: Float?
     
     public var description: String { return self.text }
     
-    init(offset: Int, doc: Doc, sent: Sentence, token: String, headIndex: Int, pos: String, dep: String, sentiment: Float?) {
+    init(offset: Int, doc: Doc, sent: Sentence, token: String, headIndex: Int, pos: String, dep: String) {
         self.index = offset
         self.doc = doc
         self.sent = sent
         self.text = token
+        self.pos = pos
+        self.dep = dep
+        self.lEdge = index
+        self.rEdge = index
+        
+        // if token is root, make its head point to itself. else, point to head
         if (headIndex == -1) {
             self.headIndex = offset
         } else {
             self.headIndex = headIndex
         }
-        self.pos = pos
-        self.dep = dep
-        self.sentiment = sentiment
-        self.lEdge = index
-        self.rEdge = index
     }
 }
