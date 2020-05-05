@@ -10,11 +10,11 @@ import NaturalLanguage
 
 open class Doc: CustomStringConvertible {
     open var sentences: [Sentence] = []
-    open var arcs: [[(Int, Int, String?)]]?
     open var dependencyParser: DependencyParser!
     open var tagger: POSTagger!
     open var text: String
     
+    // used for implicit conversion to String when doing e.g. print
     public var description: String { return self.text }
     
     init(sentenceList: [String]) {
