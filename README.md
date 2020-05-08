@@ -55,12 +55,11 @@ Kafka is an advanced Natural Language Processing library written in Swift. It's 
 
 ## Features
 - [x] Non-destructive tokenization
-- [x] Named entity recognition
-- [x] pretrained statistical models and word vectors
+- [x] pretrained models and word vectors
 - [x] State-of-the-art speed
-- [x] Easy deep learning integration
 - [x] Part-of-speech tagging
-- [x] Labelled dependency parsing
+- [x] Dependency parsing
+- [ ] Named entity recognition
 - [ ] Syntax-driven sentence segmentation
 - [ ] Built in visualizers for syntax and NER
 ## Requirements
